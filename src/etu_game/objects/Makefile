@@ -8,7 +8,7 @@ INCLUDE_TYPES = ../../../include/etu_game/types/
 OUTPUT = tmp/libobjects.a
 
 all: $(OUTPUT)
-	cp $(OUTPUT) ../../../lib
+#	cp $(OUTPUT) ../../../lib
 
 tmp/cell.o: cell.cc $(INCLUDE_OBJECTS)cell.h $(INCLUDE_TYPES)cell_type.h
 	@echo "Compile $@..."
@@ -25,6 +25,7 @@ tmp/field_iterator.o: field_iterator.cc $(INCLUDE_OBJECTS)field_iterator.h $(INC
 $(OUTPUT): tmp $(OBJ)
 	@echo "Compile lib $(OUTPUT)..."
 	ar rvs $(OUTPUT) $(OBJ)
+	cp $(OUTPUT) ../../../lib
 
 tmp:
 	mkdir tmp
