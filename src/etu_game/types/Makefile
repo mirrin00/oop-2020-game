@@ -1,19 +1,32 @@
-COMPILER = g++
+CC = g++
 CFLAGS = -std=c++17 -I../../../include
-OBJ = etu_game_exception.o
-OUTPUT = libtypes.a
+OBJ = tmp/etu_game_exception.o
+LIB = tmp/libtypes.a
 
-all: $(OUTPUT)
-	cp $(OUTPUT) ../../../lib
+.PHONY: all
+all: $(LIB)
 
-%.o: %.cc
+tmp/%.d: %.cc | tmp
+	@echo "Create $@ dependency..."
+	rm -rf $@
+	$(CC) -MM -MT $@ $(CFLAGS) $< > $@
+
+tmp/%.o: %.cc tmp/%.d | tmp
 	@echo "Compile $@..."
-	$(COMPILER) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@
 
-$(OUTPUT): $(OBJ)
-	@echo "Compile lib $(OUTPUT)..."
-	ar rvs $(OUTPUT) $(OBJ)
 
+$(LIB): $(OBJ)
+	@echo "Compile lib $(LIB)..."
+	ar rvs $(LIB) $(OBJ)
+	cp $(LIB) ../../../lib
+
+tmp:
+	@mkdir -p tmp
+
+.PHONY: clean
 clean:
 	@echo "Cleanning..."
-	rm *.o *.a
+	rm -rf tmp
+
+include $(OBJ:.o=.d)
