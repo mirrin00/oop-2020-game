@@ -9,13 +9,13 @@ libs:
 
 run_unittests: libs
 	@echo "Compiling and run unittests..."
-	$(MAKE) -C unittests
+	$(MAKE) -C tests
 
 clean:
 	@echo "Clean..."
 	$(MAKE) -C src/etu_game clean
-	@echo "Clean unittests..."
-	$(MAKE) -C unittests clean
+	@echo "Clean tests..."
+	$(MAKE) -C tests clean
 clean_libs:
 	@echo "Clean libs..."
 	rm lib/*
