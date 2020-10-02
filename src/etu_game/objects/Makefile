@@ -2,7 +2,14 @@ CC = g++
 CFLAGS = -std=c++17 -I../../../include
 OBJ = tmp/cell.o \
       tmp/field.o \
-	  tmp/field_iterator.o
+	  tmp/field_iterator.o \
+	  tmp/essence.o \
+	  tmp/item.o \
+	  tmp/hands.o \
+	  tmp/sword.o \
+	  tmp/health_potion.o \
+	  tmp/coin.o \
+	  tmp/player.o 
 LIB = tmp/libobjects.a
 
 .PHONY: all
@@ -10,7 +17,7 @@ LIB = tmp/libobjects.a
 all: $(LIB)
 
 tmp/%.d: %.cc | tmp
-	@echo "Create $@ dependency..."
+	@echo "Create $< dependency..."
 	rm -rf $@
 	$(CC) -MM -MT $@ $(CFLAGS) $< > $@
 

@@ -1,6 +1,8 @@
 CC = g++
 CFLAGS = -std=c++17 -I../include -L../lib -lobjects -ltypes
-SOURCES = test1.cc
+SOURCES = test1.cc \
+		  test2.cc \
+		  test3.cc
 MAIN = tmp/main_test.o
 TESTS = tests
 
@@ -11,7 +13,7 @@ all: run_tests
 
 clean:
 	@echo "Cleanning..."
-	rm -rf tmp
+	rm -rf tmp rm $(TESTS)
 
 
 run_tests: $(TESTS)
