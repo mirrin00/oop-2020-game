@@ -9,15 +9,17 @@ damage(_damage),
 Item(h_pos, w_pos)
 {
 }
-//FIXME: What is it?
-//Sword::~Sword(){}
+
+Sword::~Sword(){}
 
 Sword::Sword(const Sword& sword):Item(sword){
     damage = sword.damage;
 }
-//FIXME: if(this == &sword)
+
 Sword& Sword::operator=(const Sword& sword){
-    //damage = sword.damage;
+    if(&sword == this) return *this;
+    Item::operator=(sword);
+    damage = sword.damage;
     return *this;
 }
 

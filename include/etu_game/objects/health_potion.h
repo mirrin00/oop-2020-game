@@ -16,6 +16,13 @@ public:
 
     ~HealthPotion();
 
+    HealthPotion(const HealthPotion& hp);
+
+    HealthPotion& operator=(const HealthPotion& hp);
+
+    int GetHealthChange();
+    // FIXME: SetHealthChange()?
+
     void Use(Player& player);
 };
 
