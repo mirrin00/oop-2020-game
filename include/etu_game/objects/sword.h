@@ -17,6 +17,8 @@ public:
 
     Sword(const Sword& sword);
 
+    ~Sword();
+
     Sword& operator=(const Sword& sword);
 
     int Attack();

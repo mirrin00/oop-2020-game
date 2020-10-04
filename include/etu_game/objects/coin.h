@@ -15,6 +15,13 @@ public:
 
     ~Coin();
 
+    Coin(const Coin& coin);
+
+    int GetCount();
+    // FIXME: SetCount()?
+
+    Coin& operator=(const Coin& coin);
+
     void Use(Player& player);
 };
 

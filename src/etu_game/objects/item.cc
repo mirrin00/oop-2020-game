@@ -7,7 +7,8 @@ namespace objects{
 Item::Item(int start_h_pos, int start_w_pos):
 h_pos(start_h_pos),
 w_pos(start_w_pos),
-on_field(true)
+on_field(true),
+can_use(false)
 {
 }
 
@@ -21,6 +22,7 @@ Item::Item(const Item& item){
 }
 
 Item& Item::operator=(const Item& item){
+    if(&item == this) return *this;
     h_pos = item.h_pos;
     w_pos = item.w_pos;
     on_field = item.on_field;

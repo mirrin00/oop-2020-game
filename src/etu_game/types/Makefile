@@ -2,22 +2,24 @@ CC = g++
 CFLAGS = -std=c++17 -I../../../include
 OBJ = tmp/etu_game_exception.o
 LIB = tmp/libtypes.a
+COLOR = \033[0;32m
+NORMAL = \033[0m
 
 .PHONY: all
 all: $(LIB)
 
 tmp/%.d: %.cc | tmp
-	@echo "Create $@ dependency..."
+	@echo "$(COLOR)Create $@ dependency...$(NORMAL)"
 	rm -rf $@
 	$(CC) -MM -MT $@ $(CFLAGS) $< > $@
 
 tmp/%.o: %.cc tmp/%.d | tmp
-	@echo "Compile $@..."
+	@echo "$(COLOR)Compile $@...$(NORMAL)"
 	$(CC) -c $(CFLAGS) $< -o $@
 
 
 $(LIB): $(OBJ)
-	@echo "Compile lib $(LIB)..."
+	@echo "$(COLOR)Compile lib $(LIB)...$(NORMAL)"
 	ar rvs $(LIB) $(OBJ)
 	cp $(LIB) ../../../lib
 
@@ -26,7 +28,7 @@ tmp:
 
 .PHONY: clean
 clean:
-	@echo "Cleanning..."
+	@echo "$(COLOR)Cleanning...$(NORMAL)"
 	rm -rf tmp
 
 include $(OBJ:.o=.d)

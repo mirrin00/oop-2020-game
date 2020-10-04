@@ -1,21 +1,23 @@
 COMPILER = g++
 LIBS = -lobjects
 CFLAGS = -std=c++17 -I./include -L./lib -o main
+COLOR = \033[0;32m
+NORMAL = \033[0m
 
 
 libs:
-	@echo "Compiling libs..."
+	@echo "$(COLOR)Compiling libs...$(NORMAL)"
 	$(MAKE) -C src/etu_game
 
 run_unittests: libs
-	@echo "Compiling and run unittests..."
+	@echo "$(COLOR)Compiling and run unittests...$(NORMAL)"
 	$(MAKE) -C tests
 
 clean:
-	@echo "Clean..."
+	@echo "$(COLOR)Clean...$(NORMAL)"
 	$(MAKE) -C src/etu_game clean
-	@echo "Clean tests..."
+	@echo "$(COLOR)Clean tests...$(NORMAL)"
 	$(MAKE) -C tests clean
 clean_libs:
-	@echo "Clean libs..."
+	@echo "$(COLOR)Clean libs...$(NORMAL)"
 	rm lib/*

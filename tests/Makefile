@@ -1,36 +1,36 @@
 CC = g++
-CFLAGS = -std=c++17 -I../include -L../lib -lobjects -ltypes
-SOURCES = test1.cc \
-		  test2.cc \
-		  test3.cc
-MAIN = tmp/main_test.o
+CFLAGS = -std=c++17 -I../include -L../lib -lobjects -ltypes -lboost_unit_test_framework
+OBJ = tmp/suite1.o \
+	  tmp/suite2.o \
+	  tmp/suite3.o \
+	  tmp/main_test.o
 TESTS = tests
+COLOR = \033[0;32m
+NORMAL = \033[0m
 
 .PHONY: all clean
 
-all: run_tests
+all: $(TESTS)
+	@echo "$(COLOR)Running tests...$(NORMAL)"
 	./$(TESTS)
 
 clean:
-	@echo "Cleanning..."
+	@echo "$(COLOR)Cleanning...$(NORMAL)"
 	rm -rf tmp rm $(TESTS)
 
-
-run_tests: $(TESTS)
-
 tmp/%.d: %.cc | tmp
-	@echo "Create $@ dependency..."
+	@echo "$(COLOR)Create $@ dependency...$(NORMAL)"
 	rm -rf $@
 	$(CC) -MM -MT $@ $(CFLAGS) $< > $@
 
 tmp/%.o: %.cc tmp/%.d | tmp
-	@echo "Compile $@..."
+	@echo "$(COLOR)Compile $@...$(NORMAL)"
 	$(CC) -c $(CFLAGS) $< -o $@
 
 
-$(TESTS): $(MAIN) $(SOURCES)
-	@echo "Compile $@..."
-	$(CC) $(OBJ) $(MAIN) $(SOURCES) $(CFLAGS) -o $@
+$(TESTS): $(OBJ)
+	@echo "$(COLOR)Compile $@...$(NORMAL)"
+	$(CC) $(OBJ) $(CFLAGS) -o $@
 
 tmp:
 	@mkdir -p tmp

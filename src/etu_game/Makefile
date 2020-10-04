@@ -1,11 +1,14 @@
+COLOR = \033[0;32m
+NORMAL = \033[0m
+
 all:
-	@echo "Compiling module objects..."
+	@echo "$(COLOR)Compiling module objects...$(NORMAL)"
 	$(MAKE) -C objects
-	@echo "Compiling module types..."
+	@echo "$(COLOR)Compiling module types...$(NORMAL)"
 	$(MAKE) -C types
 
 clean:
-	@echo "Clean module objects..."
+	@echo "$(COLOR)Clean module objects...$(NORMAL)"
 	$(MAKE) -C objects clean
-	@echo "Clean module types..."
+	@echo "$(COLOR)Clean module types...$(NORMAL)"
 	$(MAKE) -C types clean
