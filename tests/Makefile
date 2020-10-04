@@ -1,22 +1,21 @@
 CC = g++
-CFLAGS = -std=c++17 -I../include -L../lib -lobjects -ltypes
-SOURCES = test1.cc \
-		  test2.cc \
-		  test3.cc
-MAIN = tmp/main_test.o
+CFLAGS = -std=c++17 -I../include -L../lib -lobjects -ltypes -lboost_unit_test_framework
+OBJ = tmp/test1.o \
+		  tmp/test2.o \
+		  tmp/test3.o \
+		  tmp/main_test.o
+#MAIN = tmp/main_test.o
 TESTS = tests
 
 .PHONY: all clean
 
-all: run_tests
+all: $(TESTS)
+	@echo "Running tests..."
 	./$(TESTS)
 
 clean:
 	@echo "Cleanning..."
 	rm -rf tmp rm $(TESTS)
-
-
-run_tests: $(TESTS)
 
 tmp/%.d: %.cc | tmp
 	@echo "Create $@ dependency..."
@@ -28,9 +27,9 @@ tmp/%.o: %.cc tmp/%.d | tmp
 	$(CC) -c $(CFLAGS) $< -o $@
 
 
-$(TESTS): $(MAIN) $(SOURCES)
+$(TESTS): $(OBJ)
 	@echo "Compile $@..."
-	$(CC) $(OBJ) $(MAIN) $(SOURCES) $(CFLAGS) -o $@
+	$(CC) $(OBJ) $(CFLAGS) -o $@
 
 tmp:
 	@mkdir -p tmp
