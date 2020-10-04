@@ -9,8 +9,10 @@
 using namespace etu_game;
 using namespace objects;
 
-BOOST_AUTO_TEST_SUITE(test2) //("Testing Items: Item, Sword, Hands, HealthPotion and Coin","[test2]"){
-    BOOST_AUTO_TEST_CASE(test_sword){ //("Sword and Hands"){
+BOOST_AUTO_TEST_SUITE(suite_2,  * boost::unit_test::label("test2"))
+    BOOST_AUTO_TEST_CASE(test_1,
+     * boost::unit_test::description("Sword and Hands"))
+    {
         Sword sw1(3,5,6);
         sw1.SetCanUse(true);
         BOOST_TEST_REQUIRE(sw1.GetHeightPosition() == 5);

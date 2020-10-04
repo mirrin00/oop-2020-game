@@ -9,8 +9,10 @@ using namespace etu_game;
 using namespace objects;
 using namespace types;
 
-BOOST_AUTO_TEST_SUITE(test1) //("Test 1: Testing Cell, EtuGameException, Field, FieldIterator", "[test1]"){
-    BOOST_AUTO_TEST_CASE(testing_cell){ //("Testing Cell"){
+BOOST_AUTO_TEST_SUITE(suite_1, * boost::unit_test::label("test1"))
+    BOOST_AUTO_TEST_CASE(test_1,
+        * boost::unit_test::description("Testing Cell"))
+    {
         Cell cell;
         BOOST_TEST_REQUIRE(cell.GetType() == types::CellType::kEmpty);
         cell.SetType(types::CellType::kBlock);
@@ -20,25 +22,17 @@ BOOST_AUTO_TEST_SUITE(test1) //("Test 1: Testing Cell, EtuGameException, Field, 
         Cell cell3(types::CellType::kEntry);
         BOOST_TEST_REQUIRE(cell3.GetType() == types::CellType::kEntry);
     }
-    BOOST_AUTO_TEST_CASE(testing_exception){ //("Testing EtuGameException and Field constructor"){
-        try{
-            Field& f = Field::GetInstance(-12,13);
-            BOOST_FAIL("Excepcted exception");
-        }catch(EtuGameException& e){}
-        try{
-            Field& f = Field::GetInstance(12,-67);
-            BOOST_FAIL("Excepcted exception");
-        }catch(EtuGameException& e){}
-        try{
-            Field& f = Field::GetInstance(0,13);
-            BOOST_FAIL("Excepcted exception");
-        }catch(EtuGameException& e){}
-        try{
-            Field& f = Field::GetInstance(48,0);
-            BOOST_FAIL("Excepcted exception");
-        }catch(EtuGameException& e){}
+    BOOST_AUTO_TEST_CASE(test_2,
+     * boost::unit_test::description("Testing EtuGameException and Field constructor"))
+    {
+        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(-12,13), EtuGameException);
+        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(12,-67), EtuGameException);
+        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(0,13), EtuGameException);
+        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(48,0), EtuGameException);
     }
-    BOOST_AUTO_TEST_CASE(testing_field){ //("Testing Field"){
+    BOOST_AUTO_TEST_CASE(test_3,
+     * boost::unit_test::description("Testing Field"))
+    { 
         int width = 14, height = 5;
         Field& f =Field::GetInstance(height, width);
         BOOST_TEST_REQUIRE(height == f.GetHeight());
@@ -49,7 +43,9 @@ BOOST_AUTO_TEST_SUITE(test1) //("Test 1: Testing Cell, EtuGameException, Field, 
         // FIXME: do unittest for CheckInvariant() when it will be possible to load the map
         BOOST_TEST_REQUIRE(f2.CheckInvariant());
     }
-    BOOST_AUTO_TEST_CASE(testing_iterator){ //("Testing FieldIterator"){
+    BOOST_AUTO_TEST_CASE(test_4,
+     * boost::unit_test::description("Testing FieldIterator"))
+    {
         Field& f2 =Field::GetInstance(8,8);
         /* FIXME: 
          *  1) Fix postfix increment
@@ -58,9 +54,9 @@ BOOST_AUTO_TEST_SUITE(test1) //("Test 1: Testing Cell, EtuGameException, Field, 
         for(FieldIterator iter(f2); iter(); iter++){
             BOOST_TEST_REQUIRE(iter.CurrentItem().GetType() == types::CellType::kEmpty);
         }
-        try{
-            for(FieldIterator iter(f2);;iter++){}
-            BOOST_FAIL("Excepcted exception");
-        }catch(EtuGameException& e){}
+        BOOST_REQUIRE_THROW({
+                for(FieldIterator iter(f2);;iter++){}
+                BOOST_FAIL("Excepcted exception");
+            }, EtuGameException);
     }
 BOOST_AUTO_TEST_SUITE_END()
