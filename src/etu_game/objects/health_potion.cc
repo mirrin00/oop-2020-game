@@ -30,6 +30,7 @@ int HealthPotion::GetHealthChange(){
 
 void HealthPotion::Use(Player& player){
     if(IsCanUse()) player.ChangeHealth(health_change);
+    SetCanUse(false);
 }
 
 } // objects

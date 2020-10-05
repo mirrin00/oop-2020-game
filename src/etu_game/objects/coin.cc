@@ -30,6 +30,7 @@ int Coin::GetCount(){
 
 void Coin::Use(Player& player){
     if(IsCanUse()) player.AddCoins(count);
+    SetCanUse(false);
 }
 
 
