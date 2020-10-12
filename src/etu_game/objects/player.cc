@@ -32,6 +32,7 @@ int Player::GetCoins(){
 }
 
 void Player::ChangeWeapon(Weapon& new_weapon){
+    // FIXME: What do with old weapon?
     weapon = new_weapon.clone();
 }
 
@@ -44,7 +45,13 @@ void Player::operator+=(Item& item){
     item.Use(*this);
 }
 
-
+std::ostream& operator<<(std::ostream& os, const Player& player){
+    os << "Player:\n";
+    os << *((Essence*)&player);
+    os << *(player.weapon);
+    os << "    Coins: " << player.coins << "\n";
+    return os;
+}
 
 } // objects
 } // etu_game

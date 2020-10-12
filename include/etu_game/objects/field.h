@@ -4,6 +4,7 @@
 #include "cell.h"
 #include "../types/etu_game_exception.h"
 
+#include <iostream>
 #include <memory>
 
 namespace etu_game {
@@ -44,7 +45,11 @@ public:
     bool CheckInvariant();
     
     friend class FieldIterator;
+
+    friend std::ostream& operator<<(std::ostream& os, const Field& field);
 };
+
+    std::ostream& operator<<(std::ostream& os, const Field& field);
 
 } // objects
 } // etu_game

@@ -45,7 +45,10 @@ public:
      *   *  What do with operator +
      */
     void operator+=(Item& item);
+
+    friend std::ostream& operator<<(std::ostream& os, const Player& player);
 };
+    std::ostream& operator<<(std::ostream& os, const Player& player);
 
 } // objects
 } // etu_game

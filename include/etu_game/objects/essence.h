@@ -1,6 +1,8 @@
 #ifndef ESSENCE_H
 #define ESSENCE_H
 
+#include <iostream>
+
 namespace etu_game {
 
 namespace objects {
@@ -26,7 +28,11 @@ public:
     void SetHeightPosition(int new_h_pos);
 
     void SetWidhtPosition(int new_w_pos);
+
+    friend std::ostream& operator<<(std::ostream& os, const Essence& essence);
 };
+
+    std::ostream& operator<<(std::ostream& os, const Essence& essence);
 
 } // objects
 } // etu_game

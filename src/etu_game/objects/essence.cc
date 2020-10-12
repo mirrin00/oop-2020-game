@@ -35,5 +35,12 @@ void Essence::SetWidhtPosition(int new_w_pos){
     w_pos = new_w_pos;
 }
 
+std::ostream& operator<<(std::ostream& os, const Essence& essence){
+    os << "    Height position: " << essence.h_pos << "\n";
+    os << "    Width position: " << essence.w_pos << "\n";
+    os << "    Health: " << essence.health << "\n";
+    return os;
+}
+
 } // objects
 } // etu_game

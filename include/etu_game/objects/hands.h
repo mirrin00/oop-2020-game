@@ -16,6 +16,8 @@ public:
     int Attack();
 
     std::unique_ptr<Weapon> clone() const;
+
+    virtual std::ostream& print(std::ostream& os) const override;
 };
 
 } // objects

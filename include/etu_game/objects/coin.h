@@ -10,6 +10,8 @@ namespace objects{
 class Coin: public Item{
 private:
     int count;
+protected:
+    virtual void Notify() override;
 public:
     Coin(int _count, int start_h_pos = 0, int start_w_pos = 0);
 
@@ -22,8 +24,12 @@ public:
 
     Coin& operator=(const Coin& coin);
 
-    void Use(Player& player);
+    virtual void Use(Player& player) override;
+
+    friend std::ostream& operator<<(std::ostream& os, const Coin& coin);
 };
+
+    std::ostream& operator<<(std::ostream& os, const Coin& coin);
 
 } // objects
 } // etu_game

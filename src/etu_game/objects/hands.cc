@@ -12,5 +12,11 @@ std::unique_ptr<Weapon> Hands::clone() const{
     return std::make_unique<Hands>(*this);
 }
 
+std::ostream& Hands::print(std::ostream& os) const{
+    os << "Hands:\n";
+    os << "    Attack: 0";
+    return os;
+}
+
 } // objects
 } // etu_game

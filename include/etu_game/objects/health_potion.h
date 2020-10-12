@@ -10,7 +10,8 @@ namespace objects{
 class HealthPotion: public Item{
 private:
     int health_change;
-
+protected:
+    virtual void Notify() override;
 public:
     HealthPotion(int h_change, int start_h_pos = 0, int start_w_pos = 0);
 
@@ -23,8 +24,12 @@ public:
     int GetHealthChange();
     // FIXME: SetHealthChange()?
 
-    void Use(Player& player);
+    virtual void Use(Player& player) override;
+
+    friend std::ostream& operator<<(std::ostream& os, const HealthPotion& hp);
 };
+
+    std::ostream& operator<<(std::ostream& os, const HealthPotion& hp);
 
 } // objects
 } // etu_game

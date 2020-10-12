@@ -94,5 +94,10 @@ const Cell& Field::GetCell(int h_pos, int w_pos){
     return cells[h_pos][w_pos];
 }
 
+std::ostream& operator<<(std::ostream& os, const Field& field){
+    
+    return os;
+}
+
 } // objects
 } // etu_game

@@ -14,13 +14,19 @@ Sword::~Sword(){}
 
 Sword::Sword(const Sword& sword):Item(sword){
     damage = sword.damage;
+    Notify(); // Loging
 }
 
 Sword& Sword::operator=(const Sword& sword){
     if(&sword == this) return *this;
     Item::operator=(sword);
     damage = sword.damage;
+    Notify(); // Logging
     return *this;
+}
+
+void Sword::Notify(){
+    pub.Notify<Sword>(*this);
 }
 
 int Sword::Attack(){
@@ -34,6 +40,18 @@ void Sword::Use(Player& player){
 
 std::unique_ptr<Weapon> Sword::clone() const{
     return std::make_unique<Sword>(*this);
+}
+
+std::ostream& operator<<(std::ostream& os, const Sword& sword){
+    os << "Sword:\n";
+    os << *((Item*)&sword);
+    os << "    Damage: " << sword.damage << "\n";
+    return os;
+}
+
+std::ostream& Sword::print(std::ostream& os) const{
+    os << *this;
+    return os;
 }
 
 } // objects

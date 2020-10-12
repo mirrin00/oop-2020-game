@@ -24,6 +24,10 @@ Coin& Coin::operator=(const Coin& coin){
     return *this;
 }
 
+void Coin::Notify(){
+    pub.Notify<Coin>(*this);
+}
+
 int Coin::GetCount(){
     return count;
 }
@@ -31,8 +35,15 @@ int Coin::GetCount(){
 void Coin::Use(Player& player){
     if(IsCanUse()) player.AddCoins(count);
     SetCanUse(false);
+    Notify(); // Logging
 }
 
+std::ostream& operator<<(std::ostream& os, const Coin& coin){
+    os << "Coin:\n";
+    os << *((Item*)&coin);
+    os << "    Count: " << coin.count << "\n";
+    return os;
+}
 
 } // objects
 } // etu_game

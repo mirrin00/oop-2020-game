@@ -24,6 +24,10 @@ HealthPotion& HealthPotion::operator=(const HealthPotion& hp){
     return *this;
 }
 
+void HealthPotion::Notify(){
+    pub.Notify<HealthPotion>(*this);
+}
+
 int HealthPotion::GetHealthChange(){
     return health_change;
 }
@@ -31,6 +35,14 @@ int HealthPotion::GetHealthChange(){
 void HealthPotion::Use(Player& player){
     if(IsCanUse()) player.ChangeHealth(health_change);
     SetCanUse(false);
+    Notify(); // Logging
+}
+
+std::ostream& operator<<(std::ostream& os, const HealthPotion& hp){
+    os << "HealthPotion:\n";
+    os << *((Item*)&hp);
+    os << "    Health change: " << hp.health_change << "\n";
+    return os;
 }
 
 } // objects

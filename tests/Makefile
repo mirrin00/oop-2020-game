@@ -1,8 +1,9 @@
 CC = g++
-CFLAGS = -std=c++17 -I../include -L../lib -lobjects -ltypes -lboost_unit_test_framework
+CFLAGS = -std=c++17 -I../include -L../lib -lobjects -ltypes -llogic -lboost_unit_test_framework
 OBJ = tmp/suite1.o \
 	  tmp/suite2.o \
 	  tmp/suite3.o \
+	  tmp/suite4.o \
 	  tmp/main_test.o
 TESTS = tests
 COLOR = \033[0;32m
@@ -12,7 +13,8 @@ NORMAL = \033[0m
 
 all: $(TESTS)
 	@echo "$(COLOR)Running tests...$(NORMAL)"
-	./$(TESTS)
+	-./$(TESTS) 
+	rm -rf *.testing
 
 clean:
 	@echo "$(COLOR)Cleanning...$(NORMAL)"

@@ -6,6 +6,8 @@ all:
 	$(MAKE) -C objects
 	@echo "$(COLOR)Compiling module types...$(NORMAL)"
 	$(MAKE) -C types
+	@echo "$(COLOR)Compiling module logic...$(NORMAL)"
+	$(MAKE) -C logic
 
 clean:
 	@echo "$(COLOR)Clean module objects...$(NORMAL)"
