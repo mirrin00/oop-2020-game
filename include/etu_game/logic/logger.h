@@ -33,7 +33,7 @@ public:
 
     void SetWriteInStream(bool new_write_in_stream);
 
-    template<class Object>
+    template<typename Object>
     void WriteLog(const Object& obj){
         std::string cur_time = GetCurrentTime();
         file << cur_time << obj;

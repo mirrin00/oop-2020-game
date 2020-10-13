@@ -10,6 +10,8 @@
 #include "etu_game/objects/coin.h"
 #include "etu_game/objects/player.h"
 
+#include "etu_game/objects/field.h"
+
 using namespace etu_game;
 using namespace objects;
 using namespace logic;
@@ -43,7 +45,7 @@ BOOST_AUTO_TEST_CASE(test_1,
         hp.SetCanUse(true);
         hp.SetOnField(false);
         {
-            Logger logger("logger_test_0.testing", out);
+            Logger logger("logger_test1.testing", out);
             BOOST_TEST_CHECK(logger.IsWriteInStream() == true);
             logger.SetWriteInStream(false);
             BOOST_TEST_CHECK(logger.IsWriteInStream() == false);
@@ -54,8 +56,8 @@ BOOST_AUTO_TEST_CASE(test_1,
             logger.WriteLog<Coin>(coin);
             logger.WriteLog<HealthPotion>(hp);
         }
-        std::ifstream file("logger_test_0.testing");
-        if(!file.is_open()) BOOST_FAIL("Can't open logger_test_0.testing");
+        std::ifstream file("logger_test1.testing");
+        if(!file.is_open()) BOOST_FAIL("Can't open logger_test1.testing");
         std::string str_for_out, str_for_check;
         bool in_bracket = false;
         while(file){
@@ -91,9 +93,9 @@ BOOST_AUTO_TEST_CASE(test_1,
         std::string str_check1 = str_check.substr(0, str_check.find("Coin:"));
         std::string str_check2 = str_check.substr(0, str_check.find("HealthPotion:"));
         {
-            Logger lg1("logger1_test0.testing"),
-                lg2("logger2_test0.testing"),
-                lg3("logger3_test0.testing");
+            Logger lg1("logger1_test1.testing"),
+                lg2("logger2_test1.testing"),
+                lg3("logger3_test1.testing");
             Subscriber sub1(lg1), sub2(lg2), sub3(lg3);
             Publisher pub;
             pub.Subscribe(sub1);
@@ -105,12 +107,75 @@ BOOST_AUTO_TEST_CASE(test_1,
             pub.Unsubscribe(sub2);
             pub.Notify<HealthPotion>(hp);
         }
-        std::string str1 = get_string_without_time("logger1_test0.testing"),
-                str2  = get_string_without_time("logger2_test0.testing"),
-                str3  = get_string_without_time("logger3_test0.testing");
+        std::string str1 = get_string_without_time("logger1_test1.testing"),
+                str2  = get_string_without_time("logger2_test1.testing"),
+                str3  = get_string_without_time("logger3_test1.testing");
         BOOST_TEST_REQUIRE(str1 == str_check1);
         BOOST_TEST_REQUIRE(str2 == str_check2);
         BOOST_TEST_REQUIRE(str3 == str_check);
     }
+
+ BOOST_AUTO_TEST_CASE(test_2,
+     * boost::unit_test::description("Testing Logging"))
+    {
+        boost::test_tools::output_test_stream out;
+        Field& f = Field::GetInstance(3,4);
+        out << f;
+        std::string str("Field:\n");
+        str += "    Height: 3\n";
+        str += "    Width: 4\n";
+        str += "    Cells:\n";
+        str += "0000\n0000\n0000\n";
+        //FIXME: Complete test after solving problem with field
+        //BOOST_TEST_REQUIRE(out.is_equal(str));
+        {
+            Logger lg1("logger1_test2.testing"),
+                lg2("logger2_test2.testing"),
+                lg3("logger3_test2.testing");
+            Subscriber sub1(lg1), sub2(lg2), sub3(lg3);
+            Player player(100,6,6);
+            Coin coin(3,-8,-9);
+            Sword sword(9);
+            player.Subscribe(sub1);
+            player.Subscribe(sub2);
+            coin.Subscribe(sub2);
+            coin.Subscribe(sub3);
+            coin.Subscribe(sub1);
+            sword.Subscribe(sub3);
+            sword.Subscribe(sub1);
+            player.Move(3,-2);
+            coin.SetCanUse(true);
+            sword.SetWidthPosition(6);
+        }
+        std::string str1 = get_string_without_time("logger1_test2.testing"),
+                str2  = get_string_without_time("logger2_test2.testing"),
+                str3  = get_string_without_time("logger3_test2.testing");
+        std::string str_check1("Player:\n");
+        str_check1 += "Essence:\n";
+        str_check1 += "    Height position: 9\n";
+        str_check1 += "    Width position: 4\n";
+        str_check1 += "    Health: 100\n";
+        str_check1 += "Hands:\n";
+        str_check1 += "    Attack: 0\n";
+        str_check1 += "    Coins: 0\n";
+        str_check1 += "Coin:\n";
+        str_check1 += "    Height position: -8\n";
+        str_check1 += "    Width position: -9\n";
+        str_check1 += "    On field: 1\n";
+        str_check1 += "    Can use: 1\n";
+        str_check1 += "    Count: 3\n";
+        str_check1 += "Sword:\n";
+        str_check1 += "    Height position: 0\n";
+        str_check1 += "    Width position: 6\n";
+        str_check1 += "    On field: 1\n";
+        str_check1 += "    Can use: 0\n";
+        str_check1 += "    Damage: 9\n";
+        std::string str_check2 = str_check1.substr(0,str_check1.find("Sword")); 
+        std::string str_check3 = str_check1.substr(str_check1.find("Coin:"));
+        BOOST_TEST_REQUIRE(str1 == str_check1);
+        BOOST_TEST_REQUIRE(str2 == str_check2);
+        BOOST_TEST_REQUIRE(str3 == str_check3);
+    }
+    //TODO: Test output for all classes
 
 BOOST_AUTO_TEST_SUITE_END()

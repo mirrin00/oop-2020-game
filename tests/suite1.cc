@@ -46,7 +46,10 @@ BOOST_AUTO_TEST_SUITE(suite_1, * boost::unit_test::label("test1"))
     BOOST_AUTO_TEST_CASE(test_4,
      * boost::unit_test::description("Testing FieldIterator"))
     {
+        //FIXME: Do Field with pointer
         Field& f2 =Field::GetInstance(8,8);
+        //BOOST_TEST_REQUIRE(f2.GetHeight() == 8);
+        //BOOST_TEST_REQUIRE(f2.GetWidth() == 8);
         /* FIXME: 
          *  1) Fix postfix increment
          *  2) do good unittest for when it will be possible to load the map

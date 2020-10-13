@@ -9,7 +9,9 @@ OBJ = tmp/cell.o \
 	  tmp/sword.o \
 	  tmp/health_potion.o \
 	  tmp/coin.o \
-	  tmp/player.o 
+	  tmp/player.o \
+	  tmp/object.o \
+	  tmp/weapon.o
 LIB = tmp/libobjects.a
 COLOR = \033[0;32m
 NORMAL = \033[0m

@@ -50,7 +50,6 @@ BOOST_AUTO_TEST_SUITE(suite_2,  * boost::unit_test::label("test2"))
         weapon = sw2.clone();
         BOOST_TEST_REQUIRE(weapon->Attack() == 3);
     }
-    //TODO: tests for HP and Coin, before do copy operator to them
     BOOST_AUTO_TEST_CASE(test_2,
      * boost::unit_test::description("Testing Coin"))
     {

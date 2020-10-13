@@ -9,22 +9,18 @@ class Player;
 }
 }
 
+#include "object.h"
 #include "player.h"
-#include "../logic/publisher.h"
 
 namespace etu_game{
 
 namespace objects{
 
-class Item{
+class Item: public Object{
 private:
-    int h_pos, w_pos;
-    
     bool on_field, can_use;
 protected:
-    logic::Publisher pub;
-
-    virtual void Notify();
+    virtual void Notify() override;
 public:
     Item(int start_h_pos = 0, int start_w_pos = 0);
 
@@ -33,14 +29,6 @@ public:
     Item(const Item& item);
 
     Item& operator=(const Item& item);
-    
-    int GetHeightPosition();
-
-    int GetWidthPosition();
-
-    void SetHeightPosition(int new_h_pos);
-
-    void SetWidthPosition(int new_w_pos);
 
     bool IsOnField();
 
@@ -49,10 +37,6 @@ public:
     bool IsCanUse();
 
     void SetCanUse(bool can_use);
-
-    void Subscribe(logic::Subscriber& sub);
-
-    void Unsubscribe(logic::Subscriber& sub);
 
     virtual void Use(Player& player) = 0;
 

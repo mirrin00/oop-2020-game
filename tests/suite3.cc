@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_SUITE(suite_3,  * boost::unit_test::label("test3"))
         player.Move(15,-98);
         BOOST_TEST_CHECK(player.GetHeightPosition() == h_pos + 15);
         BOOST_TEST_CHECK(player.GetWidthPosition() == w_pos - 98);
-        player.SetWidhtPosition(0);
+        player.SetWidthPosition(0);
         BOOST_TEST_CHECK(player.GetWidthPosition() == 0);
         player.SetHeightPosition(0);
         BOOST_TEST_CHECK(player.GetHeightPosition() == 0);

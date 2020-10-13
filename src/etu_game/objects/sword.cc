@@ -14,14 +14,12 @@ Sword::~Sword(){}
 
 Sword::Sword(const Sword& sword):Item(sword){
     damage = sword.damage;
-    Notify(); // Loging
 }
 
 Sword& Sword::operator=(const Sword& sword){
     if(&sword == this) return *this;
     Item::operator=(sword);
     damage = sword.damage;
-    Notify(); // Logging
     return *this;
 }
 

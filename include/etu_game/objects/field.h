@@ -3,6 +3,7 @@
 
 #include "cell.h"
 #include "../types/etu_game_exception.h"
+#include "../logic/publisher.h"
 
 #include <iostream>
 #include <memory>
@@ -12,6 +13,8 @@ namespace etu_game {
 namespace objects {
 class Field{
 private:
+    logic::Publisher pub;
+
     int height, width;
     std::unique_ptr<std::unique_ptr<Cell[]>[]> cells;
     Field(int height, int width);
@@ -25,7 +28,7 @@ private:
     //oper move
     Field& operator=(Field&& field);
     
-    // TODO: method for changing field
+    // TODO: method for changing field(don't forget pub.Notify())
 public:
 
     ~Field();
@@ -36,7 +39,6 @@ public:
 
     int GetHeight() const;
 
-    // FIXME: may be do through friend for other classes
     const Cell& GetCell(int h_pos, int w_pos);
 
     // TODO: loading cells-map from some class called "Map"

@@ -14,7 +14,7 @@ std::unique_ptr<Weapon> Hands::clone() const{
 
 std::ostream& Hands::print(std::ostream& os) const{
     os << "Hands:\n";
-    os << "    Attack: 0";
+    os << "    Attack: 0\n";
     return os;
 }
 

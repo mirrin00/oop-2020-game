@@ -33,6 +33,10 @@ public:
 
     void SetWidthPosition(int new_w_pos);
 
+    void Subscribe(logic::Subscriber& sub);
+
+    void Unsubscribe(logic::Subscriber& sub);
+
     friend std::ostream& operator<<(std::ostream& os, const Object& obj);
 };
 

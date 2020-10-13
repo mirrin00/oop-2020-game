@@ -12,7 +12,10 @@ Essence(start_health, start_h_pos, start_w_pos)
 }
 
 Player::~Player(){
+}
 
+void Player::Notify(){
+    pub.Notify<Player>(*this);
 }
 
 void Player::ChangeHealth(int change_h){

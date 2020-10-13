@@ -17,12 +17,8 @@ public:
     virtual std::unique_ptr<Weapon> clone() const = 0;
 
     virtual std::ostream& print(std::ostream& os) const = 0;
-
-    friend std::ostream& operator<<(std::ostream& os, const Weapon& weapon);
 };
-    std::ostream& operator<<(std::ostream& os, const Weapon& weapon){
-        return weapon.print(os);
-    }
+    std::ostream& operator<<(std::ostream& os, const Weapon& weapon);
 
 } // objects
 } // etu_game

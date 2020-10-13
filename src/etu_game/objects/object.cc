@@ -4,7 +4,7 @@ namespace etu_game{
 
 namespace objects{
 
-Object::Object(int start_h_pos = 0, int start_w_pos = 0):
+Object::Object(int start_h_pos, int start_w_pos):
 h_pos(start_h_pos),
 w_pos(start_w_pos)
 {
@@ -48,10 +48,19 @@ void Object::SetWidthPosition(int new_w_pos){
     Notify(); // Logging
 }
 
+void Object::Subscribe(logic::Subscriber& sub){
+    pub.Subscribe(sub);
+}
+
+void Object::Unsubscribe(logic::Subscriber& sub){
+    pub.Unsubscribe(sub);
+}
+
 std::ostream& operator<<(std::ostream& os, const Object& obj){
     os << "Object:\n";
     os << "    Height position: " << obj.h_pos << "\n";
     os << "    Width position: " << obj.w_pos << "\n";
+    return os;
 }
 
 } // objects

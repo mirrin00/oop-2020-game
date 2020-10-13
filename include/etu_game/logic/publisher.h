@@ -25,7 +25,7 @@ public:
     template<typename Object>
     void Notify(const Object& obj){
         for(std::list<Subscriber*>::iterator iter = subscribers.begin();
-                 iter != subscribers.end(); iter++){
+                 iter != subscribers.end(); ++iter){
             (*iter)->Update<Object>(obj);
         }
     }

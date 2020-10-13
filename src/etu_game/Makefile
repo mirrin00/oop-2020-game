@@ -14,3 +14,5 @@ clean:
 	$(MAKE) -C objects clean
 	@echo "$(COLOR)Clean module types...$(NORMAL)"
 	$(MAKE) -C types clean
+	@echo "$(COLOR)Clean module logic...$(NORMAL)"
+	$(MAKE) -C logic clean

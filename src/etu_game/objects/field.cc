@@ -95,7 +95,15 @@ const Cell& Field::GetCell(int h_pos, int w_pos){
 }
 
 std::ostream& operator<<(std::ostream& os, const Field& field){
-    
+    os << "Field:\n";
+    os << "    Height: " << field.height << "\n";
+    os << "    Width: " << field.width << "\n";
+    os << "    Cells:\n";
+    for(int i = 0; i < field.height; i++){
+        for(int j = 0; j < field.width; j++)
+            os << field.cells[i][j].GetType();
+        os << "\n";
+    }
     return os;
 }
 
