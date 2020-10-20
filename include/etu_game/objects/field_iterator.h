@@ -30,6 +30,10 @@ public:
     const Cell& CurrentItem();
 
     const Cell& operator*();
+
+    int GetCurrentHeight();
+
+    int GetCurrentWidth();
 };
 
 } // objects

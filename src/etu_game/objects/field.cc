@@ -90,7 +90,7 @@ int Field::GetWidth() const {
     return width;
 }
 
-const Cell& Field::GetCell(int h_pos, int w_pos){
+Cell& Field::GetCell(int h_pos, int w_pos){
     return cells[h_pos][w_pos];
 }
 

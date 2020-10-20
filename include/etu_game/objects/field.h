@@ -39,7 +39,7 @@ public:
 
     int GetHeight() const;
 
-    const Cell& GetCell(int h_pos, int w_pos);
+    Cell& GetCell(int h_pos, int w_pos);
 
     // TODO: loading cells-map from some class called "Map"
 

@@ -40,6 +40,10 @@ std::unique_ptr<Weapon> Sword::clone() const{
     return std::make_unique<Sword>(*this);
 }
 
+std::shared_ptr<Item> Sword::clone(){
+    return std::make_unique<Sword>(*this);
+}
+
 std::ostream& operator<<(std::ostream& os, const Sword& sword){
     os << "Sword:\n";
     os << *((Item*)&sword);

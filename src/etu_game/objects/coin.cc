@@ -38,6 +38,10 @@ void Coin::Use(Player& player){
     Notify(); // Logging
 }
 
+std::shared_ptr<Item> Coin::clone(){
+    return std::make_unique<Coin>(*this);
+}
+
 std::ostream& operator<<(std::ostream& os, const Coin& coin){
     os << "Coin:\n";
     os << *((Item*)&coin);

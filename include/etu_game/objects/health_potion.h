@@ -26,6 +26,8 @@ public:
 
     virtual void Use(Player& player) override;
 
+    virtual std::shared_ptr<Item> clone() override;
+
     friend std::ostream& operator<<(std::ostream& os, const HealthPotion& hp);
 };
 

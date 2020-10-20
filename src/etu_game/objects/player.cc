@@ -46,6 +46,7 @@ int Player::Attack(){
 
 void Player::operator+=(Item& item){
     item.Use(*this);
+    Notify(); // Logging
 }
 
 std::ostream& operator<<(std::ostream& os, const Player& player){

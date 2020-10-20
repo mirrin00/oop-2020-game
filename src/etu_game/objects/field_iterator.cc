@@ -44,6 +44,14 @@ const Cell& FieldIterator::operator*(){
     return field.cells[i][j];
 }
 
+int FieldIterator::GetCurrentHeight(){
+    return i;
+}
+
+int FieldIterator::GetCurrentWidth(){
+    return j;
+}
+
 
 
 } // objects

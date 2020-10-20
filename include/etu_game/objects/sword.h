@@ -28,6 +28,8 @@ public:
 
     virtual std::unique_ptr<Weapon> clone() const override;
 
+    virtual std::shared_ptr<Item> clone();
+
     virtual std::ostream& print(std::ostream& os) const override;
 
     friend std::ostream& operator<<(std::ostream& os, const Sword& sword);

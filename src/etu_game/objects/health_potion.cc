@@ -38,6 +38,10 @@ void HealthPotion::Use(Player& player){
     Notify(); // Logging
 }
 
+std::shared_ptr<Item> HealthPotion::clone(){
+    return std::make_unique<HealthPotion>(*this);
+}
+
 std::ostream& operator<<(std::ostream& os, const HealthPotion& hp){
     os << "HealthPotion:\n";
     os << *((Item*)&hp);

@@ -53,6 +53,7 @@ BOOST_AUTO_TEST_SUITE(suite_1, * boost::unit_test::label("test1"))
         /* FIXME: 
          *  1) Fix postfix increment
          *  2) do good unittest for when it will be possible to load the map
+         *  3) !iter() !!!
          */
         for(FieldIterator iter(f2); iter(); iter++){
             BOOST_TEST_REQUIRE(iter.CurrentItem().GetType() == types::CellType::kEmpty);

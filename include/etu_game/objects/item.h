@@ -40,6 +40,8 @@ public:
 
     virtual void Use(Player& player) = 0;
 
+    virtual std::shared_ptr<Item> clone() = 0;
+
     friend std::ostream& operator<<(std::ostream& os, const Item& item);
 };
 

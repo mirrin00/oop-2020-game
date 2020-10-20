@@ -1,7 +1,7 @@
 CC = g++
-CFLAGS = -std=c++17 -I../../../include
+CFLAGS = -std=c++17 -fPIC -I../../../include
 OBJ = tmp/etu_game_exception.o
-LIB = tmp/libtypes.a
+LIB = tmp/libtypes.so
 COLOR = \033[0;32m
 NORMAL = \033[0m
 
@@ -20,7 +20,7 @@ tmp/%.o: %.cc tmp/%.d | tmp
 
 $(LIB): $(OBJ)
 	@echo "$(COLOR)Compile lib $(LIB)...$(NORMAL)"
-	ar rvs $(LIB) $(OBJ)
+	g++ -shared -o $(LIB) $(OBJ)
 	cp $(LIB) ../../../lib
 
 tmp:

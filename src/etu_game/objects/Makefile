@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -std=c++17 -I../../../include
+CFLAGS = -std=c++17 -fPIC -I../../../include
 OBJ = tmp/cell.o \
       tmp/field.o \
 	  tmp/field_iterator.o \
@@ -12,7 +12,8 @@ OBJ = tmp/cell.o \
 	  tmp/player.o \
 	  tmp/object.o \
 	  tmp/weapon.o
-LIB = tmp/libobjects.a
+#LIB = tmp/libobjects.a
+LIB = tmp/libobjects.so
 COLOR = \033[0;32m
 NORMAL = \033[0m
 
@@ -32,7 +33,7 @@ tmp/%.o: %.cc tmp/%.d | tmp
 
 $(LIB): $(OBJ)
 	@echo "$(COLOR)Compile lib $(LIB)...$(NORMAL)"
-	ar rvs $(LIB) $(OBJ)
+	g++ -shared -o $(LIB) $(OBJ)
 	cp $(LIB) ../../../lib
 
 tmp:
