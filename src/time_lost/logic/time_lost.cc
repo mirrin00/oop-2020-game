@@ -5,7 +5,7 @@ namespace time_lost{
 namespace logic{
 
 TimeLost::TimeLost(int height, int width):
-player(10,0,0),
+player(10),
 field(objects::Field::GetInstance(height, width))
 {
 }
@@ -20,20 +20,20 @@ objects::Player& TimeLost::GetPlayer(){
     return player;
 }
 
-void TimeLost::PlayerMove(int h_pos, int w_pos){
-    int h = player.GetHeightPosition() + h_pos;
-    int w = player.GetWidthPosition() + w_pos;
-    if(h < 0 || h >= field.GetHeight()) return;
-    if(w < 0 || w >= field.GetWidth()) return;
-    if(field.GetCell(h,w).GetType() != types::CellType::kBlock)
-        player.Move(h_pos, w_pos);
+void TimeLost::PlayerMove(types::Position move){
+    types::Position new_pos = player.GetPosition() + move;
+    if(new_pos.y >= field.GetHeight()) new_pos.y = field.GetHeight() - 1;
+    if(new_pos.y < 0) new_pos.y = 0;
+    if(new_pos.x >= field.GetWidth()) new_pos.x = field.GetWidth() - 1;
+    if(new_pos.x < 0) new_pos.x = 0;
+    if(field.GetCell(new_pos).GetType() != types::CellType::kBlock)
+        player.SetPosition(new_pos);
 }
 
 void TimeLost::PlayerInteract(){
-    int h_pos = player.GetHeightPosition();
-    int w_pos = player.GetWidthPosition();
+    types::Position pos = player.GetPosition();
     for(int i = 0; i < items.size(); i++){
-        if(items[i]->GetHeightPosition() == h_pos && items[i]->GetWidthPosition() == w_pos){
+        if(items[i]->GetPosition() == pos){
             player+=*(items[i]);
             items[i]->SetOnField(false);
         }
@@ -58,16 +58,15 @@ void TimeLost::Start(){
     for(objects::FieldIterator it(field); !it(); it++){
         if((*it).GetType() == types::CellType::kEntry){
             no_start = false;
-            player.SetHeightPosition(it.GetCurrentHeight());
-            player.SetWidthPosition(it.GetCurrentWidth());
+            player.SetPosition({it.GetCurrentWidth(), it.GetCurrentHeight()});
         }
     }
     if(no_start) throw types::TimeLostException("No start point on map\n");
 }
 
 bool TimeLost::IsWin(){
-    objects::Cell& cell = field.GetCell(player.GetHeightPosition(), player.GetWidthPosition());
-    if(cell.GetType() == types::CellType::kExit) return true;
+    if(field.GetCell(player.GetPosition()).GetType() == types::CellType::kExit)
+        return true;
     return false;
 }
 

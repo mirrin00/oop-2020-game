@@ -22,7 +22,7 @@ private:
 protected:
     virtual void Notify() override;
 public:
-    Item(int start_h_pos = 0, int start_w_pos = 0);
+    Item(types::Position start_pos = {0,0});
 
     ~Item();
 

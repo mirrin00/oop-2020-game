@@ -13,7 +13,7 @@ private:
 protected:
     virtual void Notify() override;
 public:
-    Coin(int _count, int start_h_pos = 0, int start_w_pos = 0);
+    Coin(int _count, types::Position start_pos = {0,0});
 
     ~Coin();
 

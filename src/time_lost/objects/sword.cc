@@ -4,9 +4,9 @@ namespace time_lost{
 
 namespace objects{
 
-Sword::Sword(int _damage, int h_pos , int w_pos):
+Sword::Sword(int _damage, types::Position start_pos):
 damage(_damage),
-Item(h_pos, w_pos)
+Item(start_pos)
 {
 }
 

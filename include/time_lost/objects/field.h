@@ -2,6 +2,7 @@
 #define FIELD_CLASS_H
 
 #include "cell.h"
+#include "../types/position.h"
 #include "../types/time_lost_exception.h"
 #include "../logic/publisher.h"
 
@@ -39,7 +40,7 @@ public:
 
     int GetHeight() const;
 
-    Cell& GetCell(int h_pos, int w_pos);
+    Cell& GetCell(types::Position pos);
 
     // TODO: loading cells-map from some class called "Map"
 

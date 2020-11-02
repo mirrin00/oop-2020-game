@@ -4,9 +4,9 @@ namespace time_lost{
 
 namespace objects{
 
-HealthPotion::HealthPotion(int h_change, int start_h_pos, int start_w_pos):
+HealthPotion::HealthPotion(int h_change, types::Position start_pos):
 health_change(h_change),
-Item(start_h_pos, start_w_pos)
+Item(start_pos)
 {
 }
 

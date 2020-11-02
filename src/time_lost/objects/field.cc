@@ -90,8 +90,8 @@ int Field::GetWidth() const {
     return width;
 }
 
-Cell& Field::GetCell(int h_pos, int w_pos){
-    return cells[h_pos][w_pos];
+Cell& Field::GetCell(types::Position pos){
+    return cells[pos.y][pos.x];
 }
 
 std::ostream& operator<<(std::ostream& os, const Field& field){

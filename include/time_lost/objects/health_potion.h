@@ -13,7 +13,7 @@ private:
 protected:
     virtual void Notify() override;
 public:
-    HealthPotion(int h_change, int start_h_pos = 0, int start_w_pos = 0);
+    HealthPotion(int h_change, types::Position start_pos = {0,0});
 
     ~HealthPotion();
 

@@ -4,8 +4,8 @@ namespace time_lost{
 
 namespace objects{
 
-Essence::Essence(int start_health, int start_h_pos, int start_w_pos):
-Object(start_h_pos, start_w_pos),
+Essence::Essence(int start_health, types::Position start_pos):
+Object(start_pos),
 health(start_health)
 {
 }
@@ -16,16 +16,18 @@ void Essence::Notify(){
     pub.Notify<Essence>(*this);
 }
 
-void Essence::Move(int on_height, int on_width){
-    h_pos += on_height;
-    w_pos += on_width;
+void Essence::Move(types::Position move){
+    pos.x += move.x;
+    if(pos.x < 0) pos.x = 0;
+    pos.y += move.y;
+    if(pos.y < 0) pos.y = 0;
     Notify();
 }
 
 std::ostream& operator<<(std::ostream& os, const Essence& essence){
     os << "Essence:\n";
-    os << "    Height position: " << essence.h_pos << "\n";
-    os << "    Width position: " << essence.w_pos << "\n";
+    os << "    Position:{y=" << essence.pos.y << ", x=" 
+                             << essence.pos.x << "}\n";
     os << "    Health: " << essence.health << "\n";
     return os;
 }

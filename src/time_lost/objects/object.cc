@@ -4,10 +4,11 @@ namespace time_lost{
 
 namespace objects{
 
-Object::Object(int start_h_pos, int start_w_pos):
-h_pos(start_h_pos),
-w_pos(start_w_pos)
+Object::Object(types::Position start_pos):
+pos(start_pos)
 {
+    if(pos.x < 0) pos.x = 0;
+    if(pos.y < 0) pos.y = 0;
 }
 
 Object::~Object()
@@ -15,14 +16,12 @@ Object::~Object()
 }
 
 Object::Object(const Object& obj){
-    h_pos = obj.h_pos;
-    w_pos = obj.w_pos;
+    pos = obj.pos;
 }
 
 Object& Object::operator=(const Object& obj){
     if(this == &obj) return *this;
-    h_pos = obj.h_pos;
-    w_pos = obj.w_pos;
+    pos = obj.pos;
     return *this;
 }
 
@@ -30,22 +29,15 @@ void Object::Notify(){
     pub.Notify<Object>(*this);
 }
 
-int Object::GetHeightPosition(){
-    return h_pos;
+types::Position Object::GetPosition(){
+    return pos;
 }
 
-int Object::GetWidthPosition(){
-    return w_pos;
-}
-
-void Object::SetHeightPosition(int new_h_pos){
-    h_pos = new_h_pos;
-    Notify(); // Logging
-}
-
-void Object::SetWidthPosition(int new_w_pos){
-    w_pos = new_w_pos;
-    Notify(); // Logging
+void Object::SetPosition(types::Position new_pos){
+    pos = new_pos;
+    if(pos.x < 0) pos.x = 0;
+    if(pos.y < 0) pos.y = 0;
+    Notify();
 }
 
 void Object::Subscribe(logic::Subscriber& sub){
@@ -58,8 +50,7 @@ void Object::Unsubscribe(logic::Subscriber& sub){
 
 std::ostream& operator<<(std::ostream& os, const Object& obj){
     os << "Object:\n";
-    os << "    Height position: " << obj.h_pos << "\n";
-    os << "    Width position: " << obj.w_pos << "\n";
+    os << "    Position:{y=" << obj.pos.y << ", x=" << obj.pos.x << "}\n";
     return os;
 }
 

@@ -26,7 +26,7 @@ private:
 protected:
     virtual void Notify() override;
 public:
-    Player(int start_health, int start_h_pos = 0, int start_w_pos = 0);
+    Player(int start_health, types::Position start_pos = {0,0});
 
     ~Player();
 

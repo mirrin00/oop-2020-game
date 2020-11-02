@@ -37,11 +37,11 @@ BOOST_AUTO_TEST_CASE(test_1,
     {
         boost::test_tools::output_test_stream out;
 
-        Player player(100,13,11);
-        Sword sword(9,0,3);
+        Player player(100,{13,11});
+        Sword sword(9,{0,3});
         sword.SetCanUse(true);
-        Coin coin(7,-9,-4);
-        HealthPotion hp(-3,7,5);
+        Coin coin(7,{-9,-4});
+        HealthPotion hp(-3,{7,5});
         hp.SetCanUse(true);
         hp.SetOnField(false);
         {
@@ -71,20 +71,17 @@ BOOST_AUTO_TEST_CASE(test_1,
         }
         file.close();
         std::string str_check = "Sword:\n";
-        str_check += "    Height position: 0\n";
-        str_check += "    Width position: 3\n";
+        str_check += "    Position:{y=3, x=0}\n";
         str_check += "    On field: 1\n";
         str_check += "    Can use: 1\n";
         str_check += "    Damage: 9\n";
         str_check += "Coin:\n";
-        str_check += "    Height position: -9\n";
-        str_check += "    Width position: -4\n";
+        str_check += "    Position:{y=0, x=0}\n";
         str_check += "    On field: 1\n";
         str_check += "    Can use: 0\n";
         str_check += "    Count: 7\n";
         str_check += "HealthPotion:\n";
-        str_check += "    Height position: 7\n";
-        str_check += "    Width position: 5\n";
+        str_check += "    Position:{y=5, x=7}\n";
         str_check += "    On field: 0\n";
         str_check += "    Can use: 1\n";
         str_check += "    Health change: -3\n";
@@ -133,8 +130,8 @@ BOOST_AUTO_TEST_CASE(test_1,
                 lg2("logger2_test2.testing"),
                 lg3("logger3_test2.testing");
             Subscriber sub1(lg1), sub2(lg2), sub3(lg3);
-            Player player(100,6,6);
-            Coin coin(3,-8,-9);
+            Player player(100,{6,6});
+            Coin coin(3,{8,-9});
             Sword sword(9);
             player.Subscribe(sub1);
             player.Subscribe(sub2);
@@ -143,30 +140,27 @@ BOOST_AUTO_TEST_CASE(test_1,
             coin.Subscribe(sub1);
             sword.Subscribe(sub3);
             sword.Subscribe(sub1);
-            player.Move(3,-2);
+            player.Move({3,-2});
             coin.SetCanUse(true);
-            sword.SetWidthPosition(6);
+            sword.SetPosition({6,0});
         }
         std::string str1 = get_string_without_time("logger1_test2.testing"),
                 str2  = get_string_without_time("logger2_test2.testing"),
                 str3  = get_string_without_time("logger3_test2.testing");
         std::string str_check1("Player:\n");
         str_check1 += "Essence:\n";
-        str_check1 += "    Height position: 9\n";
-        str_check1 += "    Width position: 4\n";
+        str_check1 += "    Position:{y=4, x=9}\n";;
         str_check1 += "    Health: 100\n";
         str_check1 += "Hands:\n";
         str_check1 += "    Attack: 0\n";
         str_check1 += "    Coins: 0\n";
         str_check1 += "Coin:\n";
-        str_check1 += "    Height position: -8\n";
-        str_check1 += "    Width position: -9\n";
+        str_check1 += "    Position:{y=0, x=8}\n";
         str_check1 += "    On field: 1\n";
         str_check1 += "    Can use: 1\n";
         str_check1 += "    Count: 3\n";
         str_check1 += "Sword:\n";
-        str_check1 += "    Height position: 0\n";
-        str_check1 += "    Width position: 6\n";
+        str_check1 += "    Position:{y=0, x=6}\n";
         str_check1 += "    On field: 1\n";
         str_check1 += "    Can use: 0\n";
         str_check1 += "    Damage: 9\n";

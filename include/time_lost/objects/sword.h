@@ -14,7 +14,7 @@ private:
 protected:
     virtual void Notify() override;
 public:
-    Sword(int _damage, int h_pos = 0, int w_pos = 0);
+    Sword(int _damage, types::Position start_pos = {0,0});
 
     Sword(const Sword& sword);
 

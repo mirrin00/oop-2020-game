@@ -4,9 +4,9 @@ namespace time_lost{
 
 namespace objects{
 
-Player::Player(int start_health, int start_h_pos, int start_w_pos):
+Player::Player(int start_health, types::Position start_pos):
 coins(0),
-Essence(start_health, start_h_pos, start_w_pos)
+Essence(start_health, start_pos)
 {
     weapon = Hands().CloneWeapon();
 }

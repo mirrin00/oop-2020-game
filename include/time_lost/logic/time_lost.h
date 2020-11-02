@@ -29,7 +29,7 @@ public:
 
     objects::Player& GetPlayer();
 
-    void PlayerMove(int h_pos, int w_pos);
+    void PlayerMove(types::Position move);
 
     void PlayerInteract();
 

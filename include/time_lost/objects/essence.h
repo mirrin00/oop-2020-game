@@ -15,11 +15,11 @@ protected:
 
     virtual void Notify() override;
 public:
-    Essence(int start_health, int start_h_pos = 0, int start_w_pos = 0);
+    Essence(int start_health, types::Position start_pos = {0,0});
 
     ~Essence();
 
-    void Move(int on_height, int on_width);
+    void Move(types::Position move);
 
     friend std::ostream& operator<<(std::ostream& os, const Essence& essence);
 };

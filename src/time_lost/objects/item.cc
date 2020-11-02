@@ -4,8 +4,8 @@ namespace time_lost{
 
 namespace objects{
 
-Item::Item(int start_h_pos, int start_w_pos):
-Object(start_h_pos,start_w_pos),
+Item::Item(types::Position start_pos):
+Object(start_pos),
 on_field(true),
 can_use(false)
 {
@@ -45,8 +45,7 @@ void Item::SetCanUse(bool can_use){
 }
 
 std::ostream& operator<<(std::ostream& os, const Item& item){
-    os << "    Height position: " << item.h_pos << "\n";
-    os << "    Width position: " << item.w_pos << "\n";
+    os << "    Position:{y=" << item.pos.y << ", x=" << item.pos.x << "}\n";
     os << "    On field: " << item.on_field << "\n";
     os << "    Can use: " << item.can_use << "\n";
     return os;

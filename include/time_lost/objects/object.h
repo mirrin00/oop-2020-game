@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include "../types/position.h"
 #include "../logic/publisher.h"
 
 namespace time_lost{
@@ -11,13 +12,13 @@ namespace objects{
 
 class Object{
 protected:
-    int h_pos, w_pos;
+    types::Position pos;
 
     logic::Publisher pub;
 
     virtual void Notify();
 public:
-    Object(int start_h_pos = 0, int start_w_pos = 0);
+    Object(types::Position start_pos = {0,0});
 
     ~Object();
 
@@ -25,13 +26,9 @@ public:
 
     Object& operator=(const Object& obj);
 
-    int GetHeightPosition();
+    types::Position GetPosition();
 
-    int GetWidthPosition();
-
-    void SetHeightPosition(int new_h_pos);
-
-    void SetWidthPosition(int new_w_pos);
+    void SetPosition(types::Position new_pos);
 
     void Subscribe(logic::Subscriber& sub);
 
