@@ -1,10 +1,11 @@
-CC = g++
-CFLAGS = -std=c++17 -I../include -L../lib -lobjects -ltypes -llogic -lboost_unit_test_framework
-OBJ = tmp/suite1.o \
-	  tmp/suite2.o \
-	  tmp/suite3.o \
-	  tmp/suite4.o \
-	  tmp/main_test.o
+include ../Header.mk
+OFLAGS = -I../include -L../lib -lobjects -ltypes -llogic -lboost_unit_test_framework
+TMP = tmp
+OBJ = $(TMP)/suite1.o \
+	  $(TMP)/suite2.o \
+	  $(TMP)/suite3.o \
+	  $(TMP)/suite4.o \
+	  $(TMP)/main_test.o
 TESTS = tests
 COLOR = \033[0;32m
 NORMAL = \033[0m
@@ -18,23 +19,23 @@ all: $(TESTS)
 
 clean:
 	@echo "$(COLOR)Cleanning...$(NORMAL)"
-	rm -rf tmp rm $(TESTS)
+	rm -rf $(TMP) rm $(TESTS)
 
-tmp/%.d: %.cc | tmp
+$(TMP)/%.d: %.cc | $(TMP)
 	@echo "$(COLOR)Create $@ dependency...$(NORMAL)"
 	rm -rf $@
-	$(CC) -MM -MT $@ $(CFLAGS) $< > $@
+	$(CC) -MM -MT $@ $(CFLAGS) $(OFLAGS) $< > $@
 
-tmp/%.o: %.cc tmp/%.d | tmp
+$(TMP)/%.o: %.cc $(TMP)/%.d | $(TMP)
 	@echo "$(COLOR)Compile $@...$(NORMAL)"
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $(OFLAGS) $< -o $@
 
 
 $(TESTS): $(OBJ)
 	@echo "$(COLOR)Compile $@...$(NORMAL)"
-	$(CC) $(OBJ)  -Wl,-rpath=$(PWD)/lib $(CFLAGS) -o $@
+	$(CC) $(OBJ)  -Wl,-rpath=$(PWD)/lib $(CFLAGS) $(OFLAGS) -o $@
 
-tmp:
-	@mkdir -p tmp
+$(TMP):
+	@mkdir -p $(TMP)
 
 include $(OBJ:.o=.d)

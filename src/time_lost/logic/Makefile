@@ -1,11 +1,12 @@
-CC = g++
-CFLAGS = -std=c++17 -fPIC -I../../../include
-OBJ = tmp/logger.o \
-	  tmp/publisher.o \
-	  tmp/subscriber.o \
-	  tmp/time_lost.o
-#LIB = tmp/liblogic.a
-LIB = tmp/liblogic.so
+include ../../../Header.mk
+OFLAGS = -std=c++17 -fPIC -I../../../include
+TMP = tmp
+OBJ = $(TMP)/logger.o \
+      $(TMP)/publisher.o \
+      $(TMP)/subscriber.o \
+      $(TMP)/time_lost.o
+#LIB = $(TMP)/liblogic.a
+LIB = $(TMP)/liblogic.so
 COLOR = \033[0;32m
 NORMAL = \033[0m
 
@@ -13,14 +14,14 @@ NORMAL = \033[0m
 
 all: $(LIB)
 
-tmp/%.d: %.cc | tmp
+$(TMP)/%.d: %.cc | $(TMP)
 	@echo "$(COLOR)Create $< dependency...$(NORMAL)"
 	rm -rf $@
-	$(CC) -MM -MT $@ $(CFLAGS) $< > $@
+	$(CC) -MM -MT $@ $(CFLAGS) $(OFLAGS) $< > $@
 
-tmp/%.o: %.cc tmp/%.d | tmp
+$(TMP)/%.o: %.cc $(TMP)/%.d | $(TMP)
 	@echo "$(COLOR)Compile $@...$(NORMAL)"
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $(OFLAGS) $< -o $@
 
 
 $(LIB): $(OBJ)
@@ -28,13 +29,13 @@ $(LIB): $(OBJ)
 	g++ -shared -o $(LIB) $(OBJ)
 	cp $(LIB) ../../../lib
 
-tmp:
-	@mkdir -p tmp
+$(TMP):
+	@mkdir -p $(TMP)
 
 .PHONY: clean
 
 clean:
 	@echo "$(COLOR)Cleanning...$(NORMAL)"
-	rm -rf tmp
+	rm -rf $(TMP)
 
 include $(OBJ:.o=.d)

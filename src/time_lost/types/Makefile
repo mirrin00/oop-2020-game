@@ -1,21 +1,22 @@
-CC = g++
-CFLAGS = -std=c++17 -fPIC -I../../../include
-OBJ = tmp/time_lost_exception.o
-LIB = tmp/libtypes.so
+include ../../../Header.mk
+OFLAGS = -fPIC -I../../../include
+TMP = tmp
+OBJ = $(TMP)/time_lost_exception.o
+LIB = $(TMP)/libtypes.so
 COLOR = \033[0;32m
 NORMAL = \033[0m
 
 .PHONY: all
 all: $(LIB)
 
-tmp/%.d: %.cc | tmp
+$(TMP)/%.d: %.cc | $(TMP)
 	@echo "$(COLOR)Create $@ dependency...$(NORMAL)"
 	rm -rf $@
-	$(CC) -MM -MT $@ $(CFLAGS) $< > $@
+	$(CC) -MM -MT $@ $(CFLAGS) $(OFLAGS) $< > $@
 
-tmp/%.o: %.cc tmp/%.d | tmp
+$(TMP)/%.o: %.cc $(TMP)/%.d | $(TMP)
 	@echo "$(COLOR)Compile $@...$(NORMAL)"
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $(OFLAGS) $< -o $@
 
 
 $(LIB): $(OBJ)
@@ -23,12 +24,12 @@ $(LIB): $(OBJ)
 	g++ -shared -o $(LIB) $(OBJ)
 	cp $(LIB) ../../../lib
 
-tmp:
-	@mkdir -p tmp
+$(TMP):
+	@mkdir -p $(TMP)
 
 .PHONY: clean
 clean:
 	@echo "$(COLOR)Cleanning...$(NORMAL)"
-	rm -rf tmp
+	rm -rf $(TMP)
 
 include $(OBJ:.o=.d)

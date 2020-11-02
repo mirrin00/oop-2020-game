@@ -1,34 +1,38 @@
-CC = g++
-CFLAGS = -std=c++17 -fPIC -I../../../include
-OBJ = tmp/cell.o \
-      tmp/field.o \
-	  tmp/field_iterator.o \
-	  tmp/essence.o \
-	  tmp/item.o \
-	  tmp/hands.o \
-	  tmp/sword.o \
-	  tmp/health_potion.o \
-	  tmp/coin.o \
-	  tmp/player.o \
-	  tmp/object.o \
-	  tmp/weapon.o
-#LIB = tmp/libobjects.a
-LIB = tmp/libobjects.so
+include ../../../Header.mk
+OFLAGS = -fPIC -I../../../include
+TMP = tmp
+OBJ = $(TMP)/cell.o \
+      $(TMP)/field.o \
+      $(TMP)/field_iterator.o \
+      $(TMP)/essence.o \
+      $(TMP)/item.o \
+      $(TMP)/hands.o \
+      $(TMP)/sword.o \
+      $(TMP)/health_potion.o \
+      $(TMP)/coin.o \
+      $(TMP)/player.o \
+      $(TMP)/object.o \
+      $(TMP)/weapon.o
+LIB = $(TMP)/libobjects.so
 COLOR = \033[0;32m
 NORMAL = \033[0m
 
-.PHONY: all
+.PHONY: all clean
 
 all: $(LIB)
 
-tmp/%.d: %.cc | tmp
+clean:
+	@echo "$(COLOR)Cleanning...$(NORMAL)"
+	rm -rf $(TMP)
+
+$(TMP)/%.d: %.cc | $(TMP)
 	@echo "$(COLOR)Create $< dependency...$(NORMAL)"
 	rm -rf $@
-	$(CC) -MM -MT $@ $(CFLAGS) $< > $@
+	$(CC) -MM -MT $@ $(CFLAGS) $(OFLAGS) $< > $@
 
-tmp/%.o: %.cc tmp/%.d | tmp
+$(TMP)/%.o: %.cc $(TMP)/%.d | $(TMP)
 	@echo "$(COLOR)Compile $@...$(NORMAL)"
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $(OFLAGS) $< -o $@
 
 
 $(LIB): $(OBJ)
@@ -36,13 +40,8 @@ $(LIB): $(OBJ)
 	g++ -shared -o $(LIB) $(OBJ)
 	cp $(LIB) ../../../lib
 
-tmp:
-	@mkdir -p tmp
+$(TMP):
+	@mkdir -p $(TMP)
 
-.PHONY: clean
-
-clean:
-	@echo "$(COLOR)Cleanning...$(NORMAL)"
-	rm -rf tmp
 
 include $(OBJ:.o=.d)

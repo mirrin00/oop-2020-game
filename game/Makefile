@@ -1,6 +1,7 @@
-CC = g++
-CFLAGS = -std=c++17 -I../include -L../lib -lobjects -ltypes -llogic -lsfml-system -lsfml-graphics  -lsfml-window
-OBJ = tmp/game.o
+include ../Header.mk
+OFLAGS = -I../include -L../lib -lobjects -ltypes -llogic -lsfml-system -lsfml-graphics  -lsfml-window
+TMP = tmp
+OBJ = $(TMP)/game.o
 GAME = game
 COLOR = \033[0;32m
 NORMAL = \033[0m
@@ -11,23 +12,23 @@ all: $(GAME)
 
 clean:
 	@echo "$(COLOR)Cleanning...$(NORMAL)"
-	rm -rf tmp $(GAME) *.log
+	rm -rf $(TMP) $(GAME) *.log
 
-tmp/%.d: %.cc | tmp
+$(TMP)/%.d: %.cc | $(TMP)
 	@echo "$(COLOR)Create $@ dependency...$(NORMAL)"
 	rm -rf $@
-	$(CC) -MM -MT $@ $(CFLAGS) $< > $@
+	$(CC) -MM -MT $@ $(CFLAGS) $(OFLAGS) $< > $@
 
-tmp/%.o: %.cc tmp/%.d | tmp
+$(TMP)/%.o: %.cc $(TMP)/%.d | $(TMP)
 	@echo "$(COLOR)Compile $@...$(NORMAL)"
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $(OFLAGS) $< -o $@
 
 
 $(GAME): $(OBJ)
 	@echo "$(COLOR)Compile $@...$(NORMAL)"
-	$(CC) $(OBJ)  -Wl,-rpath=$(PWD)/lib  $(CFLAGS) -o $@
+	$(CC) $(OBJ)  -Wl,-rpath=$(PWD)/lib  $(CFLAGS) $(OFLAGS) -o $@
 
-tmp:
-	@mkdir -p tmp
+$(TMP):
+	@mkdir -p $(TMP)
 
 include $(OBJ:.o=.d)
