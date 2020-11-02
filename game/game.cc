@@ -1,22 +1,22 @@
 #include <SFML/Graphics.hpp>
-#include "etu_game/logic/etu_game.h"
-#include "etu_game/objects/field_iterator.h"
-#include "etu_game/objects/player.h"
+#include "time_lost/logic/time_lost.h"
+#include "time_lost/objects/field_iterator.h"
+#include "time_lost/objects/player.h"
 
 #define SIZE 51
 
 //FIXME: delete using
-using namespace etu_game;
+using namespace time_lost;
 
 int main()
 {
     try{
     int size = 10;
-    logic::EtuGame game(10,10);
+    logic::TimeLost game(10,10);
     objects::Player& player = game.GetPlayer();
     objects::Field& field = game.GetField();
 
-    sf::RenderWindow window(sf::VideoMode(size*SIZE, size*SIZE), "EtuGame");
+    sf::RenderWindow window(sf::VideoMode(size*SIZE, size*SIZE), "TimeLost");
 
     sf::Texture textures[7];
     textures[0].loadFromFile("grass.png");
@@ -151,7 +151,7 @@ int main()
         // end the current frame
         window.display();
     }
-    }catch(types::EtuGameException& e){
+    }catch(types::TimeLostException& e){
         std::cout<<e.what();
     }catch(std::exception& e){
         std::cout<<e.what()<<"\n";

@@ -1,12 +1,12 @@
 #include <boost/test/unit_test.hpp>
 
-#include "etu_game/objects/sword.h"
-#include "etu_game/objects/item.h"
-#include "etu_game/objects/hands.h"
-#include "etu_game/objects/health_potion.h"
-#include "etu_game/objects/coin.h"
+#include "time_lost/objects/sword.h"
+#include "time_lost/objects/item.h"
+#include "time_lost/objects/hands.h"
+#include "time_lost/objects/health_potion.h"
+#include "time_lost/objects/coin.h"
 
-using namespace etu_game;
+using namespace time_lost;
 using namespace objects;
 
 BOOST_AUTO_TEST_SUITE(suite_2,  * boost::unit_test::label("test2"))
@@ -45,9 +45,9 @@ BOOST_AUTO_TEST_SUITE(suite_2,  * boost::unit_test::label("test2"))
         BOOST_TEST_CHECK(sw3.IsOnField() == sw1.IsOnField());
         
         Hands hands;
-        std::unique_ptr<Weapon> weapon = Hands().clone();
+        std::unique_ptr<Weapon> weapon = Hands().CloneWeapon();
         BOOST_TEST_REQUIRE(weapon->Attack() == 0);
-        weapon = sw2.clone();
+        weapon = sw2.CloneWeapon();
         BOOST_TEST_REQUIRE(weapon->Attack() == 3);
     }
     BOOST_AUTO_TEST_CASE(test_2,

@@ -1,18 +1,18 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/test/tools/output_test_stream.hpp>
 
-#include "etu_game/logic/logger.h"
-#include "etu_game/logic/publisher.h"
-#include "etu_game/logic/subscriber.h"
+#include "time_lost/logic/logger.h"
+#include "time_lost/logic/publisher.h"
+#include "time_lost/logic/subscriber.h"
 
-#include "etu_game/objects/sword.h"
-#include "etu_game/objects/health_potion.h"
-#include "etu_game/objects/coin.h"
-#include "etu_game/objects/player.h"
+#include "time_lost/objects/sword.h"
+#include "time_lost/objects/health_potion.h"
+#include "time_lost/objects/coin.h"
+#include "time_lost/objects/player.h"
 
-#include "etu_game/objects/field.h"
+#include "time_lost/objects/field.h"
 
-using namespace etu_game;
+using namespace time_lost;
 using namespace objects;
 using namespace logic;
 

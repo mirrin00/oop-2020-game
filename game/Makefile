@@ -11,7 +11,7 @@ all: $(GAME)
 
 clean:
 	@echo "$(COLOR)Cleanning...$(NORMAL)"
-	rm -rf tmp rm $(GAME)
+	rm -rf tmp $(GAME) *.log
 
 tmp/%.d: %.cc | tmp
 	@echo "$(COLOR)Create $@ dependency...$(NORMAL)"

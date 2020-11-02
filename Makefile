@@ -7,7 +7,7 @@ NORMAL = \033[0m
 
 libs:
 	@echo "$(COLOR)Compiling libs...$(NORMAL)"
-	$(MAKE) -C src/etu_game
+	$(MAKE) -C src/time_lost
 
 run_unittests: libs
 	@echo "$(COLOR)Compiling and run unittests...$(NORMAL)"
@@ -19,7 +19,7 @@ game: libs
 
 clean:
 	@echo "$(COLOR)Clean...$(NORMAL)"
-	$(MAKE) -C src/etu_game clean
+	$(MAKE) -C src/time_lost clean
 	@echo "$(COLOR)Clean tests...$(NORMAL)"
 	$(MAKE) -C tests clean
 	@echo "$(COLOR)Clean game...$(NORMAL)"

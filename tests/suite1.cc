@@ -1,11 +1,11 @@
 #include <boost/test/unit_test.hpp>
 
-#include "etu_game/objects/cell.h"
-#include "etu_game/objects/field.h"
-#include "etu_game/objects/field_iterator.h"
-#include "etu_game/types/etu_game_exception.h"
+#include "time_lost/objects/cell.h"
+#include "time_lost/objects/field.h"
+#include "time_lost/objects/field_iterator.h"
+#include "time_lost/types/time_lost_exception.h"
 
-using namespace etu_game;
+using namespace time_lost;
 using namespace objects;
 using namespace types;
 
@@ -23,12 +23,12 @@ BOOST_AUTO_TEST_SUITE(suite_1, * boost::unit_test::label("test1"))
         BOOST_TEST_REQUIRE(cell3.GetType() == types::CellType::kEntry);
     }
     BOOST_AUTO_TEST_CASE(test_2,
-     * boost::unit_test::description("Testing EtuGameException and Field constructor"))
+     * boost::unit_test::description("Testing TimeLostException and Field constructor"))
     {
-        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(-12,13), EtuGameException);
-        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(12,-67), EtuGameException);
-        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(0,13), EtuGameException);
-        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(48,0), EtuGameException);
+        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(-12,13), TimeLostException);
+        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(12,-67), TimeLostException);
+        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(0,13), TimeLostException);
+        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(48,0), TimeLostException);
     }
     BOOST_AUTO_TEST_CASE(test_3,
      * boost::unit_test::description("Testing Field"))
@@ -61,6 +61,6 @@ BOOST_AUTO_TEST_SUITE(suite_1, * boost::unit_test::label("test1"))
         BOOST_REQUIRE_THROW({
                 for(FieldIterator iter(f2);;iter++){}
                 BOOST_FAIL("Excepcted exception");
-            }, EtuGameException);
+            }, TimeLostException);
     }
 BOOST_AUTO_TEST_SUITE_END()

@@ -1,13 +1,13 @@
 #include <boost/test/unit_test.hpp>
 
-#include "etu_game/objects/sword.h"
-#include "etu_game/objects/item.h"
-#include "etu_game/objects/hands.h"
-#include "etu_game/objects/health_potion.h"
-#include "etu_game/objects/coin.h"
-#include "etu_game/objects/player.h"
+#include "time_lost/objects/sword.h"
+#include "time_lost/objects/item.h"
+#include "time_lost/objects/hands.h"
+#include "time_lost/objects/health_potion.h"
+#include "time_lost/objects/coin.h"
+#include "time_lost/objects/player.h"
 
-using namespace etu_game;
+using namespace time_lost;
 using namespace objects;
 
 BOOST_AUTO_TEST_SUITE(suite_3,  * boost::unit_test::label("test3"))
