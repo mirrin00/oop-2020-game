@@ -12,7 +12,8 @@ OBJ = $(TMP)/cell.o \
       $(TMP)/coin.o \
       $(TMP)/player.o \
       $(TMP)/object.o \
-      $(TMP)/weapon.o
+      $(TMP)/weapon.o \
+	  $(TMP)/location.o
 LIB = $(TMP)/libobjects.so
 COLOR = \033[0;32m
 NORMAL = \033[0m

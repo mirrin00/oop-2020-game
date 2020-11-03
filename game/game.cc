@@ -11,8 +11,8 @@ using namespace time_lost;
 int main()
 {
     try{
-    int size = 10;
-    logic::TimeLost game(10,10);
+    int size = 15;
+    logic::TimeLost game(3,3);
     objects::Player& player = game.GetPlayer();
     objects::Field& field = game.GetField();
 
@@ -100,9 +100,9 @@ int main()
                 continue;
             }
         sf::Sprite sprite;
-        for(int i = 0; i < field.GetHeight();i++){
-            for(int j = 0; j < field.GetWidth();j++){
-                objects::Cell& cell = field.GetCell({j,i});
+        for(objects::FieldIterator it(field); !it(); it++){
+                const objects::Cell& cell = *it;
+                types::Position pos = it.GetCurrentPosition();
                 switch (cell.GetType())
                 {
                 case types::CellType::kEmpty:
@@ -121,9 +121,8 @@ int main()
                     sprite.setTexture(textures[3]);
                     break;
                 }
-                sprite.setPosition(j*SIZE, i*SIZE);
+                sprite.setPosition(pos.x*SIZE, pos.y*SIZE);
                 window.draw(sprite);
-            }
         }
         int i = 0;
         std::shared_ptr<objects::Item> item = game.GetItem(i);

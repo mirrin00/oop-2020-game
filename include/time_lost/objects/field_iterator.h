@@ -31,9 +31,7 @@ public:
 
     const Cell& operator*();
 
-    int GetCurrentHeight();
-
-    int GetCurrentWidth();
+    types::Position GetCurrentPosition();
 };
 
 } // objects

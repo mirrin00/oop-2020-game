@@ -9,6 +9,8 @@
 #include "logger.h"
 #include <vector>
 
+#define STEP_CHANGE 11
+
 namespace time_lost{
 
 namespace logic{
@@ -17,9 +19,11 @@ class TimeLost{
 protected:
     objects::Player player;
 
-    objects::Field& field;
+    objects::Field field;
 
     std::vector<std::shared_ptr<objects::Item>> items;
+
+    int step_change;
 public:
     TimeLost(int height, int width);
 

@@ -2,6 +2,7 @@
 #define FIELD_CLASS_H
 
 #include "cell.h"
+#include "location.h"
 #include "../types/position.h"
 #include "../types/time_lost_exception.h"
 #include "../logic/publisher.h"
@@ -17,9 +18,13 @@ private:
     logic::Publisher pub;
 
     int height, width;
-    std::unique_ptr<std::unique_ptr<Cell[]>[]> cells;
+    std::unique_ptr<Location[]> locs;
+    
+    std::unique_ptr<std::unique_ptr<int[]>[]> old_layout, new_layout;
+    
+    // TODO: method for changing field(don't forget pub.Notify())
+public:
     Field(int height, int width);
-
     //copy
     Field(const Field& field);
     //oper copy
@@ -28,24 +33,23 @@ private:
     Field(Field&& field);
     //oper move
     Field& operator=(Field&& field);
-    
-    // TODO: method for changing field(don't forget pub.Notify())
-public:
 
     ~Field();
-
-    static Field& GetInstance(int height, int width);
 
     int GetWidth() const;
 
     int GetHeight() const;
 
-    Cell& GetCell(types::Position pos);
+    Cell& GetCell(types::Position pos) const;
+
+    void GenerateField();
+
+    void ChangeLayout();
+
+    types::Position GetNewPosition(types::Position pos);
 
     // TODO: loading cells-map from some class called "Map"
 
-
-    bool CheckInvariant();
     
     friend class FieldIterator;
 

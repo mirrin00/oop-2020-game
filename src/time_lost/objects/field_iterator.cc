@@ -12,9 +12,9 @@ FieldIterator::FieldIterator(const Field& f)
 }
 
 void FieldIterator::Next(){
-    if(i == field.height) throw types::TimeLostException("No next element");
+    if(i == field.height * LOCATION_SIZE) throw types::TimeLostException("No next element");
     j++;
-    if(j == field.width){
+    if(j == field.width * LOCATION_SIZE){
         j = 0;
         i++;
     }
@@ -29,27 +29,23 @@ void FieldIterator::operator++(int none){
 }
 
 bool FieldIterator::IsDone(){
-    return (i == field.height);
+    return (i == field.height * LOCATION_SIZE);
 }
 
 bool FieldIterator::operator()(){
-    return (i == field.height);
+    return (i == field.height * LOCATION_SIZE);
 }
 
 const Cell& FieldIterator::CurrentItem(){
-    return field.cells[i][j];
+    return field.GetCell({j,i});
 }
 
 const Cell& FieldIterator::operator*(){
-    return field.cells[i][j];
+    return field.GetCell({j,i});
 }
 
-int FieldIterator::GetCurrentHeight(){
-    return i;
-}
-
-int FieldIterator::GetCurrentWidth(){
-    return j;
+types::Position FieldIterator::GetCurrentPosition(){
+    return {j,i};
 }
 
 
