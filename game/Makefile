@@ -26,7 +26,7 @@ $(TMP)/%.o: %.cc $(TMP)/%.d | $(TMP)
 
 $(GAME): $(OBJ)
 	@echo "$(COLOR)Compile $@...$(NORMAL)"
-	$(CC) $(OBJ)  -Wl,-rpath=$(PWD)/lib  $(CFLAGS) $(OFLAGS) -o $@
+	$(CC) $(OBJ)  -Wl,-rpath=../lib  $(CFLAGS) $(OFLAGS) -o $@
 
 $(TMP):
 	@mkdir -p $(TMP)

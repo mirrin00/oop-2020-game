@@ -40,14 +40,6 @@ void Object::SetPosition(types::Position new_pos){
     Notify();
 }
 
-void Object::Subscribe(logic::Subscriber& sub){
-    pub.Subscribe(sub);
-}
-
-void Object::Unsubscribe(logic::Subscriber& sub){
-    pub.Unsubscribe(sub);
-}
-
 std::ostream& operator<<(std::ostream& os, const Object& obj){
     os << "Object:\n";
     os << "    Position:{y=" << obj.pos.y << ", x=" << obj.pos.x << "}\n";

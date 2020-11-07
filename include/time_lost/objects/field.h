@@ -15,14 +15,13 @@ namespace time_lost {
 namespace objects {
 class Field{
 private:
-    logic::Publisher pub;
-
     int height, width;
+
     std::unique_ptr<Location[]> locs;
     
     std::unique_ptr<std::unique_ptr<int[]>[]> old_layout, new_layout;
     
-    // TODO: don't forget pub.Notify()
+    // TODO: Implement LoggingInterface, don't forget pub.Notify()
 public:
     Field(int height, int width);
     //copy
