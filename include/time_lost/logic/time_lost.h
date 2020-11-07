@@ -1,11 +1,18 @@
 #ifndef TIME_LOST_H
 #define TIME_LOST_H
 
+namespace time_lost{
+namespace logic{
+class Command;
+}
+}
+
 #include "../objects/player.h"
 #include "../objects/sword.h"
 #include "../objects/coin.h"
 #include "../objects/health_potion.h"
 #include "../objects/field_iterator.h"
+#include "command.h"
 #include "logger.h"
 #include <vector>
 
@@ -46,6 +53,10 @@ public:
     void Start();
 
     bool IsWin();
+
+    void ExecuteCommand(Command&& cmd);
+
+    void ExecuteCommand(Command& cmd);
 };
 
 } // logic

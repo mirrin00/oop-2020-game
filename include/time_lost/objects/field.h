@@ -22,7 +22,7 @@ private:
     
     std::unique_ptr<std::unique_ptr<int[]>[]> old_layout, new_layout;
     
-    // TODO: method for changing field(don't forget pub.Notify())
+    // TODO: don't forget pub.Notify()
 public:
     Field(int height, int width);
     //copy

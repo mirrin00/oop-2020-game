@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(test_1,
      * boost::unit_test::description("Testing Logging"))
     {
         boost::test_tools::output_test_stream out;
-        Field& f = Field::GetInstance(3,4);
+        Field f = Field(3,4);
         out << f;
         std::string str("Field:\n");
         str += "    Height: 3\n";
@@ -124,7 +124,7 @@ BOOST_AUTO_TEST_CASE(test_1,
         str += "    Cells:\n";
         str += "0000\n0000\n0000\n";
         //FIXME: Complete test after solving problem with field
-        //BOOST_TEST_REQUIRE(out.is_equal(str));
+        BOOST_TEST_REQUIRE(out.is_equal(str));
         {
             Logger lg1("logger1_test2.testing"),
                 lg2("logger2_test2.testing"),

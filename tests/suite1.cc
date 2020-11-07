@@ -25,29 +25,26 @@ BOOST_AUTO_TEST_SUITE(suite_1, * boost::unit_test::label("test1"))
     BOOST_AUTO_TEST_CASE(test_2,
      * boost::unit_test::description("Testing TimeLostException and Field constructor"))
     {
-        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(-12,13), TimeLostException);
-        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(12,-67), TimeLostException);
-        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(0,13), TimeLostException);
-        BOOST_REQUIRE_THROW(Field& f = Field::GetInstance(48,0), TimeLostException);
+        BOOST_REQUIRE_THROW(Field f = Field(-12,13), TimeLostException);
+        BOOST_REQUIRE_THROW(Field f = Field(12,-67), TimeLostException);
+        BOOST_REQUIRE_THROW(Field f = Field(0,13), TimeLostException);
+        BOOST_REQUIRE_THROW(Field f = Field(48,0), TimeLostException);
     }
     BOOST_AUTO_TEST_CASE(test_3,
      * boost::unit_test::description("Testing Field"))
     { 
         int width = 14, height = 5;
-        Field& f =Field::GetInstance(height, width);
-        BOOST_TEST_REQUIRE(height == f.GetHeight());
-        BOOST_TEST_REQUIRE(width == f.GetWidth());
-        Field& f2 =Field::GetInstance(8,8);
-        BOOST_TEST_REQUIRE(height == f.GetHeight());
-        BOOST_TEST_REQUIRE(width == f.GetWidth());
-        // FIXME: do unittest for CheckInvariant() when it will be possible to load the map
-        BOOST_TEST_REQUIRE(f2.CheckInvariant());
+        Field f =Field(height, width);
+        BOOST_TEST_REQUIRE(height * LOCATION_SIZE == f.GetHeight());
+        BOOST_TEST_REQUIRE(width * LOCATION_SIZE == f.GetWidth());
+        Field f2 =Field(8,8);
+        BOOST_TEST_REQUIRE(8  * LOCATION_SIZE== f2.GetHeight());
+        BOOST_TEST_REQUIRE(8  * LOCATION_SIZE== f2.GetWidth());
     }
     BOOST_AUTO_TEST_CASE(test_4,
      * boost::unit_test::description("Testing FieldIterator"))
     {
-        //FIXME: Do Field with pointer
-        Field& f2 =Field::GetInstance(8,8);
+        Field f2 =Field(8,8);
         //BOOST_TEST_REQUIRE(f2.GetHeight() == 8);
         //BOOST_TEST_REQUIRE(f2.GetWidth() == 8);
         /* FIXME: 

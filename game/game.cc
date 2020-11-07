@@ -2,6 +2,11 @@
 #include "time_lost/logic/time_lost.h"
 #include "time_lost/objects/field_iterator.h"
 #include "time_lost/objects/player.h"
+#include "time_lost/logic/player_move_up_command.h"
+#include "time_lost/logic/player_move_down_command.h"
+#include "time_lost/logic/player_move_left_command.h"
+#include "time_lost/logic/player_move_right_command.h"
+#include "time_lost/logic/player_interact_command.h"
 
 #define SIZE 51
 
@@ -64,23 +69,23 @@ int main()
                 window.close();
             if(game.IsWin()) continue;
             if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::W){
-                game.PlayerMove({0,-1});
+                game.ExecuteCommand(logic::PlayerMoveUpCommand(game));
             }
 
             if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::A){
-                game.PlayerMove({-1,0});
+                game.ExecuteCommand(logic::PlayerMoveLeftCommand(game));
             }
 
             if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::S){
-                game.PlayerMove({0,1});
+                game.ExecuteCommand(logic::PlayerMoveDownCommand(game));
             }
 
             if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::D){
-                game.PlayerMove({1,0});
+                game.ExecuteCommand(logic::PlayerMoveRightCommand(game));
             }
 
             if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::E){
-                game.PlayerInteract();
+                game.ExecuteCommand(logic::PlayerInteractCommand(game));
             }
         }
 

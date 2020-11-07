@@ -21,6 +21,7 @@ objects::Player& TimeLost::GetPlayer(){
 }
 
 void TimeLost::PlayerMove(types::Position move){
+    if(IsWin()) return;
     types::Position new_pos = player.GetPosition() + move;
     if(new_pos.y >= field.GetHeight()) new_pos.y = field.GetHeight() - 1;
     if(new_pos.y < 0) new_pos.y = 0;
@@ -40,6 +41,7 @@ void TimeLost::PlayerMove(types::Position move){
 }
 
 void TimeLost::PlayerInteract(){
+    if(IsWin()) return;
     types::Position pos = player.GetPosition();
     for(int i = 0; i < items.size(); i++){
         if(items[i]->GetPosition() == pos){
@@ -105,6 +107,14 @@ bool TimeLost::IsWin(){
     if(field.GetCell(player.GetPosition()).GetType() == types::CellType::kExit)
         return true;
     return false;
+}
+
+void TimeLost::ExecuteCommand(Command& cmd){
+    cmd.Execute();
+}
+
+void TimeLost::ExecuteCommand(Command&& cmd){
+    cmd.Execute();
 }
 
 } // logic
