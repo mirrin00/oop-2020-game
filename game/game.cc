@@ -43,19 +43,19 @@ int main()
     game.AddItem(objects::Sword(10,{6,6}));
     game.AddItem(objects::Coin(3,{0,0}));
     game.AddItem(objects::Coin(7,{7,3}));
-    logic::Logger logger("game.log",std::cout);
-    logic::Subscriber sub(logger);
+    std::shared_ptr<logic::Logger> logger = std::make_shared<logic::Logger>("game.log",std::cout);
+    //logic::Subscriber sub(logger);
     {
         int i = 0;
         std::shared_ptr<objects::Item> item = game.GetItem(i);
         while(item){
-            item->Subscribe(sub);
+            item->Subscribe(logger);
             item->SetCanUse(true);
             i++;
             item = game.GetItem(i);
         }
     }
-    player.Subscribe(sub);
+    player.Subscribe(logger);
     game.Start();
     while (window.isOpen())
     {

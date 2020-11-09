@@ -3,7 +3,6 @@
 
 #include "time_lost/logic/logger.h"
 #include "time_lost/logic/publisher.h"
-#include "time_lost/logic/subscriber.h"
 
 #include "time_lost/objects/sword.h"
 #include "time_lost/objects/health_potion.h"
@@ -90,18 +89,17 @@ BOOST_AUTO_TEST_CASE(test_1,
         std::string str_check1 = str_check.substr(0, str_check.find("Coin:"));
         std::string str_check2 = str_check.substr(0, str_check.find("HealthPotion:"));
         {
-            Logger lg1("logger1_test1.testing"),
-                lg2("logger2_test1.testing"),
-                lg3("logger3_test1.testing");
-            Subscriber sub1(lg1), sub2(lg2), sub3(lg3);
+            std::shared_ptr<Logger> lg1 = std::make_shared<Logger>("logger1_test1.testing"),
+                lg2 = std::make_shared<Logger>("logger2_test1.testing"),
+                lg3 = std::make_shared<Logger>("logger3_test1.testing");
             Publisher pub;
-            pub.Subscribe(sub1);
-            pub.Subscribe(sub2);
-            pub.Subscribe(sub3);
+            pub.Subscribe(lg1);
+            pub.Subscribe(lg2);
+            pub.Subscribe(lg3);
             pub.Notify<Sword>(sword);
-            pub.Unsubscribe(sub1);
+            pub.Unsubscribe(lg1);
             pub.Notify<Coin>(coin);
-            pub.Unsubscribe(sub2);
+            pub.Unsubscribe(lg2);
             pub.Notify<HealthPotion>(hp);
         }
         std::string str1 = get_string_without_time("logger1_test1.testing"),
@@ -126,20 +124,19 @@ BOOST_AUTO_TEST_CASE(test_1,
         //FIXME: Complete test after solving problem with field
         BOOST_TEST_REQUIRE(out.is_equal(str));
         {
-            Logger lg1("logger1_test2.testing"),
-                lg2("logger2_test2.testing"),
-                lg3("logger3_test2.testing");
-            Subscriber sub1(lg1), sub2(lg2), sub3(lg3);
+            std::shared_ptr<Logger> lg1 = std::make_shared<Logger>("logger1_test2.testing"),
+                lg2 = std::make_shared<Logger>("logger2_test2.testing"),
+                lg3 = std::make_shared<Logger>("logger3_test2.testing");
             Player player(100,{6,6});
             Coin coin(3,{8,-9});
             Sword sword(9);
-            player.Subscribe(sub1);
-            player.Subscribe(sub2);
-            coin.Subscribe(sub2);
-            coin.Subscribe(sub3);
-            coin.Subscribe(sub1);
-            sword.Subscribe(sub3);
-            sword.Subscribe(sub1);
+            player.Subscribe(lg1);
+            player.Subscribe(lg2);
+            coin.Subscribe(lg2);
+            coin.Subscribe(lg3);
+            coin.Subscribe(lg1);
+            sword.Subscribe(lg3);
+            sword.Subscribe(lg1);
             player.Move({3,-2});
             coin.SetCanUse(true);
             sword.SetPosition({6,0});

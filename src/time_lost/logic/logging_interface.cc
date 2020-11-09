@@ -4,12 +4,12 @@ namespace time_lost{
 
 namespace logic{
 
-void LoggingInterface::Subscribe(logic::Subscriber& sub){
-    pub.Subscribe(sub);
+void LoggingInterface::Subscribe(std::shared_ptr<Logger> logger){
+    pub.Subscribe(logger);
 }
 
-void LoggingInterface::Unsubscribe(logic::Subscriber& sub){
-    pub.Unsubscribe(sub);
+void LoggingInterface::Unsubscribe(std::shared_ptr<Logger> logger){
+    pub.Unsubscribe(logger);
 }
 
 } // logic

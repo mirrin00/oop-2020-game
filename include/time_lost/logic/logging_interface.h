@@ -13,9 +13,9 @@ protected:
 
     virtual void Notify() = 0;
 public:
-    void Subscribe(logic::Subscriber& sub);
+    void Subscribe(std::shared_ptr<Logger>  logger);
 
-    void Unsubscribe(logic::Subscriber& sub);
+    void Unsubscribe(std::shared_ptr<Logger>  logger);
 
 };
 

@@ -2,8 +2,9 @@
 #define PUBLISHER_H
 
 #include <list>
+#include <memory>
 
-#include "subscriber.h"
+#include "logger.h"
 
 namespace time_lost{
 
@@ -11,22 +12,25 @@ namespace logic{
 
 class Publisher{
 private:
-    // FIXME: std_shared_ptr???
-    std::list<Subscriber*> subscribers;
+    std::list<std::weak_ptr<Logger>> loggers;
 public:
     Publisher() = default;
 
     ~Publisher() = default;
 
-    void Subscribe(Subscriber& sub);
+    void Subscribe(std::shared_ptr<Logger> logger);
 
-    void Unsubscribe(Subscriber& sub);
+    void Unsubscribe(std::shared_ptr<Logger> logger);
 
     template<typename Object>
     void Notify(const Object& obj){
-        for(std::list<Subscriber*>::iterator iter = subscribers.begin();
-                 iter != subscribers.end(); ++iter){
-            (*iter)->Update<Object>(obj);
+        loggers.remove_if([](std::weak_ptr<Logger> ptr){
+            return ptr.expired();
+        });
+        for(auto weak_logger: loggers){
+            if(weak_logger.expired()) continue;
+            auto logger = weak_logger.lock();
+            logger->WriteLog<Object>(obj);
         }
     }
 };

@@ -4,13 +4,17 @@ namespace time_lost{
 
 namespace logic{
 
-void Publisher::Subscribe(Subscriber& sub){
-    Unsubscribe(sub);
-    subscribers.push_back(&sub);
+void Publisher::Subscribe(std::shared_ptr<Logger> logger){
+    Unsubscribe(logger);
+    loggers.push_back(logger);
 }
 
-void Publisher::Unsubscribe(Subscriber& sub){
-    subscribers.remove(&sub);
+void Publisher::Unsubscribe(std::shared_ptr<Logger> logger){
+    loggers.remove_if([logger](std::weak_ptr<Logger> weak){
+        auto ptr = weak.lock();
+        if(ptr) return logger == ptr;
+        return false;
+    });
 }
 
 } // logic

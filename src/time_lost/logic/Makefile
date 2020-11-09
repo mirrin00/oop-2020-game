@@ -3,7 +3,6 @@ OFLAGS = -std=c++17 -fPIC -I../../../include
 TMP = tmp
 OBJ = $(TMP)/logger.o \
       $(TMP)/publisher.o \
-      $(TMP)/subscriber.o \
       $(TMP)/time_lost.o \
 	  $(TMP)/logging_interface.o \
 	  $(TMP)/player_move_down_command.o \
