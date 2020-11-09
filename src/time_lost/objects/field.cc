@@ -103,7 +103,7 @@ void Field::GenerateField(){
     srand(time(nullptr));
     for(int i = 0; i<height; i++){
         for(int j = 0; j<width; j++){
-            old_layout[i][j] = 0;
+            old_layout[i][j] = -1;
             new_layout[i][j] = i*width + j;
             locs[i*width + j] = Location::GenerateLocation();
         }
@@ -163,8 +163,7 @@ void Field::ChangeLayout(){
             do{
                 if(new_layout[pos_h][pos_w] == -1){
                     new_layout[pos_h][pos_w] = old_layout[i][j];
-                    //TODO: index redirection
-                    //old_layout[i][j] = pos_h * width + pos_w;
+                    old_layout[i][j] = pos_h * width + pos_w;
                     is_comp = true;
                     break;
                 }
@@ -187,15 +186,9 @@ types::Position Field::GetNewPosition(types::Position pos){
         pos.y >= height*LOCATION_SIZE || pos.y < 0)
          throw types::TimeLostException("Field error: bad position in GetNewPosition");
     int index = old_layout[pos.y/LOCATION_SIZE][pos.x/LOCATION_SIZE];
-    types::Position new_index;
-    for(int i=0;i<height;i++){
-        for(int j=0;j<width;j++){
-            if(new_layout[i][j] == index)
-                new_index = {j,i};
-        }
-    }
-    return {new_index.x*LOCATION_SIZE + pos.x % LOCATION_SIZE,
-            new_index.y*LOCATION_SIZE + pos.y % LOCATION_SIZE};
+    if(index == -1) return pos;
+    return {(index % width) * LOCATION_SIZE + pos.x % LOCATION_SIZE ,
+            (index / width) * LOCATION_SIZE + pos.y % LOCATION_SIZE};
 }
 
 std::ostream& operator<<(std::ostream& os, const Field& field){
