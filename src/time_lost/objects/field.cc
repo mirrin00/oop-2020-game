@@ -145,7 +145,6 @@ void Field::GenerateField(){
 }
 
 void Field::ChangeLayout(){
-    std::cout<<"IN LATOYT\n";
     for(int i = 0; i<height; i++){
         for(int j = 0; j<width; j++){
             old_layout[i][j] = new_layout[i][j];

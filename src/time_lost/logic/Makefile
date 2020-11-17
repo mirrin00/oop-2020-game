@@ -5,11 +5,11 @@ OBJ = $(TMP)/logger.o \
       $(TMP)/publisher.o \
       $(TMP)/time_lost.o \
 	  $(TMP)/logging_interface.o \
-	  $(TMP)/player_move_down_command.o \
-	  $(TMP)/player_move_up_command.o \
-	  $(TMP)/player_move_left_command.o \
-	  $(TMP)/player_move_right_command.o \
-	  $(TMP)/player_interact_command.o 
+	  $(TMP)/commands/player_move_down_command.o \
+	  $(TMP)/commands/player_move_up_command.o \
+	  $(TMP)/commands/player_move_left_command.o \
+	  $(TMP)/commands/player_move_right_command.o \
+	  $(TMP)/commands/player_interact_command.o 
 #LIB = $(TMP)/liblogic.a
 LIB = $(TMP)/liblogic.so
 COLOR = \033[0;32m
@@ -35,7 +35,7 @@ $(LIB): $(OBJ)
 	cp $(LIB) ../../../lib
 
 $(TMP):
-	@mkdir -p $(TMP)
+	@mkdir -p $(TMP)/commands
 
 .PHONY: clean
 

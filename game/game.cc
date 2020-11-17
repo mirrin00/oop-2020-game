@@ -2,11 +2,7 @@
 #include "time_lost/logic/time_lost.h"
 #include "time_lost/objects/field_iterator.h"
 #include "time_lost/objects/player.h"
-#include "time_lost/logic/player_move_up_command.h"
-#include "time_lost/logic/player_move_down_command.h"
-#include "time_lost/logic/player_move_left_command.h"
-#include "time_lost/logic/player_move_right_command.h"
-#include "time_lost/logic/player_interact_command.h"
+#include "time_lost/logic/player_commands.h"
 
 #define SIZE 51
 
@@ -29,7 +25,7 @@ int main()
     textures[2].loadFromFile("start.png");
     textures[3].loadFromFile("end.png");
     textures[4].loadFromFile("player.png");
-    textures[5].loadFromFile("coin.png");
+    textures[5].loadFromFile("bullets.png");
     textures[6].loadFromFile("sword.png");
     sf::Font font;
     font.loadFromFile("cour.ttf");
@@ -69,23 +65,23 @@ int main()
                 window.close();
             if(game.IsWin()) continue;
             if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::W){
-                game.ExecuteCommand(logic::PlayerMoveUpCommand(game));
+                game.ExecuteCommand(logic::commands::PlayerMoveUpCommand(game));
             }
 
             if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::A){
-                game.ExecuteCommand(logic::PlayerMoveLeftCommand(game));
+                game.ExecuteCommand(logic::commands::PlayerMoveLeftCommand(game));
             }
 
             if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::S){
-                game.ExecuteCommand(logic::PlayerMoveDownCommand(game));
+                game.ExecuteCommand(logic::commands::PlayerMoveDownCommand(game));
             }
 
             if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::D){
-                game.ExecuteCommand(logic::PlayerMoveRightCommand(game));
+                game.ExecuteCommand(logic::commands::PlayerMoveRightCommand(game));
             }
 
             if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::E){
-                game.ExecuteCommand(logic::PlayerInteractCommand(game));
+                game.ExecuteCommand(logic::commands::PlayerInteractCommand(game));
             }
         }
 
