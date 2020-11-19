@@ -6,12 +6,7 @@ namespace logic{
 
 namespace commands{
 
-PlayerInteractCommand::PlayerInteractCommand(TimeLost& _game):
-Command(_game)
-{
-}
-
-void PlayerInteractCommand::Execute(){
+void PlayerInteractCommand::Execute(TimeLost& game){
     game.PlayerInteract();
 }
 

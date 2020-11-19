@@ -3,11 +3,13 @@
 #include "time_lost/objects/field_iterator.h"
 #include "time_lost/objects/player.h"
 #include "time_lost/logic/player_commands.h"
+#include "resources_loader.h"
 
 #define SIZE 51
 
 //FIXME: delete using
 using namespace time_lost;
+using namespace time_lost_gui;
 
 int main()
 {
@@ -19,7 +21,7 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(size*SIZE, size*SIZE), "TimeLost");
 
-    sf::Texture textures[7];
+    /*sf::Texture textures[7];
     textures[0].loadFromFile("grass.png");
     textures[1].loadFromFile("block.png");
     textures[2].loadFromFile("start.png");
@@ -28,7 +30,9 @@ int main()
     textures[5].loadFromFile("bullets.png");
     textures[6].loadFromFile("sword.png");
     sf::Font font;
-    font.loadFromFile("cour.ttf");
+    font.loadFromFile("cour.ttf");*/
+
+    ResourcesLoader& resources = ResourcesLoader::GetInstance();
 
     field.GetCell({1,1}).SetType(types::CellType::kEntry);
     field.GetCell({9,9}).SetType(types::CellType::kExit);
@@ -64,23 +68,23 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
             if(game.IsWin()) continue;
-            if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::W){
+            if( event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::W){
                 game.ExecuteCommand(logic::commands::PlayerMoveUpCommand(game));
             }
 
-            if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::A){
+            if( event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A){
                 game.ExecuteCommand(logic::commands::PlayerMoveLeftCommand(game));
             }
 
-            if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::S){
+            if( event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::S){
                 game.ExecuteCommand(logic::commands::PlayerMoveDownCommand(game));
             }
 
-            if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::D){
+            if( event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::D){
                 game.ExecuteCommand(logic::commands::PlayerMoveRightCommand(game));
             }
 
-            if( event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::E){
+            if( event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::E){
                 game.ExecuteCommand(logic::commands::PlayerInteractCommand(game));
             }
         }
@@ -91,7 +95,7 @@ int main()
 
             if(game.IsWin()){
                 sf::Text text;
-                text.setFont(font);
+                text.setFont(resources.GetFont("cour"));
                 text.setString("You WIN!!!");
                 text.setCharacterSize(36);
                 text.setPosition((size/2)*SIZE, (size/2)*SIZE);
@@ -107,19 +111,19 @@ int main()
                 switch (cell.GetType())
                 {
                 case types::CellType::kEmpty:
-                    sprite.setTexture(textures[0]);
+                    sprite.setTexture(resources.GetTexture("grass"));
                     break;
                 
                 case types::CellType::kBlock:
-                    sprite.setTexture(textures[1]);
+                    sprite.setTexture(resources.GetTexture("block"));
                     break;
                 
                 case types::CellType::kEntry:
-                    sprite.setTexture(textures[2]);
+                    sprite.setTexture(resources.GetTexture("start"));
                     break;
                 
                 case types::CellType::kExit:
-                    sprite.setTexture(textures[3]);
+                    sprite.setTexture(resources.GetTexture("end"));
                     break;
                 }
                 sprite.setPosition(pos.x*SIZE, pos.y*SIZE);
@@ -134,17 +138,17 @@ int main()
                 continue;
             }
             if(dynamic_cast<objects::Sword*>(item.get())){
-                sprite.setTexture(textures[6]);
+                sprite.setTexture(resources.GetTexture("sword"));
             }
             if(dynamic_cast<objects::Coin*>(item.get())){
-                sprite.setTexture(textures[5]);
+                sprite.setTexture(resources.GetTexture("bullets"));
             }
             sprite.setPosition(item->GetPosition().x*SIZE, item->GetPosition().y*SIZE);
             window.draw(sprite);
             i++;
             item = game.GetItem(i);
         }
-        sprite.setTexture(textures[4]);
+        sprite.setTexture(resources.GetTexture("player"));
         sprite.setPosition(player.GetPosition().x*SIZE, player.GetPosition().y*SIZE);
         window.draw(sprite);
 

@@ -11,9 +11,9 @@ namespace commands{
 
 class PlayerInteractCommand: public Command{
 public:
-    PlayerInteractCommand(TimeLost& _game);
+    PlayerInteractCommand() = default;
 
-    void Execute() override;
+    void Execute(TimeLost& game) override;
 };
 
 } // commands

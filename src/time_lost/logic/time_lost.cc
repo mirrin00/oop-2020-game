@@ -110,11 +110,11 @@ bool TimeLost::IsWin(){
 }
 
 void TimeLost::ExecuteCommand(Command& cmd){
-    cmd.Execute();
+    cmd.Execute(*this);
 }
 
 void TimeLost::ExecuteCommand(Command&& cmd){
-    cmd.Execute();
+    cmd.Execute(*this);
 }
 
 } // logic

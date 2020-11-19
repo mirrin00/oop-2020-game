@@ -1,14 +1,17 @@
 include ../Header.mk
 OFLAGS = -I../include -L../lib -lobjects -ltypes -llogic -lsfml-system -lsfml-graphics  -lsfml-window
 TMP = tmp
-OBJ = $(TMP)/game.o
-GAME = game
+OBJ = $(TMP)/main.o \
+      $(TMP)/resources_loader.o \
+	  $(TMP)/time_lost_gui.o
+GAME = TimeLost
 COLOR = \033[0;32m
 NORMAL = \033[0m
 
 .PHONY: all clean
 
 all: $(GAME)
+	mv $(GAME) ../$(GAME)
 
 clean:
 	@echo "$(COLOR)Cleanning...$(NORMAL)"
@@ -26,7 +29,7 @@ $(TMP)/%.o: %.cc $(TMP)/%.d | $(TMP)
 
 $(GAME): $(OBJ)
 	@echo "$(COLOR)Compile $@...$(NORMAL)"
-	$(CC) $(OBJ)  -Wl,-rpath=../lib  $(CFLAGS) $(OFLAGS) -o $@
+	$(CC) $(OBJ)  -Wl,-rpath=./lib  $(CFLAGS) $(OFLAGS) -o $@
 
 $(TMP):
 	@mkdir -p $(TMP)

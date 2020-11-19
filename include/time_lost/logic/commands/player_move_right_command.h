@@ -11,9 +11,9 @@ namespace commands{
 
 class PlayerMoveRightCommand: public Command{
 public:
-    PlayerMoveRightCommand(TimeLost& _game);
+    PlayerMoveRightCommand() = default;
 
-    void Execute() override;
+    void Execute(TimeLost& game) override;
 };
 
 } // commands

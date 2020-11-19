@@ -14,12 +14,8 @@ namespace time_lost{
 namespace logic{
 
 class Command{
-protected:
-    TimeLost& game;
 public:
-    Command(TimeLost& _game):game(_game){}
-
-    virtual void Execute() = 0;
+    virtual void Execute(TimeLost& game) = 0;
 };
 
 } // logic

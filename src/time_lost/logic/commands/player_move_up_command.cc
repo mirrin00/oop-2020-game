@@ -6,12 +6,7 @@ namespace logic{
 
 namespace commands{
 
-PlayerMoveUpCommand::PlayerMoveUpCommand(TimeLost& _game):
-Command(_game)
-{
-}
-
-void PlayerMoveUpCommand::Execute(){
+void PlayerMoveUpCommand::Execute(TimeLost& game){
     game.PlayerMove({0,-1});
 }
 
