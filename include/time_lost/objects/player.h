@@ -28,6 +28,8 @@ protected:
 public:
     Player(int start_health, types::Position start_pos = {0,0});
 
+    Player& operator=(const Player& player);
+
     ~Player();
 
     void ChangeHealth(int change_h);
@@ -46,7 +48,9 @@ public:
      *   *  Add for Item&& or Item?
      *   *  What do with operator +
      */
-    void operator+=(Item& item);
+    Player& operator+=(Item& item);
+
+    Player& operator+=(Item&& item);
 
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
 };

@@ -12,6 +12,8 @@ class Command;
 #include "../objects/coin.h"
 #include "../objects/health_potion.h"
 #include "../objects/field_iterator.h"
+#include "../objects/enemy.h"
+#include "../objects/enemy_type.h"
 #include "command.h"
 #include "logger.h"
 #include <vector>
@@ -29,6 +31,8 @@ protected:
     objects::Field field;
 
     std::vector<std::shared_ptr<objects::Item>> items;
+
+    std::vector<std::shared_ptr<objects::Enemy>> enemys;
 
     int step_change;
 public:
@@ -50,6 +54,8 @@ public:
 
     std::shared_ptr<objects::Item> GetItem(int index);
 
+    std::shared_ptr<objects::Enemy> GetEnemy(int index);
+
     void Start();
 
     bool IsWin();
@@ -57,6 +63,8 @@ public:
     void ExecuteCommand(Command&& cmd);
 
     void ExecuteCommand(Command& cmd);
+
+    void EnemysAct();
 };
 
 } // logic

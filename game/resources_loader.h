@@ -32,11 +32,6 @@ public:
     sf::Texture& GetTexture(std::string texture_name);
 
     sf::Font& GetFont(std::string font_name);
-
-    static void Reset();
-
-    // FIXME: add &&
-    //sf::Texture GetTexture(std::string&& texture_name);
 };
 
 } // time_lost_gui

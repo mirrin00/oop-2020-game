@@ -11,6 +11,13 @@ Essence(start_health, start_pos)
     weapon = Hands().CloneWeapon();
 }
 
+Player& Player::operator=(const Player& player){
+    if(&player == this) return *this;
+    coins = player.coins;
+    weapon = player.weapon->CloneWeapon();
+    return *this;
+}
+
 Player::~Player(){
 }
 
@@ -44,9 +51,16 @@ int Player::Attack(){
     return weapon->Attack();
 }
 
-void Player::operator+=(Item& item){
+Player& Player::operator+=(Item& item){
     item.Use(*this);
     Notify(); // Logging
+    return *this;
+}
+
+Player& Player::operator+=(Item&& item){
+    item.Use(*this);
+    Notify(); // Logging
+    return *this;
 }
 
 std::ostream& operator<<(std::ostream& os, const Player& player){

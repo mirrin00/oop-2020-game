@@ -3,7 +3,10 @@ OFLAGS = -fPIC -I../../../include
 TMP = tmp
 OBJ = $(TMP)/time_lost_exception.o \
       $(TMP)/position.o \
-	  $(TMP)/location_patterns.o
+	  $(TMP)/location_patterns.o \
+	  $(TMP)/behavior_find.o \
+	  $(TMP)/behavior_wait.o \
+	  $(TMP)/behavior_fly.o
 LIB = $(TMP)/libtypes.so
 COLOR = \033[0;32m
 NORMAL = \033[0m

@@ -1,5 +1,10 @@
 #include "time_lost_gui.h"
 
+//FIXME: delete includes
+#include "time_lost/types/behavior_find.h"
+#include "time_lost/types/behavior_wait.h"
+#include "time_lost/types/behavior_fly.h"
+
 namespace time_lost_gui{
 
     TimeLostGUI::TimeLostGUI():
@@ -75,6 +80,21 @@ namespace time_lost_gui{
         sprite.setPosition(game->GetPlayer().GetPosition().x*SIZE_TEXTURE, game->GetPlayer().GetPosition().y*SIZE_TEXTURE);
         window->draw(sprite);
 
+        i = 0;
+        std::shared_ptr<time_lost::objects::Enemy> enemy = game->GetEnemy(i);
+        while(enemy){
+            if(dynamic_cast<time_lost::objects::EnemyType<time_lost::types::BehaviorFind>*>(enemy.get()))
+                sprite.setTexture(resources.GetTexture("enemy_walk"),true);
+            if(dynamic_cast<time_lost::objects::EnemyType<time_lost::types::BehaviorWait>*>(enemy.get()))
+                sprite.setTexture(resources.GetTexture("enemy_wait"),true);
+            if(dynamic_cast<time_lost::objects::EnemyType<time_lost::types::BehaviorFly>*>(enemy.get()))
+                sprite.setTexture(resources.GetTexture("enemy_fly"),true);
+            sprite.setPosition(enemy->GetPosition().x*SIZE_TEXTURE, enemy->GetPosition().y*SIZE_TEXTURE);
+            window->draw(sprite);
+            i++;
+            enemy = game->GetEnemy(i);
+        }
+
         // end the current frame
         window->display();
     }
@@ -113,9 +133,17 @@ namespace time_lost_gui{
 
     void TimeLostGUI::StartGame(){
         game->Start();
+        // FIXME: DELETE THIS
+        game->AddItem(time_lost::objects::Sword(10,{10,10}));
+        std::shared_ptr<time_lost::logic::Logger> log = std::make_shared<time_lost::logic::Logger>("game.log", std::cout);
+        game->GetPlayer().Subscribe(log);
+        game->GetEnemy(0)->Subscribe(log);
+        //
         while(window->isOpen()){
             GetCommand();
             game->ExecuteCommand(*cmd);
+            if(!(dynamic_cast<time_lost::logic::commands::EmptyCommand*>(cmd.get())))
+                game->EnemysAct();
             draw();
         }
     }

@@ -12,8 +12,8 @@ public:
     static const int count = 8;
     static const std::string patterns[count];
 
-    LocationPatterns() = default;
-    ~LocationPatterns() = default;
+    LocationPatterns() = delete;
+    ~LocationPatterns() = delete;
 };
 
 } // types
