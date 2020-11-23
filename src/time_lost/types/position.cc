@@ -10,6 +10,10 @@ y(start_y)
 {
 }
 
+int Position::SumAbs(){
+    return std::abs(x) + std::abs(y);
+}
+
 Position operator+(Position pos1, Position pos2){
     return {pos1.x + pos2.x, pos1.y + pos2.y};
 }

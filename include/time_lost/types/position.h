@@ -12,6 +12,8 @@ struct Position{
     int y {0};
 
     Position(int start_x = 0, int start_y = 0);
+
+    int SumAbs();
 };
 
 Position operator+(Position pos1, Position pos2);

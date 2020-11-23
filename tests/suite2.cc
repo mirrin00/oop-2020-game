@@ -32,6 +32,7 @@ BOOST_AUTO_TEST_SUITE(suite_2,  * boost::unit_test::label("test2"))
         pos3 = -pos2;
         BOOST_TEST_CHECK(pos3.x == -10);
         BOOST_TEST_CHECK(pos3.y == -5);
+        BOOST_TEST_CHECK(pos3.SumAbs() == 15);
     }
 
     BOOST_AUTO_TEST_CASE(test_2,
