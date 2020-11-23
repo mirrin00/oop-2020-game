@@ -33,7 +33,7 @@ $(TMP)/%.o: %.cc $(TMP)/%.d | $(TMP)
 
 
 $(TESTS): $(OBJ)
-	@echo "$(COLOR)Compile $@...$(NORMAL)"
+	@echo "$(COLOR)Link $@...$(NORMAL)"
 	$(CC) $(OBJ)  -Wl,-rpath=$(PWD)/lib $(CFLAGS) $(OFLAGS) -o $@
 
 $(TMP):

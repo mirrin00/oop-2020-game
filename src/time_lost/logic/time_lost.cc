@@ -58,6 +58,20 @@ void TimeLost::PlayerInteract(){
     }
 }
 
+void TimeLost::PlayerAttack(){
+    auto player_pos = player.GetPosition();
+    for(auto enemy = enemys.begin(); enemy != enemys.end();){
+        auto enemy_pos = (*enemy)->GetPosition();
+        if(abs(enemy_pos.x - player_pos.x) + abs(enemy_pos.y - player_pos.y) <= 1)
+            player += **enemy;
+        if((*enemy)->GetHealth() <= 0){
+            enemys.erase(enemy);
+        }else{
+            enemy++;
+        }
+    }
+}
+
 void TimeLost::AddItem(objects::Item& item){
     std::shared_ptr<objects::Item> _item = item.CloneItem();
     types::Position pos = _item->GetPosition();
@@ -104,6 +118,7 @@ std::shared_ptr<objects::Enemy> TimeLost::GetEnemy(int index){
 
 void TimeLost::Start(){
     step_change = STEP_CHANGE;
+    player = objects::Player(10);
     field.GenerateField();
     bool no_start = true;
     for(objects::FieldIterator it(field); !it(); it++){
@@ -118,7 +133,7 @@ void TimeLost::Start(){
     while(field.GetCell(pos).GetType() == types::CellType::kBlock || abs(pos.x - player.GetPosition().x) <4 || abs(pos.y - player.GetPosition().y) <4){
         pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     }
-    enemys.push_back(std::make_shared<objects::EnemyType<types::BehaviorFind>>(100, pos));
+    enemys.push_back(std::make_shared<objects::EnemyType<types::BehaviorFind>>(13, pos));
     bool isEmpty = true;
     pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     do{
@@ -132,7 +147,7 @@ void TimeLost::Start(){
                 isEmpty = false;
         if(!isEmpty) pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     }while(!isEmpty);
-    enemys.push_back(std::make_shared<objects::EnemyType<types::BehaviorWait>>(100, pos));
+    enemys.push_back(std::make_shared<objects::EnemyType<types::BehaviorWait>>(13, pos));
     pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     isEmpty = true;
     do{
@@ -146,7 +161,7 @@ void TimeLost::Start(){
                 isEmpty = false;
         if(!isEmpty) pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     }while(!isEmpty);
-    enemys.push_back(std::make_shared<objects::EnemyType<types::BehaviorFly>>(100, pos));
+    enemys.push_back(std::make_shared<objects::EnemyType<types::BehaviorFly>>(13, pos));
     //
 }
 
@@ -154,6 +169,10 @@ bool TimeLost::IsWin(){
     if(field.GetCell(player.GetPosition()).GetType() == types::CellType::kExit)
         return true;
     return false;
+}
+
+bool TimeLost::isLose(){
+    return (player.GetHealth() <= 0);
 }
 
 void TimeLost::ExecuteCommand(Command& cmd){

@@ -17,6 +17,8 @@ public:
     virtual void DoSomething(Field& field, Player& player) override;
 
     Enemy& operator+=(Player& player);
+
+    Enemy& operator-=(Player& player);
 };
 
 } // objects

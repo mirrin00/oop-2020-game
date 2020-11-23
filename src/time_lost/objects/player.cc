@@ -25,14 +25,6 @@ void Player::Notify(){
     pub.Notify<Player>(*this);
 }
 
-void Player::ChangeHealth(int change_h){
-    health += change_h;
-}
-
-int Player::GetHealth(){
-    return health;
-}
-
 void Player::AddCoins(int count){
     coins += count;
 }
@@ -60,6 +52,16 @@ Player& Player::operator+=(Item& item){
 Player& Player::operator+=(Item&& item){
     item.Use(*this);
     Notify(); // Logging
+    return *this;
+}
+
+Player& Player::operator+=(Enemy& enemy){
+    enemy.ChangeHealth(-Attack());
+    return *this;
+}
+
+Player& Player::operator-=(Enemy& enemy){
+    enemy += *this;
     return *this;
 }
 

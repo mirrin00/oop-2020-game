@@ -18,7 +18,7 @@ namespace objects{
 
 class Item: public Object{
 private:
-    bool on_field, can_use;
+    bool on_field, can_use; //FIXME Delete can_use
 protected:
     virtual void Notify() override;
 public:

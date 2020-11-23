@@ -18,6 +18,8 @@ public:
     virtual void DoSomething(Field& field, Player& player) = 0;
 
     virtual Enemy& operator+=(Player& player) = 0;
+
+    virtual Enemy& operator-=(Player& player) = 0;
 };
 
 } // obcjects

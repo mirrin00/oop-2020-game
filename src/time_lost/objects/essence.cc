@@ -16,6 +16,18 @@ void Essence::Notify(){
     pub.Notify<Essence>(*this);
 }
 
+void Essence::SetHealth(int new_health){
+    health = new_health;
+}
+
+void Essence::ChangeHealth(int change_h){
+    health += change_h;
+}
+
+int Essence::GetHealth(){
+    return health;
+}
+
 void Essence::Move(types::Position move){
     pos.x += move.x;
     if(pos.x < 0) pos.x = 0;

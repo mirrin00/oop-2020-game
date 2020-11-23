@@ -15,6 +15,8 @@ namespace logic{
 
 class Command{
 public:
+    virtual ~Command() = default;
+
     virtual void Execute(TimeLost& game) = 0;
 };
 

@@ -127,6 +127,10 @@ namespace time_lost_gui{
                 if(event.key.code == sf::Keyboard::E){
                     cmd = std::make_unique<time_lost::logic::commands::PlayerInteractCommand>();
                 }
+
+                if(event.key.code == sf::Keyboard::Enter){
+                    cmd = std::make_unique<time_lost::logic::commands::PlayerAttackCommand>();
+                }
             }
         }
     }
@@ -135,6 +139,8 @@ namespace time_lost_gui{
         game->Start();
         // FIXME: DELETE THIS
         game->AddItem(time_lost::objects::Sword(10,{10,10}));
+        game->AddItem(time_lost::objects::Sword(10,{0,0}));
+        game->AddItem(time_lost::objects::Sword(10,{7,13}));
         std::shared_ptr<time_lost::logic::Logger> log = std::make_shared<time_lost::logic::Logger>("game.log", std::cout);
         game->GetPlayer().Subscribe(log);
         game->GetEnemy(0)->Subscribe(log);

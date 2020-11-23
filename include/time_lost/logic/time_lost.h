@@ -29,7 +29,7 @@ protected:
     objects::Player player;
 
     objects::Field field;
-
+    // FIXME: Replace vector by list
     std::vector<std::shared_ptr<objects::Item>> items;
 
     std::vector<std::shared_ptr<objects::Enemy>> enemys;
@@ -48,6 +48,8 @@ public:
 
     void PlayerInteract();
 
+    void PlayerAttack();
+
     void AddItem(objects::Item& item);
 
     void AddItem(objects::Item&& item);
@@ -59,6 +61,8 @@ public:
     void Start();
 
     bool IsWin();
+
+    bool isLose();
 
     void ExecuteCommand(Command&& cmd);
 

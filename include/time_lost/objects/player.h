@@ -13,6 +13,7 @@ class Item;
 #include "weapon.h"
 #include "item.h"
 #include "hands.h"
+#include "enemy.h"
 
 namespace time_lost {
 
@@ -32,10 +33,6 @@ public:
 
     ~Player();
 
-    void ChangeHealth(int change_h);
-
-    int GetHealth();
-
     void AddCoins(int count);
 
     int GetCoins();
@@ -44,13 +41,13 @@ public:
 
     int Attack();
 
-    /* FIXME:
-     *   *  Add for Item&& or Item?
-     *   *  What do with operator +
-     */
     Player& operator+=(Item& item);
 
     Player& operator+=(Item&& item);
+
+    Player& operator+=(Enemy& enemy);
+
+    Player& operator-=(Enemy& enemy);
 
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
 };

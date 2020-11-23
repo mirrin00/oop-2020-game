@@ -37,7 +37,7 @@ $(TMP)/%.o: %.cc $(TMP)/%.d | $(TMP)
 
 
 $(LIB): $(OBJ)
-	@echo "$(COLOR)Compile lib $(LIB)...$(NORMAL)"
+	@echo "$(COLOR)Link library $(LIB)...$(NORMAL)"
 	g++ -shared -o $(LIB) $(OBJ)
 	cp $(LIB) ../../../lib
 

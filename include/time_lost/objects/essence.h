@@ -19,6 +19,12 @@ public:
 
     ~Essence();
 
+    void SetHealth(int new_health);
+
+    void ChangeHealth(int change_h);
+
+    int GetHealth();
+
     void Move(types::Position move);
 
     friend std::ostream& operator<<(std::ostream& os, const Essence& essence);

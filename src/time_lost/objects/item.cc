@@ -7,7 +7,7 @@ namespace objects{
 Item::Item(types::Position start_pos):
 Object(start_pos),
 on_field(true),
-can_use(false)
+can_use(true)
 {
 }
 

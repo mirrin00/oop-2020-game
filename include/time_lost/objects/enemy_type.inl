@@ -19,7 +19,13 @@ void EnemyType<Behavior>::DoSomething(Field& field, Player& player){
 
 template<typename Behavior>
 Enemy& EnemyType<Behavior>::operator+=(Player& player){
-    player.ChangeHealth(-25);
+    player.ChangeHealth(-1);
+    return *this;
+}
+
+template<typename Behavior>
+Enemy& EnemyType<Behavior>::operator-=(Player& player){
+    player += *this;
     return *this;
 }
 

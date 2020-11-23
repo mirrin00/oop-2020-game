@@ -9,7 +9,8 @@ COMMANDS = $(TMP)/player_move_down_command.o \
            $(TMP)/player_move_up_command.o \
            $(TMP)/player_move_left_command.o \
            $(TMP)/player_move_right_command.o \
-           $(TMP)/player_interact_command.o 
+           $(TMP)/player_interact_command.o \
+		   $(TMP)/player_attack_command.o 
 LIB = $(TMP)/liblogic.so
 COLOR = \033[0;32m
 NORMAL = \033[0m
@@ -29,7 +30,7 @@ $(TMP)/%.o: %.cc $(TMP)/%.d | $(TMP)
 
 
 $(LIB): $(OBJ) commands
-	@echo "$(COLOR)Compile lib $(LIB)...$(NORMAL)"
+	@echo "$(COLOR)Link library $(LIB)...$(NORMAL)"
 	g++ -shared -o $(LIB) $(OBJ) $(COMMANDS)
 	cp $(LIB) ../../../lib
 
