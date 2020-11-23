@@ -10,6 +10,10 @@ void PlayerAttackCommand::Execute(TimeLost& game){
     game.PlayerAttack();
 }
 
+bool PlayerAttackCommand::IsEmpty(){
+    return false;
+}
+
 } // commands
 } // logic
 } // time_lost

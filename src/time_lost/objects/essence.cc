@@ -18,10 +18,12 @@ void Essence::Notify(){
 
 void Essence::SetHealth(int new_health){
     health = new_health;
+    Notify(); // Logging
 }
 
 void Essence::ChangeHealth(int change_h){
     health += change_h;
+    Notify(); // Logging
 }
 
 int Essence::GetHealth(){

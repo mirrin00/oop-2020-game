@@ -32,6 +32,18 @@ namespace time_lost_gui{
             return;
         }
 
+        if(game->IsLose()){
+            sf::Text text;
+            text.setFont(resources.GetFont("cour"));
+            text.setString("YOU DIED");
+            text.setCharacterSize(48);
+            text.setPosition(150, 150);
+            text.setFillColor(sf::Color::Red);
+            window->draw(text);
+            window->display();
+            return;
+        }
+
         sf::Sprite sprite;
         for(time_lost::objects::FieldIterator it(game->GetField()); !it(); it++){
                 const time_lost::objects::Cell& cell = *it;
@@ -95,6 +107,27 @@ namespace time_lost_gui{
             enemy = game->GetEnemy(i);
         }
 
+        if(game->IsPause()){
+            unsigned int h = window->getSize().y, w =window->getSize().x;
+            sf::VertexArray quad(sf::Quads, 4);
+            quad[0].position = sf::Vector2f(0,h);
+            quad[1].position = sf::Vector2f(0,0);
+            quad[2].position = sf::Vector2f(w,0);
+            quad[3].position = sf::Vector2f(w,h);
+            quad[0].color = sf::Color(160,160,160,130);
+            quad[1].color = sf::Color(160,160,160,130);
+            quad[2].color = sf::Color(160,160,160,130);
+            quad[3].color = sf::Color(160,160,160,130);
+            window->draw(quad);
+            sf::Text text;
+            text.setFont(resources.GetFont("cour"));
+            text.setString("Pause");
+            text.setCharacterSize(48);
+            text.setPosition(w/2, h/2);
+            text.setFillColor(sf::Color::White);
+            window->draw(text);
+        }
+
         // end the current frame
         window->display();
     }
@@ -131,6 +164,10 @@ namespace time_lost_gui{
                 if(event.key.code == sf::Keyboard::Enter){
                     cmd = std::make_unique<time_lost::logic::commands::PlayerAttackCommand>();
                 }
+
+                if(event.key.code == sf::Keyboard::Escape){
+                    cmd = std::make_unique<time_lost::logic::commands::PauseCommand>();
+                }
             }
         }
     }
@@ -147,9 +184,11 @@ namespace time_lost_gui{
         //
         while(window->isOpen()){
             GetCommand();
+            if((dynamic_cast<time_lost::logic::commands::PauseCommand*>(cmd.get()))){
+                game->Pause();
+                continue;
+            }
             game->ExecuteCommand(*cmd);
-            if(!(dynamic_cast<time_lost::logic::commands::EmptyCommand*>(cmd.get())))
-                game->EnemysAct();
             draw();
         }
     }

@@ -1,5 +1,5 @@
-#ifndef EMPTY_COMMAND_H
-#define EMPTY_COMMAND_H
+#ifndef PAUSE_COMMAND_H
+#define PAUSE_COMMAND_H
 
 #include "../command.h"
 
@@ -9,9 +9,9 @@ namespace logic{
 
 namespace commands{
 
-class EmptyCommand: public Command{
+class PauseCommand: public Command{
 public:
-    EmptyCommand() = default;
+    PauseCommand() = default;
 
     void Execute(TimeLost& game) override;
 
@@ -23,4 +23,4 @@ public:
 } // time_lost
 
 
-#endif // EMPTY_COMMAND_H
+#endif // PAUSE_COMMAND_H

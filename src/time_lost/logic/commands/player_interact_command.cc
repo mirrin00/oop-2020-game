@@ -10,6 +10,10 @@ void PlayerInteractCommand::Execute(TimeLost& game){
     game.PlayerInteract();
 }
 
+bool PlayerInteractCommand::IsEmpty(){
+    return false;
+}
+
 } // commands
 } // logic
 } // time_lost

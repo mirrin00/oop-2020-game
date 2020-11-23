@@ -10,6 +10,10 @@ void PlayerMoveLeftCommand::Execute(TimeLost& game){
     game.PlayerMove({-1,0});
 }
 
+bool PlayerMoveLeftCommand::IsEmpty(){
+    return false;
+}
+
 } // commands
 } // logic
 } // time_lost

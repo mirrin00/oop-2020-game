@@ -1,14 +1,9 @@
 include ../../../../Header.mk
 OFLAGS = -std=c++17 -fPIC -I../../../../include
 TMP = ../tmp
-OBJ = $(TMP)/player_move_down_command.o \
-	  $(TMP)/player_move_up_command.o \
-	  $(TMP)/player_move_left_command.o \
-	  $(TMP)/player_move_right_command.o \
-	  $(TMP)/player_interact_command.o \
-	  $(TMP)/player_attack_command.o \
-	  $(TMP)/pause_command.o \
-	  $(TMP)/empty_command.o 
+OBJ = $(TMP)/player_turn.o \
+      $(TMP)/pause_turn.o \
+	  $(TMP)/enemy_turn.o
 COLOR = \033[0;32m
 NORMAL = \033[0m
 

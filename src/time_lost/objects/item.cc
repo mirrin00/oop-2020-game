@@ -7,7 +7,8 @@ namespace objects{
 Item::Item(types::Position start_pos):
 Object(start_pos),
 on_field(true),
-can_use(true)
+//TODO: delete can_use
+can_use(false)
 {
 }
 

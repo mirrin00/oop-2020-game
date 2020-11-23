@@ -18,6 +18,8 @@ public:
     virtual ~Command() = default;
 
     virtual void Execute(TimeLost& game) = 0;
+
+    virtual bool IsEmpty() = 0;
 };
 
 } // logic

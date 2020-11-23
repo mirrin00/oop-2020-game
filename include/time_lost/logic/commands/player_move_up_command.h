@@ -14,6 +14,8 @@ public:
     PlayerMoveUpCommand() = default;
 
     void Execute(TimeLost& game) override;
+
+    bool IsEmpty() override;
 };
 
 } // commands

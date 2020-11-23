@@ -1,5 +1,7 @@
 #include "time_lost/logic/time_lost.h"
 
+#include "time_lost/logic/turns/player_turn.h"
+
 //FIXME: Delete includes
 #include "time_lost/types/behavior_find.h"
 #include "time_lost/types/behavior_wait.h"
@@ -13,6 +15,7 @@ TimeLost::TimeLost(int height, int width):
 player(10),
 field(height, width)
 {
+    turn = std::make_unique<turns::PlayerTurn>(*this);
 }
 
 TimeLost::~TimeLost(){}
@@ -26,7 +29,6 @@ objects::Player& TimeLost::GetPlayer(){
 }
 
 void TimeLost::PlayerMove(types::Position move){
-    if(IsWin()) return;
     types::Position new_pos = player.GetPosition() + move;
     if(new_pos.y >= field.GetHeight()) new_pos.y = field.GetHeight() - 1;
     if(new_pos.y < 0) new_pos.y = 0;
@@ -48,7 +50,6 @@ void TimeLost::PlayerMove(types::Position move){
 }
 
 void TimeLost::PlayerInteract(){
-    if(IsWin()) return;
     types::Position pos = player.GetPosition();
     for(int i = 0; i < items.size(); i++){
         if(items[i]->GetPosition() == pos){
@@ -86,6 +87,7 @@ void TimeLost::AddItem(objects::Item& item){
         }
     }
     _item->SetPosition(pos);
+    _item->SetCanUse(true); //FIXME: Delete this
     items.push_back(_item);
 }
 
@@ -103,6 +105,7 @@ void TimeLost::AddItem(objects::Item&& item){
         }
     }
     _item->SetPosition(pos);
+    _item->SetCanUse(true); //FIXME: Delete this
     items.push_back(_item);
 }
 
@@ -129,8 +132,10 @@ void TimeLost::Start(){
     }
     if(no_start) throw types::TimeLostException("No start point on map\n");
     //FIXME: DELETE THIS
+    if(field.GetHeight() <= 2*LOCATION_SIZE || field.GetWidth() <= 2*LOCATION_SIZE) return;
     types::Position pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
-    while(field.GetCell(pos).GetType() == types::CellType::kBlock || abs(pos.x - player.GetPosition().x) <4 || abs(pos.y - player.GetPosition().y) <4){
+    while(field.GetCell(pos).GetType() == types::CellType::kBlock || abs(pos.x - player.GetPosition().x) <LOCATION_SIZE 
+            || abs(pos.y - player.GetPosition().y) <LOCATION_SIZE){
         pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     }
     enemys.push_back(std::make_shared<objects::EnemyType<types::BehaviorFind>>(13, pos));
@@ -171,21 +176,47 @@ bool TimeLost::IsWin(){
     return false;
 }
 
-bool TimeLost::isLose(){
+bool TimeLost::IsLose(){
     return (player.GetHealth() <= 0);
 }
 
 void TimeLost::ExecuteCommand(Command& cmd){
-    cmd.Execute(*this);
+    if(IsWin() || IsLose() || IsPause()) return;
+    if(turn->IsPlayerTurn()){
+        if(cmd.IsEmpty()) return;
+        cmd.Execute(*this);
+    }
+    NextTurn();
 }
 
 void TimeLost::ExecuteCommand(Command&& cmd){
-    cmd.Execute(*this);
+    if(IsWin() || IsLose() || IsPause()) return;
+    if(turn->IsPlayerTurn()){
+        if(cmd.IsEmpty()) return;
+        cmd.Execute(*this);
+    }
+    NextTurn();
 }
 
 void TimeLost::EnemysAct(){
     for(auto enemy: enemys)
         enemy->DoSomething(field, player);
+}
+
+void TimeLost::SetTurn(std::unique_ptr<TurnInterface> new_turn){
+    turn = std::move(new_turn);
+}
+
+void TimeLost::Pause(){
+    turn->Pause();
+}
+
+void TimeLost::NextTurn(){
+    turn->NextTurn();
+}
+
+bool TimeLost::IsPause(){
+    return turn->IsPause();
 }
 
 } // logic

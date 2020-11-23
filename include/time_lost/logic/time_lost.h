@@ -4,6 +4,7 @@
 namespace time_lost{
 namespace logic{
 class Command;
+class TurnInterface;
 }
 }
 
@@ -16,6 +17,7 @@ class Command;
 #include "../objects/enemy_type.h"
 #include "command.h"
 #include "logger.h"
+#include "turn_interface.h"
 #include <vector>
 
 #define STEP_CHANGE 11
@@ -35,6 +37,8 @@ protected:
     std::vector<std::shared_ptr<objects::Enemy>> enemys;
 
     int step_change;
+
+    std::unique_ptr<TurnInterface> turn;
 public:
     TimeLost(int height, int width);
 
@@ -62,13 +66,21 @@ public:
 
     bool IsWin();
 
-    bool isLose();
+    bool IsLose();
 
     void ExecuteCommand(Command&& cmd);
 
     void ExecuteCommand(Command& cmd);
 
     void EnemysAct();
+
+    void SetTurn(std::unique_ptr<TurnInterface> new_turn);
+
+    void Pause();
+
+    void NextTurn();
+
+    bool IsPause();
 };
 
 } // logic
