@@ -28,7 +28,17 @@ protected:
 
     void GetCommand();
 
-    void draw();
+    void Draw();
+
+    void DrawGame();
+
+    void DrawMenu();
+
+    void DrawPause();
+
+    void DrawWin();
+
+    void DrawLose();
 
 public:
     TimeLostGUI();

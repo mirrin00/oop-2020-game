@@ -1,13 +1,10 @@
 include ../../../../Header.mk
 OFLAGS = -std=c++17 -fPIC -I../../../../include
 TMP = ../tmp
-OBJ = $(TMP)/player_turn.o \
-      $(TMP)/pause_turn.o \
-	  $(TMP)/enemy_turn.o \
-	  $(TMP)/exit_turn.o \
-	  $(TMP)/start_menu_turn.o \
-	  $(TMP)/win_turn.o \
-	  $(TMP)/lose_turn.o 
+OBJ = $(TMP)/menu_item_exit.o \
+	  $(TMP)/menu_item_load.o \
+	  $(TMP)/menu_item_save.o \
+	  $(TMP)/menu_item_start.o 
 COLOR = \033[0;32m
 NORMAL = \033[0m
 

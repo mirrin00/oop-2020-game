@@ -18,12 +18,8 @@ void EnemyTurn::NextTurn(){
     game.SetTurn(std::make_unique<PlayerTurn>(game));
 }
 
-bool EnemyTurn::IsPause(){
-    return false;
-}
-
-bool EnemyTurn::IsPlayerTurn(){
-    return false;
+types::Turns::Turn EnemyTurn::GetTurn(){
+    return types::Turns::kEnemy;
 }
 
 } // turns

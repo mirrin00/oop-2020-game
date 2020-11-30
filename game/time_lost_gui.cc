@@ -12,37 +12,14 @@ namespace time_lost_gui{
     game(std::make_unique<time_lost::logic::TimeLost>(HEIGHT_GAME_SIZE, WIDTH_GAME_SIZE))
     {
         //FIXME: 13x13 cells
+        //window = std::make_unique<sf::RenderWindow>(sf::VideoMode(SIZE_TEXTURE*LOCATION_SIZE, SIZE_TEXTURE*LOCATION_SIZE), "TimeLost");
         window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WIDTH_GAME_SIZE*SIZE_TEXTURE*LOCATION_SIZE, HEIGHT_GAME_SIZE*SIZE_TEXTURE*LOCATION_SIZE), "TimeLost");
     }
 
     TimeLostGUI::~TimeLostGUI(){}
 
-    void TimeLostGUI::draw(){
+    void TimeLostGUI::DrawGame(){
         window->clear(sf::Color::Black);
-
-        if(game->IsWin()){
-            sf::Text text;
-            text.setFont(resources.GetFont("cour"));
-            text.setString("You WIN!!!");
-            text.setCharacterSize(36);
-            text.setPosition(500, 500);
-            text.setFillColor(sf::Color::Red);
-            window->draw(text);
-            window->display();
-            return;
-        }
-
-        if(game->IsLose()){
-            sf::Text text;
-            text.setFont(resources.GetFont("cour"));
-            text.setString("YOU DIED");
-            text.setCharacterSize(48);
-            text.setPosition(150, 150);
-            text.setFillColor(sf::Color::Red);
-            window->draw(text);
-            window->display();
-            return;
-        }
 
         sf::Sprite sprite;
         for(time_lost::objects::FieldIterator it(game->GetField()); !it(); it++){
@@ -107,28 +84,105 @@ namespace time_lost_gui{
             enemy = game->GetEnemy(i);
         }
 
-        if(game->IsPause()){
-            unsigned int h = window->getSize().y, w =window->getSize().x;
-            sf::VertexArray quad(sf::Quads, 4);
-            quad[0].position = sf::Vector2f(0,h);
-            quad[1].position = sf::Vector2f(0,0);
-            quad[2].position = sf::Vector2f(w,0);
-            quad[3].position = sf::Vector2f(w,h);
-            quad[0].color = sf::Color(160,160,160,130);
-            quad[1].color = sf::Color(160,160,160,130);
-            quad[2].color = sf::Color(160,160,160,130);
-            quad[3].color = sf::Color(160,160,160,130);
-            window->draw(quad);
-            sf::Text text;
-            text.setFont(resources.GetFont("cour"));
-            text.setString("Pause");
-            text.setCharacterSize(48);
-            text.setPosition(w/2, h/2);
-            text.setFillColor(sf::Color::White);
-            window->draw(text);
-        }
-
+        /* Draw part of field
+        sf::View view;
+        view.setSize(window->getSize().x, window->getSize().y);
+        time_lost::types::Position pos = game->GetPlayer().GetPosition();
+        view.setCenter(pos.x*SIZE_TEXTURE+SIZE_TEXTURE/2, pos.y*SIZE_TEXTURE+SIZE_TEXTURE/2);
+        window->setView(view);
+        */
         // end the current frame
+        //window->display();
+    }
+
+    void TimeLostGUI::DrawPause(){
+        unsigned int h = window->getSize().y, w =window->getSize().x;
+        sf::VertexArray quad(sf::Quads, 4);
+        quad[0].position = sf::Vector2f(0,h);
+        quad[1].position = sf::Vector2f(0,0);
+        quad[2].position = sf::Vector2f(w,0);
+        quad[3].position = sf::Vector2f(w,h);
+        quad[0].color = sf::Color(160,160,160,130);
+        quad[1].color = sf::Color(160,160,160,130);
+        quad[2].color = sf::Color(160,160,160,130);
+        quad[3].color = sf::Color(160,160,160,130);
+        window->draw(quad);
+        sf::Text text;
+        text.setFont(resources.GetFont("cour"));
+        text.setString("Pause");
+        text.setCharacterSize(48);
+        text.setPosition(w/2, h/2);
+        text.setFillColor(sf::Color::White);
+        window->draw(text);
+    }
+
+    void TimeLostGUI::DrawMenu(){
+        constexpr int item_size = 75, delta_x = 15;
+        auto items = game->GetMenu().GetItems();
+        window->clear(sf::Color::Black);
+        sf::Text text;
+        text.setFont(resources.GetFont("menu"));
+        text.setCharacterSize(36);
+        unsigned int h = window->getSize().y / 2 - item_size*(items.size()/2), w =window->getSize().x / 2;
+        sf::RectangleShape rect;
+        rect.setSize(sf::Vector2f(200,50));
+        for(auto item: items){
+            text.setString(item->GetDescription());
+            if(item->IsSelected()) rect.setFillColor(sf::Color(100,100,100));
+            else rect.setFillColor(sf::Color::Black);
+            if(!item->GetIsCanExecute()) text.setFillColor(sf::Color(160,160,160));
+            else text.setFillColor(sf::Color::White);
+            text.setPosition(w - delta_x * ((float)item->GetDescription().size() / 2),h);
+            rect.setPosition(text.getPosition());
+            window->draw(rect);
+            window->draw(text);
+            h += item_size;
+        }
+    }
+
+    void TimeLostGUI::DrawWin(){
+        window->clear(sf::Color::Black);
+        sf::Text text;
+        text.setFont(resources.GetFont("cour"));
+        text.setString("YOU WIN!!!");
+        text.setCharacterSize(48);
+        text.setPosition(150, 150);
+        text.setFillColor(sf::Color::Red);
+        window->draw(text);
+    }
+
+    void TimeLostGUI::DrawLose(){
+        window->clear(sf::Color::Black);
+        sf::Text text;
+        text.setFont(resources.GetFont("cour"));
+        text.setString("YOU DIED");
+        text.setCharacterSize(48);
+        text.setPosition(150, 150);
+        text.setFillColor(sf::Color::Red);
+        window->draw(text);
+    }
+
+    void TimeLostGUI::Draw(){
+        switch(game->GetTurn()){
+            case time_lost::types::Turns::kStartMenu:
+                DrawMenu();
+                break;
+            case time_lost::types::Turns::kPlayer:
+                DrawGame();
+                break;
+            case time_lost::types::Turns::kPause:
+                DrawGame();
+                DrawPause();
+                break;
+            case time_lost::types::Turns::kWin:
+                DrawWin();
+                break;
+            case time_lost::types::Turns::kLose:
+                DrawLose();
+                break;  
+            //default:
+                //window->clear(sf::Color::Black);
+        }
         window->display();
     }
 
@@ -173,14 +227,12 @@ namespace time_lost_gui{
     }
 
     void TimeLostGUI::StartGame(){
-        game->Start();
+        //game->Start();
         // FIXME: DELETE THIS
-        game->AddItem(time_lost::objects::Sword(10,{10,10}));
-        game->AddItem(time_lost::objects::Sword(10,{0,0}));
-        game->AddItem(time_lost::objects::Sword(10,{7,13}));
+        
         std::shared_ptr<time_lost::logic::Logger> log = std::make_shared<time_lost::logic::Logger>("game.log", std::cout);
         game->GetPlayer().Subscribe(log);
-        game->GetEnemy(0)->Subscribe(log);
+        //game->GetEnemy(0)->Subscribe(log);
         //
         while(window->isOpen()){
             GetCommand();
@@ -189,7 +241,8 @@ namespace time_lost_gui{
                 continue;
             }
             game->ExecuteCommand(*cmd);
-            draw();
+            Draw();
+            if(game->GetTurn() == time_lost::types::Turns::kExit) window->close();
         }
     }
 

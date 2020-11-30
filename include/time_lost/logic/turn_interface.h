@@ -1,7 +1,9 @@
 #ifndef TURN_INTERFACE_H
 #define TURN_INTERFACE_H
 
+#include "../types/turns.h"
 #include "time_lost.h"
+
 
 namespace time_lost{
 
@@ -17,9 +19,7 @@ public:
 
     virtual void NextTurn() = 0;
 
-    virtual bool IsPause() = 0;
-
-    virtual bool IsPlayerTurn() = 0;
+    virtual types::Turns::Turn GetTurn() = 0;
 };
 
 } // logic

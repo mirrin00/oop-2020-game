@@ -4,7 +4,9 @@ TMP = tmp
 OBJ = $(TMP)/logger.o \
       $(TMP)/publisher.o \
       $(TMP)/time_lost.o \
-	  $(TMP)/logging_interface.o 
+	  $(TMP)/logging_interface.o \
+	  $(TMP)/menu_item_interface.o \
+	  $(TMP)/menu.o
 COMMANDS = $(TMP)/player_move_down_command.o \
            $(TMP)/player_move_up_command.o \
            $(TMP)/player_move_left_command.o \
@@ -15,12 +17,20 @@ COMMANDS = $(TMP)/player_move_down_command.o \
 		   $(TMP)/empty_command.o 
 TURNS = $(TMP)/player_turn.o \
         $(TMP)/pause_turn.o \
-	    $(TMP)/enemy_turn.o
+	    $(TMP)/enemy_turn.o \
+		$(TMP)/exit_turn.o \
+		$(TMP)/start_menu_turn.o \
+		$(TMP)/win_turn.o \
+		$(TMP)/lose_turn.o 
+MENUS = $(TMP)/menu_item_exit.o \
+		$(TMP)/menu_item_load.o \
+		$(TMP)/menu_item_save.o \
+		$(TMP)/menu_item_start.o 
 LIB = $(TMP)/liblogic.so
 COLOR = \033[0;32m
 NORMAL = \033[0m
 
-.PHONY: all commands turns
+.PHONY: all commands turns menus
 
 all: $(LIB)
 
@@ -34,9 +44,9 @@ $(TMP)/%.o: %.cc $(TMP)/%.d | $(TMP)
 	$(CC) -c $(CFLAGS) $(OFLAGS) $< -o $@
 
 
-$(LIB): $(OBJ) commands turns
+$(LIB): $(OBJ) commands turns menus
 	@echo "$(COLOR)Link library $(LIB)...$(NORMAL)"
-	g++ -shared -o $(LIB) $(OBJ) $(COMMANDS) $(TURNS)
+	g++ -shared -o $(LIB) $(OBJ) $(COMMANDS) $(TURNS) $(MENUS)
 	cp $(LIB) ../../../lib
 
 commands: $(TMP)
@@ -45,6 +55,8 @@ commands: $(TMP)
 turns: $(TMP)
 	$(MAKE) -C turns
 
+menus: $(TMP)
+	$(MAKE) -C menu_items
 $(TMP):
 	@mkdir -p $(TMP)
 

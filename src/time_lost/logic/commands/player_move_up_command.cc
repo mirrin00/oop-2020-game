@@ -7,6 +7,8 @@ namespace logic{
 namespace commands{
 
 void PlayerMoveUpCommand::Execute(TimeLost& game){
+    if(game.GetTurn() == types::Turns::kStartMenu) game.MenuUp();
+    if(game.GetTurn() != types::Turns::kPlayer) return;
     game.PlayerMove({0,-1});
 }
 

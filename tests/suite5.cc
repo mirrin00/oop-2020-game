@@ -106,14 +106,11 @@ BOOST_AUTO_TEST_CASE(test_1,
     {
         TimeLost game(1,1);
         std::unique_ptr<TurnInterface> turn = std::make_unique<PlayerTurn>(game);
-        BOOST_TEST_CHECK(turn->IsPause() == false);
-        BOOST_TEST_CHECK(turn->IsPlayerTurn() == true);
+        BOOST_TEST_CHECK(turn->GetTurn() == Turns::kPlayer);
         turn = std::make_unique<EnemyTurn>(game);
-        BOOST_TEST_CHECK(turn->IsPause() == false);
-        BOOST_TEST_CHECK(turn->IsPlayerTurn() == false);
+        BOOST_TEST_CHECK(turn->GetTurn() == Turns::kEnemy);
         turn = std::make_unique<PauseTurn>(game);
-        BOOST_TEST_CHECK(turn->IsPause() == true);
-        BOOST_TEST_CHECK(turn->IsPlayerTurn() == false);
+        BOOST_TEST_CHECK(turn->GetTurn() == Turns::kPause);
         game.Start();
         Player& player = game.GetPlayer();
         Field& field = game.GetField();

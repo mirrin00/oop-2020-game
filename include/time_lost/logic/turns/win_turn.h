@@ -1,8 +1,7 @@
-#ifndef PAUSE_TURN_H
-#define PAUSE_TURN_H
+#ifndef WIN_TURN_H
+#define WIN_TURN_H
 
 #include "../turn_interface.h"
-#include "player_turn.h"
 
 namespace time_lost{
 
@@ -11,14 +10,14 @@ namespace logic{
 namespace turns
 {
     
-class PauseTurn: public TurnInterface{
+class WinTurn: public TurnInterface{
 public:
-    PauseTurn(TimeLost& game);
+    WinTurn(TimeLost& game);
 
     void Pause() override;
 
     void NextTurn() override;
-
+    
     virtual types::Turns::Turn GetTurn() override;
 };
 
@@ -27,4 +26,4 @@ public:
 } // time_lost
 
 
-#endif // PAUSE_TURN_H
+#endif // WIN_TURN_H

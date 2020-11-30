@@ -18,6 +18,7 @@ class TurnInterface;
 #include "command.h"
 #include "logger.h"
 #include "turn_interface.h"
+#include "menu.h"
 #include <vector>
 
 #define STEP_CHANGE 11
@@ -39,6 +40,8 @@ protected:
     int step_change;
 
     std::unique_ptr<TurnInterface> turn;
+
+    Menu menu;
 public:
     TimeLost(int height, int width);
 
@@ -47,6 +50,8 @@ public:
     objects::Field& GetField();
 
     objects::Player& GetPlayer();
+
+    types::Turns::Turn GetTurn();
 
     void PlayerMove(types::Position move);
 
@@ -64,9 +69,9 @@ public:
 
     void Start();
 
-    bool IsWin();
+    void Win();
 
-    bool IsLose();
+    void Lose();
 
     void ExecuteCommand(Command&& cmd);
 
@@ -81,6 +86,18 @@ public:
     void NextTurn();
 
     bool IsPause();
+
+    void Save();
+
+    void Load();
+
+    void MenuUp();
+
+    void MenuDown();
+
+    void MenuExecute();
+
+    const Menu& GetMenu();
 };
 
 } // logic

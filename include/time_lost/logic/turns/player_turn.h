@@ -20,9 +20,7 @@ public:
 
     void NextTurn() override;
     
-    bool IsPause() override;
-
-    bool IsPlayerTurn() override;
+    virtual types::Turns::Turn GetTurn() override;
 };
 
 } // turns

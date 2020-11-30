@@ -1,6 +1,8 @@
 #include "time_lost/logic/time_lost.h"
 
-#include "time_lost/logic/turns/player_turn.h"
+#include "time_lost/logic/turns/start_menu_turn.h"
+#include "time_lost/logic/turns/win_turn.h"
+#include "time_lost/logic/turns/lose_turn.h"
 
 //FIXME: Delete includes
 #include "time_lost/types/behavior_find.h"
@@ -15,7 +17,8 @@ TimeLost::TimeLost(int height, int width):
 player(10),
 field(height, width)
 {
-    turn = std::make_unique<turns::PlayerTurn>(*this);
+    turn = std::make_unique<turns::StartMenuTurn>(*this);
+    menu = Menu::GetStartMenu();
 }
 
 TimeLost::~TimeLost(){}
@@ -123,6 +126,9 @@ void TimeLost::Start(){
     step_change = STEP_CHANGE;
     player = objects::Player(10);
     field.GenerateField();
+    AddItem(time_lost::objects::Sword(10,{10,10}));
+    AddItem(time_lost::objects::Sword(10,{0,0}));
+    AddItem(time_lost::objects::Sword(10,{7,13}));
     bool no_start = true;
     for(objects::FieldIterator it(field); !it(); it++){
         if((*it).GetType() == types::CellType::kEntry){
@@ -170,32 +176,36 @@ void TimeLost::Start(){
     //
 }
 
-bool TimeLost::IsWin(){
+void TimeLost::Win(){
     if(field.GetCell(player.GetPosition()).GetType() == types::CellType::kExit)
-        return true;
-    return false;
+        SetTurn(std::make_unique<turns::WinTurn>(*this));
 }
 
-bool TimeLost::IsLose(){
-    return (player.GetHealth() <= 0);
+void TimeLost::Lose(){
+    if (player.GetHealth() <= 0)
+        SetTurn(std::make_unique<turns::LoseTurn>(*this));
 }
 
 void TimeLost::ExecuteCommand(Command& cmd){
-    if(IsWin() || IsLose() || IsPause()) return;
-    if(turn->IsPlayerTurn()){
+    if(turn->GetTurn() != types::Turns::kEnemy ||
+       turn->GetTurn() == types::Turns::kStartMenu){
         if(cmd.IsEmpty()) return;
         cmd.Execute(*this);
     }
-    NextTurn();
+    if(turn->GetTurn() != types::Turns::kStartMenu) NextTurn();
+    Lose();
+    Win();
 }
 
 void TimeLost::ExecuteCommand(Command&& cmd){
-    if(IsWin() || IsLose() || IsPause()) return;
-    if(turn->IsPlayerTurn()){
+    if(turn->GetTurn() != types::Turns::kEnemy ||
+       turn->GetTurn() == types::Turns::kStartMenu){
         if(cmd.IsEmpty()) return;
         cmd.Execute(*this);
     }
-    NextTurn();
+    if(turn->GetTurn() != types::Turns::kStartMenu) NextTurn();
+    Lose();
+    Win();
 }
 
 void TimeLost::EnemysAct(){
@@ -216,7 +226,35 @@ void TimeLost::NextTurn(){
 }
 
 bool TimeLost::IsPause(){
-    return turn->IsPause();
+    return turn->GetTurn() == types::Turns::kPause;
+}
+
+types::Turns::Turn TimeLost::GetTurn(){
+    return turn->GetTurn();
+}
+
+void TimeLost::Save(){
+
+}
+
+void TimeLost::Load(){
+
+}
+
+void TimeLost::MenuUp(){
+    if(turn->GetTurn() == types::Turns::kStartMenu) menu.SelectUp();
+}
+
+void TimeLost::MenuDown(){
+    if(turn->GetTurn() == types::Turns::kStartMenu) menu.SelectDown();
+}
+
+void TimeLost::MenuExecute(){
+    if(turn->GetTurn() == types::Turns::kStartMenu) menu.Execute(*this);
+}
+
+const Menu& TimeLost::GetMenu(){
+    return menu;
 }
 
 } // logic

@@ -16,6 +16,7 @@ namespace time_lost_gui{
         textures.emplace("enemy_wait", LoadTexture("resources/enemy_wait.png"));
         textures.emplace("enemy_fly", LoadTexture("resources/enemy_fly.png"));
         fonts.emplace("cour", LoadFont("resources/cour.ttf"));
+        fonts.emplace("menu", LoadFont("resources/quick_hand.ttf"));
     }
 
     sf::Texture ResourcesLoader::LoadTexture(std::string filename){

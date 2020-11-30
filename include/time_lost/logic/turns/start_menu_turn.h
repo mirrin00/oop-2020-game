@@ -1,5 +1,5 @@
-#ifndef PAUSE_TURN_H
-#define PAUSE_TURN_H
+#ifndef START_MENU_TURN_H
+#define START_MENU_TURN_H
 
 #include "../turn_interface.h"
 #include "player_turn.h"
@@ -11,9 +11,9 @@ namespace logic{
 namespace turns
 {
     
-class PauseTurn: public TurnInterface{
+class StartMenuTurn: public TurnInterface{
 public:
-    PauseTurn(TimeLost& game);
+    StartMenuTurn(TimeLost& game);
 
     void Pause() override;
 
@@ -27,4 +27,4 @@ public:
 } // time_lost
 
 
-#endif // PAUSE_TURN_H
+#endif // START_MENU_TURN_H

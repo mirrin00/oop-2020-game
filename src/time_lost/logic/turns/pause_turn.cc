@@ -17,12 +17,8 @@ void PauseTurn::Pause(){
 
 void PauseTurn::NextTurn(){}
 
-bool PauseTurn::IsPause(){
-    return true;
-}
-
-bool PauseTurn::IsPlayerTurn(){
-    return false;
+types::Turns::Turn PauseTurn::GetTurn(){
+    return types::Turns::kPause;
 }
 
 } // turns
