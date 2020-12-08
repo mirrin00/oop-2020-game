@@ -7,11 +7,13 @@ namespace time_lost{
 
 namespace types{
 
-class TimeLostException: std::exception{
+class TimeLostException{
 private:
     std::string msg;
 public:
     TimeLostException(const std::string message);
+
+    TimeLostException(const std::string filename, int line, const std::string message);
 
     ~TimeLostException();
 

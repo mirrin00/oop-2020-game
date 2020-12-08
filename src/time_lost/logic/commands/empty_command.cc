@@ -6,9 +6,7 @@ namespace logic{
 
 namespace commands{
 
-void EmptyCommand::Execute(TimeLost& game){
-    game.Pause();
-}
+void EmptyCommand::Execute(TimeLost& game){}
 
 bool EmptyCommand::IsEmpty(){
     return true;

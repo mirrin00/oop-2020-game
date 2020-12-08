@@ -32,6 +32,10 @@ int Sword::Attack(){
     return 0;
 }
 
+logic::saves::SwordSave Sword::SaveSword(){
+    return logic::saves::SwordSave(pos, damage, IsOnField(), IsCanUse());
+}
+
 void Sword::Use(Player& player){
     player.ChangeWeapon(*this);
 }
@@ -41,7 +45,15 @@ std::unique_ptr<Weapon> Sword::CloneWeapon() const{
 }
 
 std::shared_ptr<Item> Sword::CloneItem() const{
-    return std::make_unique<Sword>(*this);
+    return std::make_shared<Sword>(*this);
+}
+
+std::shared_ptr<logic::saves::WeaponSaveInterface> Sword::SaveWeapon(){
+    return std::make_shared<logic::saves::SwordSave>(pos, damage, IsOnField(), IsCanUse());
+}
+
+std::shared_ptr<logic::saves::ItemSaveInterface> Sword::SaveItem(){
+    return std::make_shared<logic::saves::SwordSave>(pos, damage, IsOnField(), IsCanUse());
 }
 
 std::ostream& operator<<(std::ostream& os, const Sword& sword){

@@ -92,6 +92,10 @@ void BehaviorFind::Do(objects::Enemy& enemy, objects::Field& field, objects::Pla
     }
 }
 
+SaveType::Type BehaviorFind::GetSaveType(){
+    return SaveType::kEnemyFind;
+}
+
 } // types
     
 } // namespace time_lost

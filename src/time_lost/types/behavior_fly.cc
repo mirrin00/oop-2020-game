@@ -93,6 +93,11 @@ void BehaviorFly::Do(objects::Enemy& enemy, objects::Field& field, objects::Play
     }
 }
 
+SaveType::Type BehaviorFly::GetSaveType(){
+    return SaveType::kEnemyFly;
+}
+
+
 } // types
     
 } // namespace time_lost

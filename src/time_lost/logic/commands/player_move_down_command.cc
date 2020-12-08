@@ -10,6 +10,7 @@ void PlayerMoveDownCommand::Execute(TimeLost& game){
     if(game.GetTurn() == types::Turns::kStartMenu) game.MenuDown();
     if(game.GetTurn() != types::Turns::kPlayer) return;
     game.PlayerMove({0,1});
+    game.NextTurn();
 }
 
 bool PlayerMoveDownCommand::IsEmpty(){

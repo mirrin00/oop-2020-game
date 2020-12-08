@@ -16,7 +16,7 @@ NORMAL = \033[0m
 all: $(TESTS)
 	@echo "$(COLOR)Running tests...$(NORMAL)"
 	-./$(TESTS) 
-	rm -rf *.testing
+	rm -rf *.testing *.save
 
 clean:
 	@echo "$(COLOR)Cleanning...$(NORMAL)"

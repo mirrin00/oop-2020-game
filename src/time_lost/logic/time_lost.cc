@@ -3,11 +3,17 @@
 #include "time_lost/logic/turns/start_menu_turn.h"
 #include "time_lost/logic/turns/win_turn.h"
 #include "time_lost/logic/turns/lose_turn.h"
+#include "time_lost/logic/turns/pause_turn.h"
+#include "time_lost/logic/save_reader.h"
+#include "time_lost/logic/save_writer.h"
+#include "time_lost/logic/saves/time_lost_save.h"
 
 //FIXME: Delete includes
 #include "time_lost/types/behavior_find.h"
 #include "time_lost/types/behavior_wait.h"
 #include "time_lost/types/behavior_fly.h"
+#include "time_lost/objects/enemy_type.h"
+
 
 namespace time_lost{
 
@@ -19,6 +25,26 @@ field(height, width)
 {
     turn = std::make_unique<turns::StartMenuTurn>(*this);
     menu = Menu::GetStartMenu();
+}
+
+TimeLost::TimeLost(const TimeLost& time_lost):
+player(time_lost.player),
+field(time_lost.field)
+{
+    step_change = time_lost.step_change;
+    items = time_lost.items;
+    enemys = time_lost.enemys;
+}
+
+TimeLost& TimeLost::operator=(const TimeLost& time_lost)
+{
+    if(&time_lost == this) return *this;
+    player = time_lost.player;
+    field = time_lost.field;
+    step_change = time_lost.step_change;
+    items = time_lost.items;
+    enemys = time_lost.enemys;
+    return *this;
 }
 
 TimeLost::~TimeLost(){}
@@ -126,9 +152,6 @@ void TimeLost::Start(){
     step_change = STEP_CHANGE;
     player = objects::Player(10);
     field.GenerateField();
-    AddItem(time_lost::objects::Sword(10,{10,10}));
-    AddItem(time_lost::objects::Sword(10,{0,0}));
-    AddItem(time_lost::objects::Sword(10,{7,13}));
     bool no_start = true;
     for(objects::FieldIterator it(field); !it(); it++){
         if((*it).GetType() == types::CellType::kEntry){
@@ -139,12 +162,15 @@ void TimeLost::Start(){
     if(no_start) throw types::TimeLostException("No start point on map\n");
     //FIXME: DELETE THIS
     if(field.GetHeight() <= 2*LOCATION_SIZE || field.GetWidth() <= 2*LOCATION_SIZE) return;
+    AddItem(time_lost::objects::Sword(10,{10,10}));
+    AddItem(time_lost::objects::Sword(10,{0,0}));
+    AddItem(time_lost::objects::Sword(10,{7,13}));
     types::Position pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     while(field.GetCell(pos).GetType() == types::CellType::kBlock || abs(pos.x - player.GetPosition().x) <LOCATION_SIZE 
             || abs(pos.y - player.GetPosition().y) <LOCATION_SIZE){
         pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     }
-    enemys.push_back(std::make_shared<objects::EnemyType<types::BehaviorFind>>(13, pos));
+    enemys.emplace_back(std::make_shared<objects::EnemyType<types::BehaviorFind>>(13, pos));
     bool isEmpty = true;
     pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     do{
@@ -158,7 +184,7 @@ void TimeLost::Start(){
                 isEmpty = false;
         if(!isEmpty) pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     }while(!isEmpty);
-    enemys.push_back(std::make_shared<objects::EnemyType<types::BehaviorWait>>(13, pos));
+    enemys.emplace_back(std::make_shared<objects::EnemyType<types::BehaviorWait>>(13, pos));
     pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     isEmpty = true;
     do{
@@ -172,7 +198,7 @@ void TimeLost::Start(){
                 isEmpty = false;
         if(!isEmpty) pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     }while(!isEmpty);
-    enemys.push_back(std::make_shared<objects::EnemyType<types::BehaviorFly>>(13, pos));
+    enemys.emplace_back(std::make_shared<objects::EnemyType<types::BehaviorFly>>(13, pos));
     //
 }
 
@@ -187,23 +213,15 @@ void TimeLost::Lose(){
 }
 
 void TimeLost::ExecuteCommand(Command& cmd){
-    if(turn->GetTurn() != types::Turns::kEnemy ||
-       turn->GetTurn() == types::Turns::kStartMenu){
-        if(cmd.IsEmpty()) return;
-        cmd.Execute(*this);
-    }
-    if(turn->GetTurn() != types::Turns::kStartMenu) NextTurn();
+    cmd.Execute(*this);
+    if(!cmd.IsEmpty()) NextTurn();
     Lose();
     Win();
 }
 
 void TimeLost::ExecuteCommand(Command&& cmd){
-    if(turn->GetTurn() != types::Turns::kEnemy ||
-       turn->GetTurn() == types::Turns::kStartMenu){
-        if(cmd.IsEmpty()) return;
-        cmd.Execute(*this);
-    }
-    if(turn->GetTurn() != types::Turns::kStartMenu) NextTurn();
+    cmd.Execute(*this);
+    if(!cmd.IsEmpty()) NextTurn();
     Lose();
     Win();
 }
@@ -234,11 +252,16 @@ types::Turns::Turn TimeLost::GetTurn(){
 }
 
 void TimeLost::Save(){
-
+    SaveWriter sw("time_lost.save");
+    sw.WriteSave(saves::TimeLostSave(player,field,items,enemys,step_change));
 }
 
 void TimeLost::Load(){
-
+    SaveReader sr("time_lost.save");
+    saves::TimeLostSave save = sr.ReadSave();
+    *this = save.LoadTimeLost();
+    //FIXME: Change States!
+    turn = std::make_unique<turns::PauseTurn>(*this);
 }
 
 void TimeLost::MenuUp(){

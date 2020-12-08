@@ -8,7 +8,8 @@ OBJ = $(TMP)/player_move_down_command.o \
 	  $(TMP)/player_interact_command.o \
 	  $(TMP)/player_attack_command.o \
 	  $(TMP)/pause_command.o \
-	  $(TMP)/empty_command.o 
+	  $(TMP)/empty_command.o \
+	  $(TMP)/save_command.o
 COLOR = \033[0;32m
 NORMAL = \033[0m
 

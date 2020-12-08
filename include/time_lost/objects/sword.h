@@ -5,6 +5,16 @@
 #include "weapon.h"
 
 namespace time_lost{
+namespace logic{
+namespace saves{
+class SwordSave;
+}
+}
+}
+
+#include "../logic/saves/sword_save.h"
+
+namespace time_lost{
 
 namespace objects{
 
@@ -24,6 +34,8 @@ public:
 
     int Attack();
 
+    logic::saves::SwordSave SaveSword();
+
     virtual void Use(Player& player) override;
 
     virtual std::unique_ptr<Weapon> CloneWeapon() const override;
@@ -31,6 +43,10 @@ public:
     virtual std::shared_ptr<Item> CloneItem() const override;
 
     virtual std::ostream& print(std::ostream& os) const override;
+
+    virtual std::shared_ptr<logic::saves::WeaponSaveInterface> SaveWeapon() override;
+
+    virtual std::shared_ptr<logic::saves::ItemSaveInterface> SaveItem() override;
 
     friend std::ostream& operator<<(std::ostream& os, const Sword& sword);
 };

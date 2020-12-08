@@ -5,6 +5,9 @@ namespace time_lost{
 namespace logic{
 class Command;
 class TurnInterface;
+namespace saves{
+class TimeLostSave;
+}
 }
 }
 
@@ -14,12 +17,13 @@ class TurnInterface;
 #include "../objects/health_potion.h"
 #include "../objects/field_iterator.h"
 #include "../objects/enemy.h"
-#include "../objects/enemy_type.h"
 #include "command.h"
 #include "logger.h"
 #include "turn_interface.h"
 #include "menu.h"
 #include <vector>
+
+#include "../logic/saves/time_lost_save.h"
 
 #define STEP_CHANGE 11
 
@@ -44,6 +48,10 @@ protected:
     Menu menu;
 public:
     TimeLost(int height, int width);
+
+    TimeLost(const TimeLost& time_lost);
+
+    TimeLost& operator=(const TimeLost& time_lost);
 
     ~TimeLost();
 
@@ -98,6 +106,8 @@ public:
     void MenuExecute();
 
     const Menu& GetMenu();
+
+    friend logic::saves::TimeLostSave;
 };
 
 } // logic

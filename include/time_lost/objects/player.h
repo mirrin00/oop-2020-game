@@ -15,6 +15,20 @@ class Item;
 #include "hands.h"
 #include "enemy.h"
 
+namespace time_lost{
+namespace objects
+{
+class Enemy;   
+}
+namespace logic{
+namespace saves{
+class PlayerSave;
+}
+}
+}
+
+#include "../logic/saves/player_save.h"
+
 namespace time_lost {
 
 namespace objects {
@@ -28,6 +42,8 @@ protected:
     virtual void Notify() override;
 public:
     Player(int start_health, types::Position start_pos = {0,0});
+
+    Player(const Player& player);
 
     Player& operator=(const Player& player);
 
@@ -48,6 +64,8 @@ public:
     Player& operator+=(Enemy& enemy);
 
     Player& operator-=(Enemy& enemy);
+
+    logic::saves::PlayerSave SavePlayer();
 
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
 };

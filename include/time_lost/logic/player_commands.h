@@ -10,5 +10,6 @@
 #include "commands/player_interact_command.h"
 #include "commands/player_attack_command.h"
 #include "commands/pause_command.h"
+#include "commands/save_command.h"
 
 #endif // PLAYER_COMMANDS_H

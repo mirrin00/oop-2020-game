@@ -4,6 +4,16 @@
 #include "item.h"
 
 namespace time_lost{
+namespace logic{
+namespace saves{
+class HealthPotionSave;
+}
+}
+}
+
+#include "../logic/saves/health_potion_save.h"
+
+namespace time_lost{
 
 namespace objects{
 
@@ -27,6 +37,10 @@ public:
     virtual void Use(Player& player) override;
 
     virtual std::shared_ptr<Item> CloneItem() const override;
+
+    std::shared_ptr<logic::saves::HealthPotionSave> SaveHealthPotion();
+
+    virtual std::shared_ptr<logic::saves::ItemSaveInterface> SaveItem() override;
 
     friend std::ostream& operator<<(std::ostream& os, const HealthPotion& hp);
 };

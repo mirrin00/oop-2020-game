@@ -39,7 +39,15 @@ void HealthPotion::Use(Player& player){
 }
 
 std::shared_ptr<Item> HealthPotion::CloneItem() const{
-    return std::make_unique<HealthPotion>(*this);
+    return std::make_shared<HealthPotion>(*this);
+}
+
+std::shared_ptr<logic::saves::HealthPotionSave> HealthPotion::SaveHealthPotion(){
+    return std::make_shared<logic::saves::HealthPotionSave>(pos, health_change, IsOnField(), IsCanUse());
+}
+
+std::shared_ptr<logic::saves::ItemSaveInterface> HealthPotion::SaveItem(){
+    return std::make_shared<logic::saves::HealthPotionSave>(pos, health_change, IsOnField(), IsCanUse());
 }
 
 std::ostream& operator<<(std::ostream& os, const HealthPotion& hp){

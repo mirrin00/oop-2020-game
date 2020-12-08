@@ -7,6 +7,16 @@
 #include "../types/time_lost_exception.h"
 #include "../logic/publisher.h"
 
+namespace time_lost{
+namespace logic{
+namespace saves{
+class FieldSave;
+}
+}
+}
+
+#include "../logic/saves/field_save.h"
+
 #include <iostream>
 #include <memory>
 
@@ -47,10 +57,12 @@ public:
 
     types::Position GetNewPosition(types::Position pos);
 
-    // TODO: loading cells-map from some class called "Map"
+    logic::saves::FieldSave SaveField();
 
     
     friend class FieldIterator;
+
+    friend class logic::saves::FieldSave;
 
     friend std::ostream& operator<<(std::ostream& os, const Field& field);
 };

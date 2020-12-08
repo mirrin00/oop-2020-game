@@ -11,8 +11,17 @@ Essence(start_health, start_pos)
     weapon = Hands().CloneWeapon();
 }
 
+Player::Player(const Player& player):
+Essence(player.health,player.pos)
+{
+    coins = player.coins;
+    weapon = player.weapon->CloneWeapon();
+}
+
 Player& Player::operator=(const Player& player){
     if(&player == this) return *this;
+    pos = player.pos;
+    health = player.health;
     coins = player.coins;
     weapon = player.weapon->CloneWeapon();
     return *this;
@@ -41,6 +50,10 @@ void Player::ChangeWeapon(Weapon& new_weapon){
 // TODO: Enemy& enemy, weapon must interact with enemy
 int Player::Attack(){
     return weapon->Attack();
+}
+
+logic::saves::PlayerSave Player::SavePlayer(){
+    return logic::saves::PlayerSave(pos,coins,health,*weapon);
 }
 
 Player& Player::operator+=(Item& item){

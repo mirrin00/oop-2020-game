@@ -117,7 +117,7 @@ void Field::GenerateField(){
         }while(GetCell(start_pos).GetType() == types::CellType::kBlock);
         do{
             end_pos = {rand() % max_w, rand() % max_h};
-        }while(GetCell(start_pos).GetType() == types::CellType::kBlock ||
+        }while(GetCell(end_pos).GetType() == types::CellType::kBlock ||
                 end_pos == start_pos);
         GetCell(start_pos).SetType(types::CellType::kEntry);
         GetCell(end_pos).SetType(types::CellType::kExit);
@@ -188,6 +188,10 @@ types::Position Field::GetNewPosition(types::Position pos){
     if(index == -1) return pos;
     return {(index % width) * LOCATION_SIZE + pos.x % LOCATION_SIZE ,
             (index / width) * LOCATION_SIZE + pos.y % LOCATION_SIZE};
+}
+
+logic::saves::FieldSave Field::SaveField(){
+    return logic::saves::FieldSave(*this);
 }
 
 std::ostream& operator<<(std::ostream& os, const Field& field){

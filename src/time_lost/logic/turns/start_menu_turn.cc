@@ -13,9 +13,7 @@ TurnInterface(game)
 
 void StartMenuTurn::Pause(){}
 
-void StartMenuTurn::NextTurn(){
-    game.SetTurn(std::make_unique<PlayerTurn>(game));
-}
+void StartMenuTurn::NextTurn(){}
 
 types::Turns::Turn StartMenuTurn::GetTurn(){
     return types::Turns::kStartMenu;

@@ -60,6 +60,11 @@ void BehaviorWait::Do(objects::Enemy& enemy, objects::Field& field, objects::Pla
     }
 }
 
+SaveType::Type BehaviorWait::GetSaveType(){
+    return SaveType::kEnemyWait;
+}
+
+
 } // types
     
 } // namespace time_lost

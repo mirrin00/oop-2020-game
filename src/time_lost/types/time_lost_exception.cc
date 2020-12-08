@@ -9,6 +9,11 @@ msg(message)
 {
 }
 
+TimeLostException::TimeLostException(const std::string filename, int line, const std::string message){
+    msg = "Exception in file " + filename + " on line "
+         + std::to_string(line) + ". Message: " + message;
+}
+
 TimeLostException::~TimeLostException(){}
 
 const char* TimeLostException::what() const noexcept{

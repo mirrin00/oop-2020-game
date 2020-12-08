@@ -9,6 +9,7 @@ namespace commands{
 void PlayerAttackCommand::Execute(TimeLost& game){
     if(game.GetTurn() != types::Turns::kPlayer) return;
     game.PlayerAttack();
+    game.NextTurn();
 }
 
 bool PlayerAttackCommand::IsEmpty(){

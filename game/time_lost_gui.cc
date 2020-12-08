@@ -222,6 +222,10 @@ namespace time_lost_gui{
                 if(event.key.code == sf::Keyboard::Escape){
                     cmd = std::make_unique<time_lost::logic::commands::PauseCommand>();
                 }
+
+                if(event.key.code == sf::Keyboard::Q){
+                    cmd = std::make_unique<time_lost::logic::commands::SaveCommand>();
+                }
             }
         }
     }

@@ -39,7 +39,15 @@ void Coin::Use(Player& player){
 }
 
 std::shared_ptr<Item> Coin::CloneItem() const{
-    return std::make_unique<Coin>(*this);
+    return std::make_shared<Coin>(*this);
+}
+
+std::shared_ptr<logic::saves::CoinSave> Coin::SaveCoin(){
+    return std::make_shared<logic::saves::CoinSave>(pos, count, IsOnField(), IsCanUse());
+}
+
+std::shared_ptr<logic::saves::ItemSaveInterface> Coin::SaveItem(){
+    return std::make_shared<logic::saves::CoinSave>(pos, count, IsOnField(), IsCanUse());
 }
 
 std::ostream& operator<<(std::ostream& os, const Coin& coin){

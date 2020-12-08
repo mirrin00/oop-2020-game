@@ -18,5 +18,9 @@ std::ostream& Hands::print(std::ostream& os) const{
     return os;
 }
 
+std::shared_ptr<logic::saves::WeaponSaveInterface> Hands::SaveWeapon(){
+    return std::make_shared<logic::saves::HandsSave>();
+}
+
 } // objects
 } // time_lost

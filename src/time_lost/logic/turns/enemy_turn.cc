@@ -14,6 +14,7 @@ TurnInterface(game)
 void EnemyTurn::Pause(){}
 
 void EnemyTurn::NextTurn(){
+    //if(game.GetTurn() != types::Turns::kPlayer) return;
     game.EnemysAct();
     game.SetTurn(std::make_unique<PlayerTurn>(game));
 }

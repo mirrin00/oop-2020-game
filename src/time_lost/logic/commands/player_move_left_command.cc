@@ -9,6 +9,7 @@ namespace commands{
 void PlayerMoveLeftCommand::Execute(TimeLost& game){
     if(game.GetTurn() != types::Turns::kPlayer) return;
     game.PlayerMove({-1,0});
+    game.NextTurn();
 }
 
 bool PlayerMoveLeftCommand::IsEmpty(){

@@ -6,10 +6,10 @@ namespace time_lost{
 namespace types{
 
 enum CellType{
-    kEmpty,
-    kBlock,
-    kEntry,
-    kExit,
+    kEmpty = 0,
+    kBlock = 1,
+    kEntry = 2,
+    kExit = 3,
 };
 
 } // types

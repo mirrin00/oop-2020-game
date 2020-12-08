@@ -10,6 +10,7 @@ void PlayerInteractCommand::Execute(TimeLost& game){
     if(game.GetTurn() == types::Turns::kStartMenu) game.MenuExecute();
     if(game.GetTurn() != types::Turns::kPlayer) return;
     game.PlayerInteract();
+    game.NextTurn();
 }
 
 bool PlayerInteractCommand::IsEmpty(){
