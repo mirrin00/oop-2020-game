@@ -131,6 +131,7 @@ std::istream& operator>>(std::istream& is, FieldSave& save){
     int type;
     is.read((char*)&save._width, sizeof(int));
     is.read((char*)&save._height, sizeof(int));
+    if(save._height <= 0 || save._width <= 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
     save._locs = std::make_unique<objects::Location[]>(save._width*save._height);
     save._old_layout = std::make_unique<std::unique_ptr<int[]>[]>(save._height);
     save._new_layout = std::make_unique<std::unique_ptr<int[]>[]>(save._height);
@@ -138,27 +139,44 @@ std::istream& operator>>(std::istream& is, FieldSave& save){
         save._old_layout[i] = std::make_unique<int[]>(save._width);
         save._new_layout[i] = std::make_unique<int[]>(save._width);
     }
+    int exit_count = 0;
     for(int i = 0; i < save._width*save._height; i++){
         for(int row = 0; row < LOCATION_SIZE; row++){
             for(int col = 0; col < LOCATION_SIZE; col++){
                 is.read((char*)&type, sizeof(int));
-                types::CellType cell;
-                if(type == types::CellType::kBlock) cell = types::CellType::kBlock;
-                if(type == types::CellType::kEmpty) cell = types::CellType::kEmpty;
-                if(type == types::CellType::kEntry) cell = types::CellType::kEntry;
-                if(type == types::CellType::kExit) cell = types::CellType::kExit;
-                save._locs[i].GetCell({col,row}).SetType(cell);
+                switch(type){
+                    case types::CellType::kBlock:
+                        save._locs[i].GetCell({col,row}).SetType(types::CellType::kBlock);
+                        break;
+                    case types::CellType::kEmpty:
+                        save._locs[i].GetCell({col,row}).SetType(types::CellType::kEmpty);
+                        break;
+                    case types::CellType::kEntry:
+                        save._locs[i].GetCell({col,row}).SetType(types::CellType::kEntry);
+                        break;
+                    case types::CellType::kExit:
+                        save._locs[i].GetCell({col,row}).SetType(types::CellType::kExit);
+                        exit_count++;
+                        if(exit_count > 1) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
+                        break;
+                    default:
+                        throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
+                }
             }
         }
     }
+    int max = save._height * save._width;
     for(int i = 0; i < save._height;i++){
         for(int j=0; j < save._width; j++){
             is.read((char*)&type, sizeof(int));
+            if(type >= max || type < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
             save._new_layout[i][j] = type;
             is.read((char*)&type, sizeof(int));
-            type = save._old_layout[i][j] = type;
+            if(type >= max || type < -1) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
+            save._old_layout[i][j] = type;
         }
     }
+    return is;
 }
 
 } // saves

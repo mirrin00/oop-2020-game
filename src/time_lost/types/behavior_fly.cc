@@ -93,6 +93,10 @@ void BehaviorFly::Do(objects::Enemy& enemy, objects::Field& field, objects::Play
     }
 }
 
+void BehaviorFly::Attack(objects::Player& player){
+    player.ChangeHealth(-2);
+}
+
 SaveType::Type BehaviorFly::GetSaveType(){
     return SaveType::kEnemyFly;
 }

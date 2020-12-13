@@ -92,6 +92,10 @@ void BehaviorFind::Do(objects::Enemy& enemy, objects::Field& field, objects::Pla
     }
 }
 
+void BehaviorFind::Attack(objects::Player& player){
+    player.ChangeHealth(-1);
+}
+
 SaveType::Type BehaviorFind::GetSaveType(){
     return SaveType::kEnemyFind;
 }

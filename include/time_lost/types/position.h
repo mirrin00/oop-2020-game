@@ -13,6 +13,10 @@ struct Position{
 
     Position(int start_x = 0, int start_y = 0);
 
+    Position(const Position& pos);
+
+    Position& operator=(const Position& pos);
+
     int SumAbs();
 };
 

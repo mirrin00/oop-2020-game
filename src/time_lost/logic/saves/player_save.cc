@@ -10,16 +10,14 @@ namespace logic{
 namespace saves{
 
 PlayerSave::PlayerSave(types::Position pos, int coins, int health, objects::Weapon& weapon):
-_pos(pos),
-_coins(coins),
-_health(health),
+data{pos, coins, health},
 _weapon(weapon.SaveWeapon())
 {
 }
 
 objects::Player PlayerSave::LoadPlayer(){
-    objects::Player player(_health,_pos);
-    player.AddCoins(_coins);
+    objects::Player player(data.health,data.pos);
+    player.AddCoins(data.coins);
     player.ChangeWeapon(*(_weapon->LoadWeapon()));
     return player;
 }
@@ -27,16 +25,15 @@ objects::Player PlayerSave::LoadPlayer(){
 std::ostream& operator<<(std::ostream& os, PlayerSave& save){
     int type = types::SaveType::kPlayer;
     os.write((char*)&type, sizeof(int));
-    //auto weapon = save._weapon;
-    //save._weapon = nullptr;
-    os.write((char*)&save, offsetof(PlayerSave, _weapon));
+    os.write((char*)&save.data, sizeof(PlayerSave::Data));
     save._weapon->WriteWeapon(os);
-    //save._weapon = weapon;
     return os;
 }
 
 std::istream& operator>>(std::istream& is, PlayerSave& save){
-    is.read((char*)&save, offsetof(PlayerSave, _weapon));
+    is.read((char*)&save.data, sizeof(PlayerSave::Data));
+    if(save.data.pos.x < 0 || save.data.pos.y < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
+    if(save.data.coins < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
     int type;
     is.read((char*)&type,sizeof(int));
     switch(type){

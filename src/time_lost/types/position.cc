@@ -10,6 +10,18 @@ y(start_y)
 {
 }
 
+Position::Position(const Position& pos){
+    x = pos.x;
+    y = pos.y;
+}
+
+Position& Position::operator=(const Position& pos){
+    if(&pos == this) return *this;
+    x = pos.x;
+    y = pos.y;
+    return *this;
+}
+
 int Position::SumAbs(){
     return std::abs(x) + std::abs(y);
 }

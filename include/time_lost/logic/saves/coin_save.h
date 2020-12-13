@@ -20,11 +20,15 @@ namespace saves{
 
 class CoinSave: public ItemSaveInterface{
 private:
-    types::Position _pos;
-    
-    int _count;
+    struct Data{
+        types::Position pos;
+        
+        int count;
 
-    bool _on_field, _can_use;
+        bool on_field, can_use;
+    };
+
+    Data data;
 public:
     CoinSave() = default;
 

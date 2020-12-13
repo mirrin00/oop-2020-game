@@ -64,6 +64,9 @@ SaveType::Type BehaviorWait::GetSaveType(){
     return SaveType::kEnemyWait;
 }
 
+void BehaviorWait::Attack(objects::Player& player){
+    player.ChangeHealth(-1);
+}
 
 } // types
     

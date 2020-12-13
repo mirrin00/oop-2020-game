@@ -100,6 +100,7 @@ std::istream& operator>>(std::istream& is, TimeLostSave& save){
     if(type != types::SaveType::kTimeLost) throw types::TimeLostException((std::string(__FILE__) + ":" + std::to_string(__LINE__)) + "Reading save: Bad Save");
     is.read((char*)&type, sizeof(int));
     save._step_change = type;
+    if(save._step_change <= 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
     is.read((char*)&type, sizeof(int));
     if(type != types::SaveType::kPlayer) throw types::TimeLostException((std::string(__FILE__) + ":" + std::to_string(__LINE__)) + "Reading save: Bad Save");
     is >> save._player;
@@ -108,6 +109,7 @@ std::istream& operator>>(std::istream& is, TimeLostSave& save){
     is >> save._field;
     int size;
     is.read((char*)&size, sizeof(int));
+    if(size < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
     save._items.reserve(size);
     for(int i=0;i<size;i++){
         is.read((char*)&type, sizeof(int));
@@ -137,7 +139,7 @@ std::istream& operator>>(std::istream& is, TimeLostSave& save){
                 throw types::TimeLostException((std::string(__FILE__) + ":" + std::to_string(__LINE__)) + "Reading save: Bad Save");
         }
     }
-    size;
+    if(size < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
     is.read((char*)&size, sizeof(int));
     save._enemys.reserve(size);
     for(int i=0;i<size;i++){

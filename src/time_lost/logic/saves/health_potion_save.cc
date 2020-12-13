@@ -7,19 +7,16 @@ namespace logic{
 namespace saves{
 
 HealthPotionSave::HealthPotionSave(types::Position pos, int health_change, bool on_field, bool can_use):
-_pos(pos),
-_health_change(health_change),
-_on_field(on_field),
-_can_use(can_use)
+data{pos, health_change, on_field, can_use}
 {
 }
 
 HealthPotionSave::~HealthPotionSave(){}
 
 objects::HealthPotion HealthPotionSave::LoadHealthPotion(){
-    objects::HealthPotion HealthPotion(_health_change, _pos);
-    HealthPotion.SetCanUse(_can_use);
-    HealthPotion.SetOnField(_on_field);
+    objects::HealthPotion HealthPotion(data.health_change, data.pos);
+    HealthPotion.SetCanUse(data.can_use);
+    HealthPotion.SetOnField(data.on_field);
     return HealthPotion;
 }
 
@@ -34,14 +31,14 @@ void HealthPotionSave::WriteItem(std::ostream& os){
 std::ostream& operator<<(std::ostream& os, HealthPotionSave& save){
     int type = types::SaveType::kHealthPotion;
     os.write((char*)&type, sizeof(int));
-    os.write((char*)&save + offsetof(HealthPotionSave, _pos), offsetof(HealthPotionSave, _can_use)
-                 - offsetof(HealthPotionSave, _pos) + sizeof(bool));
+    os.write((char*)&save.data, sizeof(HealthPotionSave::Data));
     return os;
 }
 
 std::istream& operator>>(std::istream& is, HealthPotionSave& save){
-    is.read((char*)&save + offsetof(HealthPotionSave, _pos), offsetof(HealthPotionSave, _can_use)
-                 - offsetof(HealthPotionSave, _pos) + sizeof(bool));
+    is.read((char*)&save.data, sizeof(HealthPotionSave::Data));
+    if(save.data.pos.x < 0 || save.data.pos.y < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
+    if(save.data.health_change <= 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
     return is;
 }
 

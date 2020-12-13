@@ -21,11 +21,15 @@ namespace saves{
 
 class PlayerSave{
 private:
-    types::Position _pos;
+    struct Data{
+        types::Position pos;
 
-    int _coins;
+        int coins;
 
-    int _health;
+        int health;
+    };
+
+    Data data;
 
     std::shared_ptr<WeaponSaveInterface> _weapon;
 

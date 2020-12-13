@@ -17,6 +17,8 @@ class BehaviorFly{
 public:
     static void Do(objects::Enemy& enemy, objects::Field& field, objects::Player& player);
 
+    static void Attack(objects::Player& player);
+
     static SaveType::Type GetSaveType();
 };
 

@@ -20,11 +20,15 @@ namespace saves{
 
 class EnemySave{
 private:
-    types::Position _pos;
+    struct Data{
+        types::Position pos;
 
-    int _health;
+        int health;
 
-    types::SaveType::Type _type;
+        types::SaveType::Type type;
+    };
+
+    Data data;
 public:
     EnemySave() = default;
 
@@ -34,7 +38,7 @@ public:
 
     template<typename Behavior>
     std::shared_ptr<objects::Enemy> LoadEnemy(){
-        objects::EnemyType<Behavior> enemy(_health, _pos);
+        objects::EnemyType<Behavior> enemy(data.health, data.pos);
         return std::make_shared<objects::EnemyType<Behavior>>(enemy);
     }
 

@@ -20,11 +20,15 @@ namespace saves{
 
 class HealthPotionSave: public ItemSaveInterface{
 private:
-    types::Position _pos;
-    
-    int _health_change;
+    struct Data{
+        types::Position pos;
+        
+        int health_change;
 
-    bool _on_field, _can_use;
+        bool on_field, can_use;
+    };
+
+    Data data;
 public:
     HealthPotionSave() = default;
 

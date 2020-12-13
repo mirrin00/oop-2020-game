@@ -22,11 +22,15 @@ namespace saves{
 
 class SwordSave: public WeaponSaveInterface, public ItemSaveInterface{
 private:
-    types::Position _pos;
-    
-    int _damage;
+    struct Data{
+        types::Position pos;
+        
+        int damage;
 
-    bool _on_field, _can_use;
+        bool on_field, can_use;
+    };
+
+    Data data;
 public:
     SwordSave() = default;
 

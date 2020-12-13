@@ -7,17 +7,14 @@ namespace logic{
 namespace saves{
 
 SwordSave::SwordSave(types::Position pos, int damage, bool on_field, bool can_use):
-_pos(pos),
-_damage(damage),
-_on_field(on_field),
-_can_use(can_use)
+data{pos, damage, on_field, can_use}
 {
 }
 
 objects::Sword SwordSave::LoadSword(){
-    objects::Sword sword(_damage, _pos);
-    sword.SetCanUse(_can_use);
-    sword.SetOnField(_on_field);
+    objects::Sword sword(data.damage, data.pos);
+    sword.SetCanUse(data.can_use);
+    sword.SetOnField(data.on_field);
     return sword;
 }
 
@@ -40,14 +37,14 @@ void SwordSave::WriteWeapon(std::ostream& os){
 std::ostream& operator<<(std::ostream& os, SwordSave& save){
     int type = types::SaveType::kSword;
     os.write((char*)&type, sizeof(int));
-    os.write((char*)&save + offsetof(SwordSave, _pos), offsetof(SwordSave, _can_use)
-                 - offsetof(SwordSave, _pos) + sizeof(bool));
+    os.write((char*)&save.data, sizeof(SwordSave::Data));
     return os;
 }
 
 std::istream& operator>>(std::istream& is, SwordSave& save){
-    is.read((char*)&save + offsetof(SwordSave, _pos), offsetof(SwordSave, _can_use) 
-                - offsetof(SwordSave, _pos) + sizeof(bool));
+    is.read((char*)&save.data, sizeof(SwordSave::Data));
+    if(save.data.pos.x < 0 || save.data.pos.y < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
+    if(save.data.damage < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
     return is;
 }
 

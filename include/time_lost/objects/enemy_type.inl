@@ -38,7 +38,7 @@ std::shared_ptr<logic::saves::EnemySave> EnemyType<Behavior>::SaveEnemy(){
 
 template<typename Behavior>
 Enemy& EnemyType<Behavior>::operator+=(Player& player){
-    player.ChangeHealth(-1);
+    Behavior::Attack(player);
     return *this;
 }
 
