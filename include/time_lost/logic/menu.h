@@ -27,6 +27,8 @@ private:
 public:
     Menu();
 
+    ~Menu() = default;
+
     void SelectUp();
 
     void SelectDown();

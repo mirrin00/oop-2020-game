@@ -13,7 +13,7 @@ namespace time_lost_gui{
     {
         //FIXME: 13x13 cells
         //window = std::make_unique<sf::RenderWindow>(sf::VideoMode(SIZE_TEXTURE*LOCATION_SIZE, SIZE_TEXTURE*LOCATION_SIZE), "TimeLost");
-        window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WIDTH_GAME_SIZE*SIZE_TEXTURE*LOCATION_SIZE, HEIGHT_GAME_SIZE*SIZE_TEXTURE*LOCATION_SIZE), "TimeLost");
+        window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WIDTH_GAME_SIZE*SIZE_TEXTURE*LOCATION_SIZE, HEIGHT_GAME_SIZE*SIZE_TEXTURE*LOCATION_SIZE+INFO_BAR_SIZE), "TimeLost");
     }
 
     TimeLostGUI::~TimeLostGUI(){}
@@ -46,6 +46,28 @@ namespace time_lost_gui{
                 sprite.setPosition(pos.x*SIZE_TEXTURE, pos.y*SIZE_TEXTURE);
                 window->draw(sprite);
         }
+        auto player = game->GetPlayer();
+        std::string param = "Health: " + std::to_string(player.GetHealth());
+        int offset = 0;
+        sf::Text text;
+        text.setFont(resources.GetFont("cour"));
+        text.setString(param);
+        text.setCharacterSize(24);
+        text.setPosition(offset, HEIGHT_GAME_SIZE*SIZE_TEXTURE*LOCATION_SIZE);
+        text.setFillColor(sf::Color::Red);
+        window->draw(text);
+        offset += param.size() * 24;
+        text.setPosition(offset, HEIGHT_GAME_SIZE*SIZE_TEXTURE*LOCATION_SIZE);
+        param = "Coins: " + std::to_string(player.GetCoins());
+        text.setString(param);
+        text.setFillColor(sf::Color::Yellow);
+        window->draw(text);
+        offset += param.size() * 24;
+        text.setPosition(offset, HEIGHT_GAME_SIZE*SIZE_TEXTURE*LOCATION_SIZE);
+        param = "Damage: " + std::to_string(player.Attack());
+        text.setString(param);
+        text.setFillColor(sf::Color::White);
+        window->draw(text);
         int i = 0;
         std::shared_ptr<time_lost::objects::Item> item = game->GetItem(i);
         while(item){
@@ -59,6 +81,9 @@ namespace time_lost_gui{
             }
             if(dynamic_cast<time_lost::objects::Coin*>(item.get())){
                 sprite.setTexture(resources.GetTexture("bullets"));
+            }
+            if(dynamic_cast<time_lost::objects::HealthPotion*>(item.get())){
+                sprite.setTexture(resources.GetTexture("hp"));
             }
             sprite.setPosition(item->GetPosition().x*SIZE_TEXTURE, item->GetPosition().y*SIZE_TEXTURE);
             window->draw(sprite);
@@ -91,6 +116,7 @@ namespace time_lost_gui{
         view.setCenter(pos.x*SIZE_TEXTURE+SIZE_TEXTURE/2, pos.y*SIZE_TEXTURE+SIZE_TEXTURE/2);
         window->setView(view);
         */
+        
         // end the current frame
         //window->display();
     }

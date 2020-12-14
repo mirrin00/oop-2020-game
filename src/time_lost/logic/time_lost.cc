@@ -162,9 +162,14 @@ void TimeLost::Start(){
     if(no_start) throw types::TimeLostException("No start point on map\n");
     //FIXME: DELETE THIS
     if(field.GetHeight() <= 2*LOCATION_SIZE || field.GetWidth() <= 2*LOCATION_SIZE) return;
-    AddItem(time_lost::objects::Sword(10,{10,10}));
-    AddItem(time_lost::objects::Sword(10,{0,0}));
+    AddItem(time_lost::objects::Sword(4,{10,10}));
+    AddItem(time_lost::objects::Sword(6,{0,0}));
     AddItem(time_lost::objects::Sword(10,{7,13}));
+    AddItem(time_lost::objects::HealthPotion(3,{3,6}));
+    AddItem(time_lost::objects::HealthPotion(7,{3,9}));
+    AddItem(time_lost::objects::Coin(1,{8,7}));
+    AddItem(time_lost::objects::Coin(11,{8,13}));
+    AddItem(time_lost::objects::Coin(111,{13,7}));
     types::Position pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     while(field.GetCell(pos).GetType() == types::CellType::kBlock || abs(pos.x - player.GetPosition().x) <LOCATION_SIZE 
             || abs(pos.y - player.GetPosition().y) <LOCATION_SIZE){
@@ -262,6 +267,7 @@ void TimeLost::Load(){
     *this = save.LoadTimeLost();
     //FIXME: Change States!
     turn = std::make_unique<turns::PauseTurn>(*this);
+    srand(time(nullptr));
 }
 
 void TimeLost::MenuUp(){

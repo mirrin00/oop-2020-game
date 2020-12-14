@@ -4,13 +4,16 @@ CFLAGS = -std=c++17 -I./include -L./lib -o main
 COLOR = \033[0;32m
 NORMAL = \033[0m
 
+.PHONY: all libs run_tests game clean clean_libs
+
+all: libs
 
 libs:
 	@echo "$(COLOR)Compiling libs...$(NORMAL)"
 	$(MAKE) -C src/time_lost
 
-run_unittests: libs
-	@echo "$(COLOR)Compiling and run unittests...$(NORMAL)"
+run_tests: libs
+	@echo "$(COLOR)Compiling and run tests...$(NORMAL)"
 	$(MAKE) -C tests
 
 game: libs

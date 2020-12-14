@@ -13,6 +13,7 @@
 #define HEIGHT_GAME_SIZE 3
 #define SIZE_TEXTURE 51
 #define MAX_TIME 200
+#define INFO_BAR_SIZE 30
 
 namespace time_lost_gui{
 

@@ -6,6 +6,7 @@ OBJ = $(TMP)/suite1.o \
 	  $(TMP)/suite3.o \
 	  $(TMP)/suite4.o \
 	  $(TMP)/suite5.o \
+	  $(TMP)/suite6.o \
 	  $(TMP)/main_test.o
 TESTS = tests
 COLOR = \033[0;32m
