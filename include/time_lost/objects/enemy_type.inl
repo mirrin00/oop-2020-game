@@ -5,7 +5,7 @@ namespace time_lost{
 namespace objects{
 
 template<typename Behavior>
-EnemyType<Behavior>::EnemyType(int health, types::Position start_pos):Enemy(health, start_pos)
+EnemyType<Behavior>::EnemyType(int health, types::Position start_pos, Essence::Direction direct):Enemy(health, start_pos, direct)
 {
 }
 

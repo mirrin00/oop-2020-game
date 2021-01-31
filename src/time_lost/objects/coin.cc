@@ -5,8 +5,8 @@ namespace time_lost{
 namespace objects{
 
 Coin::Coin(int _count, types::Position start_pos):
-count(_count),
-Item(start_pos)
+Item(start_pos),
+count(_count)
 {
 }
 

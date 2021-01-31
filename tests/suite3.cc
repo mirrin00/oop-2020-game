@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_SUITE(suite_3,  * boost::unit_test::label("test3"))
     int h_pos = 43, w_pos = 41, health = 100;
     Player player(health, {h_pos, w_pos});
     BOOST_AUTO_TEST_CASE(test_1,
-     * boost::unit_test::description("Testing Essence moving by Player"))
+     * boost::unit_test::description("Testing Essence moving and direction by Player"))
     {
         BOOST_TEST_CHECK(player.GetHealth() == health);
         BOOST_TEST_CHECK(player.GetPosition() == Position(h_pos, w_pos));
@@ -26,6 +26,15 @@ BOOST_AUTO_TEST_SUITE(suite_3,  * boost::unit_test::label("test3"))
         BOOST_TEST_CHECK(player.GetPosition() == pos);
         player.SetPosition({0,0});
         BOOST_TEST_CHECK(player.GetPosition() == Position(0,0));
+        BOOST_TEST_CHECK(player.GetDirection() == Essence::Direction::Up);
+        player.SetDirection(Essence::Direction::Down);
+        BOOST_TEST_CHECK(player.GetDirection() == Essence::Direction::Down);
+        player.SetDirection(Essence::Direction::Left);
+        BOOST_TEST_CHECK(player.GetDirection() == Essence::Direction::Left);
+        player.SetDirection(Essence::Direction::Right);
+        BOOST_TEST_CHECK(player.GetDirection() == Essence::Direction::Right);
+        player.SetDirection(Essence::Direction::Up);
+        BOOST_TEST_CHECK(player.GetDirection() == Essence::Direction::Up);
     }
     BOOST_AUTO_TEST_CASE(test_2,
      * boost::unit_test::description("Testing interacte Items with Player"))
