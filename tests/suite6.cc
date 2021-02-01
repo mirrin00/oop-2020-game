@@ -36,7 +36,8 @@ BOOST_AUTO_TEST_SUITE(suite_6,  * boost::unit_test::label("test6"))
         }
         Player& player1 = game.GetPlayer();
         Player& player2 = game2.GetPlayer();
-        BOOST_TEST_CHECK(player1.GetCoins() == player2.GetCoins());
+        BOOST_TEST_CHECK(player1.GetRifleBullets() == player2.GetRifleBullets());
+        BOOST_TEST_CHECK(player1.GetPistolBullets() == player2.GetPistolBullets());
         BOOST_TEST_CHECK(player1.GetHealth() == player2.GetHealth());
         BOOST_TEST_CHECK(player1.GetPosition() == player2.GetPosition());
         BOOST_TEST_CHECK(player1.Attack() == player2.Attack());
@@ -47,7 +48,8 @@ BOOST_AUTO_TEST_SUITE(suite_6,  * boost::unit_test::label("test6"))
             BOOST_TEST_CHECK(item1->GetPosition() == item2->GetPosition());
             player1 += *(item1->CloneItem());
             player2 += *(item2->CloneItem());
-            BOOST_TEST_CHECK(player1.GetCoins() == player2.GetCoins());
+            BOOST_TEST_CHECK(player1.GetRifleBullets() == player2.GetRifleBullets());
+            BOOST_TEST_CHECK(player1.GetPistolBullets() == player2.GetPistolBullets());
             BOOST_TEST_CHECK(player1.GetHealth() == player2.GetHealth());
             BOOST_TEST_CHECK(player1.Attack() == player2.Attack());
             i++;

@@ -6,14 +6,13 @@ namespace logic{
 
 namespace saves{
 
-SwordSave::SwordSave(types::Position pos, int damage, bool on_field, bool can_use):
-data{pos, damage, on_field, can_use}
+SwordSave::SwordSave(types::Position pos, int damage, bool on_field):
+data{pos, damage, on_field}
 {
 }
 
 objects::Sword SwordSave::LoadSword(){
     objects::Sword sword(data.damage, data.pos);
-    sword.SetCanUse(data.can_use);
     sword.SetOnField(data.on_field);
     return sword;
 }

@@ -24,9 +24,11 @@ private:
     struct Data{
         types::Position pos;
 
-        int coins;
-
         int health;
+
+        types::Direction direct;
+
+        int rifle_bullets, pistol_bullets, first_aid_kits;
     };
 
     Data data;
@@ -36,7 +38,7 @@ private:
 public:
     PlayerSave() = default;
 
-    PlayerSave(types::Position pos, int coins, int health, objects::Weapon& weapon);
+    PlayerSave(types::Position pos, int health, types::Direction direct, int rifle_bullets, int pistol_bullets, int first_aid_kits, objects::Weapon& weapon);
 
     ~PlayerSave() = default;
 

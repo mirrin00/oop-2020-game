@@ -10,7 +10,7 @@ namespace time_lost_gui{
         textures.emplace("start", LoadTexture("resources/start.png"));
         textures.emplace("end", LoadTexture("resources/end.png"));
         textures.emplace("player", LoadTexture("resources/player.png"));
-        textures.emplace("bullets", LoadTexture("resources/coin.png"));
+        textures.emplace("bullets", LoadTexture("resources/bullets.png"));
         textures.emplace("hp", LoadTexture("resources/hp.png"));
         textures.emplace("sword", LoadTexture("resources/sword.png"));
         textures.emplace("enemy_walk", LoadTexture("resources/enemy_walk.png"));

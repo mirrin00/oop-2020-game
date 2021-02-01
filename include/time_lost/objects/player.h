@@ -37,11 +37,11 @@ class Player: public Essence{
 private:
     std::unique_ptr<Weapon> weapon;
 
-    int coins;
+    int rifle_bullets, pistol_bullets, first_aid_kits;
 protected:
     virtual void Notify() override;
 public:
-    Player(int start_health, types::Position start_pos = {0,0}, Essence::Direction direct = Essence::Direction::Up);
+    Player(int start_health, types::Position start_pos = {0,0}, types::Direction direct = types::Direction::kUp);
 
     Player(const Player& player);
 
@@ -49,9 +49,17 @@ public:
 
     ~Player();
 
-    void AddCoins(int count);
+    void AddRifleBullets(int bullet_count);
 
-    int GetCoins();
+    int GetRifleBullets();
+
+    void AddPistolBullets(int bullet_count);
+
+    int GetPistolBullets();
+
+    void AddFirstAidKits(int first_aid_kit_count);
+
+    int GetFirstAidKits();
 
     void ChangeWeapon(Weapon& new_weapon);
 

@@ -114,16 +114,16 @@ std::istream& operator>>(std::istream& is, TimeLostSave& save){
     for(int i=0;i<size;i++){
         is.read((char*)&type, sizeof(int));
         switch(type){
-            case types::SaveType::kCoin:
+            case types::SaveType::kBullets:
             {
-                auto coin = std::make_shared<CoinSave>();
+                auto coin = std::make_shared<BulletsSave>();
                 is >> *coin;
                 save._items.emplace_back(coin);
                 break;
             }
-            case types::SaveType::kHealthPotion:
+            case types::SaveType::kFirstAidKit:
             {
-                auto item = std::make_shared<HealthPotionSave>();
+                auto item = std::make_shared<FirstAidKitSave>();
                 is >> *item;
                 save._items.emplace_back(item);
                 break;

@@ -58,7 +58,7 @@ namespace time_lost_gui{
         window->draw(text);
         offset += param.size() * 24;
         text.setPosition(offset, HEIGHT_GAME_SIZE*SIZE_TEXTURE*LOCATION_SIZE);
-        param = "Coins: " + std::to_string(player.GetCoins());
+        param = "Coins: " + std::to_string(player.GetRifleBullets());
         text.setString(param);
         text.setFillColor(sf::Color::Yellow);
         window->draw(text);
@@ -79,7 +79,7 @@ namespace time_lost_gui{
             if(dynamic_cast<time_lost::objects::Sword*>(item.get())){
                 sprite.setTexture(resources.GetTexture("sword"));
             }
-            if(dynamic_cast<time_lost::objects::Coin*>(item.get())){
+            if(dynamic_cast<time_lost::objects::Bullets*>(item.get())){
                 sprite.setTexture(resources.GetTexture("bullets"));
             }
             if(dynamic_cast<time_lost::objects::HealthPotion*>(item.get())){

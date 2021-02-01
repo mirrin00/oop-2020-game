@@ -13,8 +13,8 @@ class TimeLostSave;
 
 #include "../objects/player.h"
 #include "../objects/sword.h"
-#include "../objects/coin.h"
-#include "../objects/health_potion.h"
+#include "../objects/bullets.h"
+#include "../objects/first_aid_kit.h"
 #include "../objects/field_iterator.h"
 #include "../objects/enemy.h"
 #include "command.h"

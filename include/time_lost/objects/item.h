@@ -28,7 +28,7 @@ namespace objects{
 
 class Item: public Object{
 private:
-    bool on_field, can_use; //FIXME Delete can_use
+    bool on_field;
 protected:
     virtual void Notify() override;
 public:
@@ -43,10 +43,6 @@ public:
     bool IsOnField();
 
     void SetOnField(bool on_field);
-
-    bool IsCanUse();
-
-    void SetCanUse(bool can_use);
 
     virtual void Use(Player& player) = 0;
 

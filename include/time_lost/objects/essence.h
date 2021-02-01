@@ -4,28 +4,22 @@
 #include <iostream>
 
 #include "object.h"
+#include "../types/direction.h"
 
 namespace time_lost {
 
 namespace objects {
 
 class Essence: public Object{
-public:
-    enum Direction{
-        Up,
-        Down,
-        Left,
-        Right
-    };
 protected:
     int health;
 
-    Direction direct;
+    types::Direction direct;
 
     virtual void Notify() override;
 public:
 
-    Essence(int start_health, types::Position start_pos = {0,0}, Direction direct = Direction::Up);
+    Essence(int start_health, types::Position start_pos = {0,0}, types::Direction direct = types::Direction::kUp);
 
     ~Essence();
 
@@ -37,9 +31,9 @@ public:
 
     void Move(types::Position move);
 
-    void SetDirection(Direction new_direct);
+    void SetDirection(types::Direction new_direct);
 
-    Direction GetDirection();
+    types::Direction GetDirection();
 
     void RotateRight();
 

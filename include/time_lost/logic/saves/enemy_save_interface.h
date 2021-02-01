@@ -25,6 +25,8 @@ private:
 
         int health;
 
+        types::Direction direct;
+
         types::SaveType::Type type;
     };
 
@@ -32,13 +34,14 @@ private:
 public:
     EnemySave() = default;
 
-    EnemySave(types::Position pos, int health, types::SaveType::Type type);
+    EnemySave(types::Position pos, int health, types::Direction direct, types::SaveType::Type type);
 
     ~EnemySave() = default;
 
     template<typename Behavior>
     std::shared_ptr<objects::Enemy> LoadEnemy(){
         objects::EnemyType<Behavior> enemy(data.health, data.pos);
+        enemy.SetDirection(data.direct);
         return std::make_shared<objects::EnemyType<Behavior>>(enemy);
     }
 

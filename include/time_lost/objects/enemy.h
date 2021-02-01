@@ -21,7 +21,7 @@ namespace objects{
 
 class Enemy: public Essence{
 public:
-    Enemy(int health, types::Position start_pos = {0,0}, Essence::Direction direct = Essence::Direction::Up): Essence(health, start_pos, direct){}
+    Enemy(int health, types::Position start_pos = {0,0}, types::Direction direct = types::Direction::kUp): Essence(health, start_pos, direct){}
 
     virtual ~Enemy() = default;
 

@@ -6,8 +6,8 @@ namespace logic{
 
 namespace saves{
 
-EnemySave::EnemySave(types::Position pos, int health, types::SaveType::Type type):
-data{pos, health, type}
+EnemySave::EnemySave(types::Position pos, int health, types::Direction direct, types::SaveType::Type type):
+data{pos, health, direct, type}
 {
 }
 

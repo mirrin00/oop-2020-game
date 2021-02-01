@@ -29,11 +29,11 @@ MENUS = $(TMP)/menu_item_exit.o \
 		$(TMP)/menu_item_load.o \
 		$(TMP)/menu_item_save.o \
 		$(TMP)/menu_item_start.o 
-SAVES = $(TMP)/coin_save.o \
+SAVES = $(TMP)/bullets_save.o \
 		$(TMP)/enemy_save_interface.o \
 		$(TMP)/field_save.o \
 		$(TMP)/hands_save.o \
-		$(TMP)/health_potion_save.o \
+		$(TMP)/first_aid_kit_save.o \
 		$(TMP)/player_save.o \
 		$(TMP)/sword_save.o \
 		$(TMP)/time_lost_save.o

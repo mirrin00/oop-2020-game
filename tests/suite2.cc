@@ -3,8 +3,8 @@
 #include "time_lost/objects/sword.h"
 #include "time_lost/objects/item.h"
 #include "time_lost/objects/hands.h"
-#include "time_lost/objects/health_potion.h"
-#include "time_lost/objects/coin.h"
+#include "time_lost/objects/first_aid_kit.h"
+#include "time_lost/objects/bullets.h"
 
 using namespace time_lost;
 using namespace objects;
@@ -39,28 +39,21 @@ BOOST_AUTO_TEST_SUITE(suite_2,  * boost::unit_test::label("test2"))
      * boost::unit_test::description("Testing Sword and Hands"))
     {
         Sword sw1(3,{6,5});
-        sw1.SetCanUse(true);
         BOOST_TEST_CHECK(sw1.GetPosition() == Position(6,5));
         BOOST_TEST_CHECK(sw1.Attack() == 3);
-        BOOST_TEST_CHECK(sw1.IsCanUse() == true);
         BOOST_TEST_CHECK(sw1.IsOnField() == true);
         Sword sw2 = sw1;
         BOOST_TEST_CHECK(sw2.GetPosition() == sw1.GetPosition());
         BOOST_TEST_CHECK(sw2.Attack() == sw1.Attack());
-        BOOST_TEST_CHECK(sw2.IsCanUse() == sw1.IsCanUse());
         BOOST_TEST_CHECK(sw2.IsOnField() == sw1.IsOnField());
         sw2.SetPosition({42,-42});
         BOOST_TEST_CHECK(sw2.GetPosition() == Position(42,0));
         Sword sw3(10);
-        BOOST_TEST_CHECK(sw3.IsCanUse() == false);
-        sw3.SetCanUse(true);
-        BOOST_TEST_CHECK(sw3.IsCanUse() == true);
         BOOST_TEST_CHECK(sw3.GetPosition() == Position(0,0));
         BOOST_TEST_CHECK(sw3.Attack() == 10);
         sw3 = sw1;
         BOOST_TEST_CHECK(sw3.GetPosition() == sw1.GetPosition());
         BOOST_TEST_CHECK(sw3.Attack() == sw1.Attack());
-        BOOST_TEST_CHECK(sw3.IsCanUse() == sw1.IsCanUse());
         BOOST_TEST_CHECK(sw3.IsOnField() == sw1.IsOnField());
         
         Hands hands;
@@ -70,65 +63,59 @@ BOOST_AUTO_TEST_SUITE(suite_2,  * boost::unit_test::label("test2"))
         BOOST_TEST_REQUIRE(weapon->Attack() == 3);
     }
     BOOST_AUTO_TEST_CASE(test_3,
-     * boost::unit_test::description("Testing Coin"))
+     * boost::unit_test::description("Testing Bullets"))
     {
-        Coin coin1(13,{1,1});
-        BOOST_TEST_CHECK(coin1.GetPosition() == Position(1,1));
-        BOOST_TEST_CHECK(coin1.GetCount() == 13);
-        BOOST_TEST_CHECK(coin1.IsCanUse() == false);
-        BOOST_TEST_CHECK(coin1.IsOnField() == true);
-        coin1.SetCanUse(true);
-        BOOST_TEST_CHECK(coin1.IsCanUse() == true);
-        coin1.SetOnField(false);
-        BOOST_TEST_CHECK(coin1.IsOnField() == false);
-        Coin coin2 = coin1;
-        BOOST_TEST_CHECK(coin2.GetPosition() == coin2.GetPosition());
-        BOOST_TEST_CHECK(coin2.GetCount() == coin1.GetCount());
-        BOOST_TEST_CHECK(coin2.IsCanUse() == coin1.IsCanUse());
-        BOOST_TEST_CHECK(coin2.IsOnField() == coin1.IsOnField());
-        coin2.SetPosition({42,-42});
-        BOOST_TEST_CHECK(coin2.GetPosition() == Position(42,0));
-        Coin coin3(3);
-        BOOST_TEST_CHECK(coin3.GetPosition() == Position(0,0));
-        BOOST_TEST_CHECK(coin3.GetCount() == 3);
-        BOOST_TEST_CHECK(coin3.IsCanUse() == false);
-        BOOST_TEST_CHECK(coin3.IsOnField() == true);
-        coin3 = coin1;
-        BOOST_TEST_CHECK(coin3.GetPosition() == coin1.GetPosition());
-        BOOST_TEST_CHECK(coin3.GetCount() == coin1.GetCount());
-        BOOST_TEST_CHECK(coin3.IsCanUse() == coin1.IsCanUse());
-        BOOST_TEST_CHECK(coin3.IsOnField() == coin1.IsOnField());
+        Bullets bullets1(13, BulletType::kRifle, {1,1});
+        BOOST_TEST_CHECK(bullets1.GetPosition() == Position(1,1));
+        BOOST_TEST_CHECK(bullets1.GetCount() == 13);
+        BOOST_TEST_CHECK(bullets1.GetType() == BulletType::kRifle);
+        BOOST_TEST_CHECK(bullets1.IsOnField() == true);
+        bullets1.SetOnField(false);
+        BOOST_TEST_CHECK(bullets1.IsOnField() == false);
+        Bullets bullets2 = bullets1;
+        BOOST_TEST_CHECK(bullets2.GetPosition() == bullets2.GetPosition());
+        BOOST_TEST_CHECK(bullets2.GetCount() == bullets1.GetCount());
+        BOOST_TEST_CHECK(bullets2.GetType() == BulletType::kRifle);
+        BOOST_TEST_CHECK(bullets2.IsOnField() == bullets1.IsOnField());
+        bullets2.SetPosition({42,-42});
+        BOOST_TEST_CHECK(bullets2.GetPosition() == Position(42,0));
+        Bullets bullets3(3, BulletType::kPistol);
+        BOOST_TEST_CHECK(bullets3.GetPosition() == Position(0,0));
+        BOOST_TEST_CHECK(bullets3.GetCount() == 3);
+        BOOST_TEST_CHECK(bullets3.GetType() == BulletType::kPistol);
+        BOOST_TEST_CHECK(bullets3.IsOnField() == true);
+        bullets3 = bullets1;
+        BOOST_TEST_CHECK(bullets3.GetPosition() == bullets1.GetPosition());
+        BOOST_TEST_CHECK(bullets3.GetCount() == bullets1.GetCount());
+        BOOST_TEST_CHECK(bullets3.GetType() == BulletType::kRifle);
+        BOOST_TEST_CHECK(bullets3.IsOnField() == bullets1.IsOnField());
     }
 
     BOOST_AUTO_TEST_CASE(test_4,
-     * boost::unit_test::description("Testing HealthPotion"))
+     * boost::unit_test::description("Testing FirstAidKit"))
     {
-        HealthPotion health_poution1(13,{1,1});
-        BOOST_TEST_CHECK(health_poution1.GetPosition() == Position(1,1));
-        BOOST_TEST_CHECK(health_poution1.GetHealthChange() == 13);
-        BOOST_TEST_CHECK(health_poution1.IsCanUse() == false);
-        BOOST_TEST_CHECK(health_poution1.IsOnField() == true);
-        health_poution1.SetCanUse(true);
-        BOOST_TEST_CHECK(health_poution1.IsCanUse() == true);
-        health_poution1.SetOnField(false);
-        BOOST_TEST_CHECK(health_poution1.IsOnField() == false);
-        HealthPotion health_poution2 = health_poution1;
-        BOOST_TEST_CHECK(health_poution2.GetPosition() == health_poution1.GetPosition());
-        BOOST_TEST_CHECK(health_poution2.GetHealthChange() == health_poution1.GetHealthChange());
-        BOOST_TEST_CHECK(health_poution2.IsCanUse() == health_poution1.IsCanUse());
-        BOOST_TEST_CHECK(health_poution2.IsOnField() == health_poution1.IsOnField());
-        health_poution2.SetPosition({42,-42});
-        BOOST_TEST_CHECK(health_poution2.GetPosition() == Position(42,0));
-        HealthPotion health_poution3(3);
-        BOOST_TEST_CHECK(health_poution3.GetPosition() == Position(0,0));
-        BOOST_TEST_CHECK(health_poution3.GetHealthChange() == 3);
-        BOOST_TEST_CHECK(health_poution3.IsCanUse() == false);
-        BOOST_TEST_CHECK(health_poution3.IsOnField() == true);
-        health_poution3 = health_poution1;
-        BOOST_TEST_CHECK(health_poution3.GetPosition() == health_poution1.GetPosition());
-        BOOST_TEST_CHECK(health_poution3.GetHealthChange() == health_poution1.GetHealthChange());
-        BOOST_TEST_CHECK(health_poution3.IsCanUse() == health_poution1.IsCanUse());
-        BOOST_TEST_CHECK(health_poution3.IsOnField() == health_poution1.IsOnField());
+        FirstAidKit first_aid_kit1(13,{1,1});
+        BOOST_TEST_CHECK(first_aid_kit1.GetPosition() == Position(1,1));
+        BOOST_TEST_CHECK(first_aid_kit1.GetCount() == 13);
+        BOOST_TEST_CHECK(first_aid_kit1.IsOnField() == true);
+        first_aid_kit1.SetOnField(false);
+        BOOST_TEST_CHECK(first_aid_kit1.IsOnField() == false);
+        FirstAidKit first_aid_kit2 = first_aid_kit1;
+        BOOST_TEST_CHECK(first_aid_kit2.GetPosition() == first_aid_kit1.GetPosition());
+        BOOST_TEST_CHECK(first_aid_kit2.GetCount() == first_aid_kit1.GetCount());
+        BOOST_TEST_CHECK(first_aid_kit2.IsOnField() == first_aid_kit1.IsOnField());
+        first_aid_kit2.SetPosition({42,-42});
+        BOOST_TEST_CHECK(first_aid_kit2.GetPosition() == Position(42,0));
+        FirstAidKit first_aid_kit3(3);
+        BOOST_TEST_CHECK(first_aid_kit3.GetPosition() == Position(0,0));
+        BOOST_TEST_CHECK(first_aid_kit3.GetCount() == 3);
+        first_aid_kit3.SetCount(78);
+        BOOST_TEST_CHECK(first_aid_kit3.GetCount() == 78);
+        BOOST_TEST_CHECK(first_aid_kit3.IsOnField() == true);
+        first_aid_kit3 = first_aid_kit1;
+        BOOST_TEST_CHECK(first_aid_kit3.GetPosition() == first_aid_kit1.GetPosition());
+        BOOST_TEST_CHECK(first_aid_kit3.GetCount() == first_aid_kit1.GetCount());
+        BOOST_TEST_CHECK(first_aid_kit3.IsOnField() == first_aid_kit1.IsOnField());
     }
 
 BOOST_AUTO_TEST_SUITE_END()

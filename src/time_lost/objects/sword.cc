@@ -28,12 +28,11 @@ void Sword::Notify(){
 }
 
 int Sword::Attack(){
-    if(IsCanUse()) return damage;
-    return 0;
+    return damage;
 }
 
 logic::saves::SwordSave Sword::SaveSword(){
-    return logic::saves::SwordSave(pos, damage, IsOnField(), IsCanUse());
+    return logic::saves::SwordSave(pos, damage, IsOnField());
 }
 
 void Sword::Use(Player& player){
@@ -49,11 +48,11 @@ std::shared_ptr<Item> Sword::CloneItem() const{
 }
 
 std::shared_ptr<logic::saves::WeaponSaveInterface> Sword::SaveWeapon(){
-    return std::make_shared<logic::saves::SwordSave>(pos, damage, IsOnField(), IsCanUse());
+    return std::make_shared<logic::saves::SwordSave>(pos, damage, IsOnField());
 }
 
 std::shared_ptr<logic::saves::ItemSaveInterface> Sword::SaveItem(){
-    return std::make_shared<logic::saves::SwordSave>(pos, damage, IsOnField(), IsCanUse());
+    return std::make_shared<logic::saves::SwordSave>(pos, damage, IsOnField());
 }
 
 std::ostream& operator<<(std::ostream& os, const Sword& sword){

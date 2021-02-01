@@ -12,10 +12,10 @@ public:
         kEnemyFind, // 1
         kEnemyFly, // 2
         kEnemyWait, // 3
-        kCoin, // 4
+        kBullets, // 4
         kField, // 5
         kHands, // 6
-        kHealthPotion, // 7
+        kFirstAidKit, // 7
         kSword, // 8
         kTimeLost, // 9
     };

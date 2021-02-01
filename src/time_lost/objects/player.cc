@@ -4,9 +4,11 @@ namespace time_lost{
 
 namespace objects{
 
-Player::Player(int start_health, types::Position start_pos, Essence::Direction direct):
-coins(0),
-Essence(start_health, start_pos, direct)
+Player::Player(int start_health, types::Position start_pos, types::Direction direct):
+Essence(start_health, start_pos, direct),
+rifle_bullets(0),
+pistol_bullets(0),
+first_aid_kits(0)
 {
     weapon = Hands().CloneWeapon();
 }
@@ -14,7 +16,9 @@ Essence(start_health, start_pos, direct)
 Player::Player(const Player& player):
 Essence(player.health,player.pos)
 {
-    coins = player.coins;
+    rifle_bullets = player.rifle_bullets;
+    pistol_bullets = player.pistol_bullets;
+    first_aid_kits = player.first_aid_kits;
     weapon = player.weapon->CloneWeapon();
 }
 
@@ -22,7 +26,9 @@ Player& Player::operator=(const Player& player){
     if(&player == this) return *this;
     pos = player.pos;
     health = player.health;
-    coins = player.coins;
+    rifle_bullets = player.rifle_bullets;
+    pistol_bullets = player.pistol_bullets;
+    first_aid_kits = player.first_aid_kits;
     weapon = player.weapon->CloneWeapon();
     return *this;
 }
@@ -34,12 +40,28 @@ void Player::Notify(){
     pub.Notify<Player>(*this);
 }
 
-void Player::AddCoins(int count){
-    coins += count;
+void Player::AddRifleBullets(int bullet_count){
+    rifle_bullets += bullet_count;
 }
 
-int Player::GetCoins(){
-    return coins;
+int Player::GetRifleBullets(){
+    return rifle_bullets;
+}
+
+void Player::AddPistolBullets(int bullet_count){
+    pistol_bullets += bullet_count;
+}
+
+int Player::GetPistolBullets(){
+    return pistol_bullets;
+}
+
+void Player::AddFirstAidKits(int first_aid_kit_count){
+    first_aid_kits += first_aid_kit_count;
+}
+
+int Player::GetFirstAidKits(){
+    return first_aid_kits;
 }
 
 void Player::ChangeWeapon(Weapon& new_weapon){
@@ -53,7 +75,7 @@ int Player::Attack(){
 }
 
 logic::saves::PlayerSave Player::SavePlayer(){
-    return logic::saves::PlayerSave(pos,coins,health,*weapon);
+    return logic::saves::PlayerSave(pos, health, direct, rifle_bullets, pistol_bullets, first_aid_kits, *weapon);
 }
 
 Player& Player::operator+=(Item& item){
@@ -82,7 +104,7 @@ std::ostream& operator<<(std::ostream& os, const Player& player){
     os << "Player:\n";
     os << *((Essence*)&player);
     os << *(player.weapon);
-    os << "    Coins: " << player.coins << "\n";
+    //os << "    Coins: " << player.coins << "\n";
     return os;
 }
 

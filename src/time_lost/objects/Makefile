@@ -8,8 +8,8 @@ OBJ = $(TMP)/cell.o \
       $(TMP)/item.o \
       $(TMP)/hands.o \
       $(TMP)/sword.o \
-      $(TMP)/health_potion.o \
-      $(TMP)/coin.o \
+      $(TMP)/first_aid_kit.o \
+      $(TMP)/bullets.o \
       $(TMP)/player.o \
       $(TMP)/object.o \
       $(TMP)/weapon.o \

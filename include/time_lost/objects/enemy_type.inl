@@ -5,7 +5,7 @@ namespace time_lost{
 namespace objects{
 
 template<typename Behavior>
-EnemyType<Behavior>::EnemyType(int health, types::Position start_pos, Essence::Direction direct):Enemy(health, start_pos, direct)
+EnemyType<Behavior>::EnemyType(int health, types::Position start_pos, types::Direction direct):Enemy(health, start_pos, direct)
 {
 }
 
@@ -33,7 +33,7 @@ void EnemyType<Behavior>::DoSomething(Field& field, Player& player){
 
 template<typename Behavior>
 std::shared_ptr<logic::saves::EnemySave> EnemyType<Behavior>::SaveEnemy(){
-    return std::make_shared<logic::saves::EnemySave>(pos, health, Behavior::GetSaveType());
+    return std::make_shared<logic::saves::EnemySave>(pos, health, direct, Behavior::GetSaveType());
 }
 
 template<typename Behavior>

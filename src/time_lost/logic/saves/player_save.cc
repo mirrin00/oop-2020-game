@@ -9,15 +9,17 @@ namespace logic{
 
 namespace saves{
 
-PlayerSave::PlayerSave(types::Position pos, int coins, int health, objects::Weapon& weapon):
-data{pos, coins, health},
+PlayerSave::PlayerSave(types::Position pos, int health, types::Direction direct, int rifle_bullets, int pistol_bullets, int first_aid_kits, objects::Weapon& weapon):
+data{pos, health, direct, rifle_bullets, pistol_bullets, first_aid_kits},
 _weapon(weapon.SaveWeapon())
 {
 }
 
 objects::Player PlayerSave::LoadPlayer(){
-    objects::Player player(data.health,data.pos);
-    player.AddCoins(data.coins);
+    objects::Player player(data.health,data.pos, data.direct);
+    player.AddRifleBullets(data.rifle_bullets);
+    player.AddPistolBullets(data.pistol_bullets);
+    player.AddFirstAidKits(data.first_aid_kits);
     player.ChangeWeapon(*(_weapon->LoadWeapon()));
     return player;
 }
@@ -33,7 +35,9 @@ std::ostream& operator<<(std::ostream& os, PlayerSave& save){
 std::istream& operator>>(std::istream& is, PlayerSave& save){
     is.read((char*)&save.data, sizeof(PlayerSave::Data));
     if(save.data.pos.x < 0 || save.data.pos.y < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
-    if(save.data.coins < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
+    if(save.data.first_aid_kits < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
+    if(save.data.pistol_bullets < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
+    if(save.data.rifle_bullets < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
     int type;
     is.read((char*)&type,sizeof(int));
     switch(type){

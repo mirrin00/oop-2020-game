@@ -27,14 +27,14 @@ private:
         
         int damage;
 
-        bool on_field, can_use;
+        bool on_field;
     };
 
     Data data;
 public:
     SwordSave() = default;
 
-    SwordSave(types::Position pos, int damage, bool on_field, bool can_use);
+    SwordSave(types::Position pos, int damage, bool on_field);
 
     ~SwordSave() = default;
 

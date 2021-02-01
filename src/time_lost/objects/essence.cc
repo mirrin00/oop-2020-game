@@ -4,7 +4,7 @@ namespace time_lost{
 
 namespace objects{
 
-Essence::Essence(int start_health, types::Position start_pos, Direction direct):
+Essence::Essence(int start_health, types::Position start_pos, types::Direction direct):
 Object(start_pos),
 health(start_health),
 direct(direct)
@@ -39,31 +39,31 @@ void Essence::Move(types::Position move){
     Notify();
 }
 
-void Essence::SetDirection(Direction new_direct){
+void Essence::SetDirection(types::Direction new_direct){
     direct = new_direct;
 }
 
-Essence::Direction Essence::GetDirection(){
+types::Direction Essence::GetDirection(){
     return direct;
 }
 
 void Essence::RotateRight(){
     switch (direct)
     {
-    case Up:
-        SetDirection(Direction::Right);
+    case types::Direction::kUp:
+        SetDirection(types::Direction::kRight);
         break;
-    case Right:
-        SetDirection(Direction::Down);
+    case types::Direction::kRight:
+        SetDirection(types::Direction::kDown);
         break;
-    case Down:
-        SetDirection(Direction::Left);
+    case types::Direction::kDown:
+        SetDirection(types::Direction::kLeft);
         break;
-    case Left:
-        SetDirection(Direction::Up);
+    case types::Direction::kLeft:
+        SetDirection(types::Direction::kUp);
         break;
     default:
-        SetDirection(Direction::Up);
+        SetDirection(types::Direction::kUp);
         break;
     }
 }
@@ -71,20 +71,20 @@ void Essence::RotateRight(){
 void Essence::RotateLeft(){
     switch (direct)
     {
-    case Up:
-        SetDirection(Direction::Left);
+    case types::Direction::kUp:
+        SetDirection(types::Direction::kLeft);
         break;
-    case Right:
-        SetDirection(Direction::Up);
+    case types::Direction::kRight:
+        SetDirection(types::Direction::kUp);
         break;
-    case Down:
-        SetDirection(Direction::Right);
+    case types::Direction::kDown:
+        SetDirection(types::Direction::kRight);
         break;
-    case Left:
-        SetDirection(Direction::Down);
+    case types::Direction::kLeft:
+        SetDirection(types::Direction::kDown);
         break;
     default:
-        SetDirection(Direction::Up);
+        SetDirection(types::Direction::kUp);
         break;
     }
 }

@@ -116,7 +116,6 @@ void TimeLost::AddItem(objects::Item& item){
         }
     }
     _item->SetPosition(pos);
-    _item->SetCanUse(true); //FIXME: Delete this
     items.push_back(_item);
 }
 
@@ -134,7 +133,6 @@ void TimeLost::AddItem(objects::Item&& item){
         }
     }
     _item->SetPosition(pos);
-    _item->SetCanUse(true); //FIXME: Delete this
     items.push_back(_item);
 }
 
@@ -165,11 +163,11 @@ void TimeLost::Start(){
     AddItem(time_lost::objects::Sword(4,{10,10}));
     AddItem(time_lost::objects::Sword(6,{0,0}));
     AddItem(time_lost::objects::Sword(10,{7,13}));
-    AddItem(time_lost::objects::HealthPotion(3,{3,6}));
-    AddItem(time_lost::objects::HealthPotion(7,{3,9}));
-    AddItem(time_lost::objects::Coin(1,{8,7}));
-    AddItem(time_lost::objects::Coin(11,{8,13}));
-    AddItem(time_lost::objects::Coin(111,{13,7}));
+    AddItem(time_lost::objects::FirstAidKit(3,{3,6}));
+    AddItem(time_lost::objects::FirstAidKit(7,{3,9}));
+    AddItem(time_lost::objects::Bullets(1, types::BulletType::kPistol, {8,7}));
+    AddItem(time_lost::objects::Bullets(11,types::BulletType::kPistol, {8,13}));
+    AddItem(time_lost::objects::Bullets(111,types::BulletType::kPistol, {13,7}));
     types::Position pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     while(field.GetCell(pos).GetType() == types::CellType::kBlock || abs(pos.x - player.GetPosition().x) <LOCATION_SIZE 
             || abs(pos.y - player.GetPosition().y) <LOCATION_SIZE){

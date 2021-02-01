@@ -85,9 +85,8 @@ BOOST_AUTO_TEST_CASE(test_1,
         game.ExecuteCommand(EmptyCommand());
         BOOST_TEST_CHECK(player.GetPosition() == pos);
         pos = {center,center};
-        Coin coin(7, pos);
-        coin.SetCanUse(true);
-        game.AddItem(coin);
+        Bullets bullets(7, BulletType::kRifle, pos);
+        game.AddItem(bullets);
         player.SetPosition(pos);
         auto item = game.GetItem(0);
         BOOST_TEST_CHECK(item->GetPosition() == pos);
@@ -95,7 +94,7 @@ BOOST_AUTO_TEST_CASE(test_1,
         game.ExecuteCommand(PlayerInteractCommand());
         game.ExecuteCommand(EmptyCommand());
         BOOST_TEST_CHECK(item->IsOnField() == false);
-        BOOST_TEST_CHECK(player.GetCoins() == 7);
+        BOOST_TEST_CHECK(player.GetRifleBullets() == 7);
         BOOST_TEST_CHECK(game.GetTurn() != Turns::kWin);
         field.GetCell(player.GetPosition()).SetType(CellType::kExit);
         game.ExecuteCommand(EmptyCommand());
@@ -153,7 +152,6 @@ BOOST_AUTO_TEST_CASE(test_1,
         Position pos = {center,center};
         Player player(10,pos);
         Sword sword(1);
-        sword.SetCanUse(true);
         player += sword;
         std::unique_ptr<Enemy> enemy = std::make_unique<EnemyType<BehaviorFind>>(10);
         *enemy += player;

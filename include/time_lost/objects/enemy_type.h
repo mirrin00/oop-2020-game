@@ -22,7 +22,7 @@ namespace objects{
 template<typename Behavior>
 class EnemyType: public Enemy{
 public:
-    EnemyType(int health, types::Position start_pos = {0,0}, Essence::Direction direct = Essence::Direction::Up);
+    EnemyType(int health, types::Position start_pos = {0,0}, types::Direction direct = types::Direction::kUp);
 
     EnemyType(const EnemyType<Behavior>& enemy);
 
