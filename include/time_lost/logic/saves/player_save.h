@@ -29,6 +29,10 @@ private:
         types::Direction direct;
 
         int rifle_bullets, pistol_bullets, first_aid_kits;
+
+        int rifle_ammo, pistol_ammo;
+
+        types::WeaponType cur_type;
     };
 
     Data data;
@@ -38,7 +42,8 @@ private:
 public:
     PlayerSave() = default;
 
-    PlayerSave(types::Position pos, int health, types::Direction direct, int rifle_bullets, int pistol_bullets, int first_aid_kits, objects::Weapon& weapon);
+    PlayerSave(types::Position pos, int health, types::Direction direct, int rifle_bullets,
+         int pistol_bullets, int first_aid_kits, int rifle_ammo, int pistol_ammo, types::WeaponType cur_type);
 
     ~PlayerSave() = default;
 

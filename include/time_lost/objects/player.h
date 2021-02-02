@@ -11,8 +11,10 @@ class Item;
 
 #include "essence.h"
 #include "weapon.h"
+#include "rifle.h"
+#include "pistol.h"
+#include "knife.h"
 #include "item.h"
-#include "hands.h"
 #include "enemy.h"
 
 namespace time_lost{
@@ -35,9 +37,15 @@ namespace objects {
 
 class Player: public Essence{
 private:
-    std::unique_ptr<Weapon> weapon;
-
     int rifle_bullets, pistol_bullets, first_aid_kits;
+
+    std::shared_ptr<Rifle> rifle;
+
+    std::shared_ptr<Pistol> pistol;
+
+    std::shared_ptr<Knife> knife;
+
+    std::shared_ptr<Weapon> cur_weapon;
 protected:
     virtual void Notify() override;
 public:
@@ -61,17 +69,17 @@ public:
 
     int GetFirstAidKits();
 
-    void ChangeWeapon(Weapon& new_weapon);
+    std::tuple<int, int, int> Attack();
 
-    int Attack();
+    void ChangeWeapon(types::WeaponType weapon_type);
+
+    void Reload();
+
+    std::shared_ptr<Weapon> GetWeapon(types::WeaponType weapon_type);
 
     Player& operator+=(Item& item);
 
     Player& operator+=(Item&& item);
-
-    Player& operator+=(Enemy& enemy);
-
-    Player& operator-=(Enemy& enemy);
 
     logic::saves::PlayerSave SavePlayer();
 

@@ -12,7 +12,6 @@ class TimeLostSave;
 }
 
 #include "../objects/player.h"
-#include "../objects/sword.h"
 #include "../objects/bullets.h"
 #include "../objects/first_aid_kit.h"
 #include "../objects/field_iterator.h"
@@ -21,6 +20,10 @@ class TimeLostSave;
 #include "logger.h"
 #include "turn_interface.h"
 #include "menu.h"
+#include "../types/behavior_find.h"
+#include "../types/behavior_wait.h"
+#include "../types/behavior_fly.h"
+#include "../objects/enemy_type.h"
 #include <vector>
 
 #include "../logic/saves/time_lost_save.h"

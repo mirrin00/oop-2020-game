@@ -6,14 +6,16 @@ OBJ = $(TMP)/cell.o \
       $(TMP)/field_iterator.o \
       $(TMP)/essence.o \
       $(TMP)/item.o \
-      $(TMP)/hands.o \
       $(TMP)/sword.o \
       $(TMP)/first_aid_kit.o \
       $(TMP)/bullets.o \
       $(TMP)/player.o \
       $(TMP)/object.o \
       $(TMP)/weapon.o \
-	  $(TMP)/location.o
+	  $(TMP)/location.o \
+	  $(TMP)/rifle.o \
+	  $(TMP)/pistol.o \
+	  $(TMP)/knife.o
 LIB = $(TMP)/libobjects.so
 COLOR = \033[0;32m
 NORMAL = \033[0m

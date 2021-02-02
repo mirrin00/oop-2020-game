@@ -5,12 +5,15 @@
 
 #include "../types/position.h"
 #include "../logic/logging_interface.h"
+#include "../types/last_action.h"
 
 namespace time_lost{
 
 namespace objects{
 
 class Object: public logic::LoggingInterface{
+private:
+    types::LastAction last_action;
 protected:
     types::Position pos;
 
@@ -27,6 +30,10 @@ public:
     types::Position GetPosition();
 
     void SetPosition(types::Position new_pos);
+
+    void SetLastAction(types::LastAction new_last_action);
+
+    types::LastAction GetLastAction();
 
     friend std::ostream& operator<<(std::ostream& os, const Object& obj);
 };

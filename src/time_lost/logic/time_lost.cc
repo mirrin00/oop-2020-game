@@ -9,10 +9,10 @@
 #include "time_lost/logic/saves/time_lost_save.h"
 
 //FIXME: Delete includes
-#include "time_lost/types/behavior_find.h"
+/*#include "time_lost/types/behavior_find.h"
 #include "time_lost/types/behavior_wait.h"
 #include "time_lost/types/behavior_fly.h"
-#include "time_lost/objects/enemy_type.h"
+#include "time_lost/objects/enemy_type.h"*/
 
 
 namespace time_lost{
@@ -160,9 +160,9 @@ void TimeLost::Start(){
     if(no_start) throw types::TimeLostException("No start point on map\n");
     //FIXME: DELETE THIS
     if(field.GetHeight() <= 2*LOCATION_SIZE || field.GetWidth() <= 2*LOCATION_SIZE) return;
-    AddItem(time_lost::objects::Sword(4,{10,10}));
-    AddItem(time_lost::objects::Sword(6,{0,0}));
-    AddItem(time_lost::objects::Sword(10,{7,13}));
+    AddItem(time_lost::objects::Bullets(4, types::BulletType::kRifle, {10,10}));
+    AddItem(time_lost::objects::Bullets(6, types::BulletType::kRifle, {0,0}));
+    AddItem(time_lost::objects::Bullets(10, types::BulletType::kRifle, {7,13}));
     AddItem(time_lost::objects::FirstAidKit(3,{3,6}));
     AddItem(time_lost::objects::FirstAidKit(7,{3,9}));
     AddItem(time_lost::objects::Bullets(1, types::BulletType::kPistol, {8,7}));

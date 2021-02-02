@@ -35,8 +35,6 @@ public:
     virtual std::shared_ptr<logic::saves::EnemySave> SaveEnemy() override;
 
     Enemy& operator+=(Player& player);
-
-    Enemy& operator-=(Player& player);
 };
 
 } // objects

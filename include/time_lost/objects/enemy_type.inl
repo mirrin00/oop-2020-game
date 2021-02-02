@@ -42,11 +42,5 @@ Enemy& EnemyType<Behavior>::operator+=(Player& player){
     return *this;
 }
 
-template<typename Behavior>
-Enemy& EnemyType<Behavior>::operator-=(Player& player){
-    player += *this;
-    return *this;
-}
-
 } // objects
 } // time_lost

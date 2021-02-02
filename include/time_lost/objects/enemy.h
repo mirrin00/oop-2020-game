@@ -30,8 +30,6 @@ public:
     virtual std::shared_ptr<logic::saves::EnemySave> SaveEnemy() = 0;
 
     virtual Enemy& operator+=(Player& player) = 0;
-
-    virtual Enemy& operator-=(Player& player) = 0;
 };
 
 } // obcjects

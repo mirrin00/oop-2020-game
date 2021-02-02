@@ -10,7 +10,10 @@ rifle_bullets(0),
 pistol_bullets(0),
 first_aid_kits(0)
 {
-    weapon = Hands().CloneWeapon();
+    rifle = std::make_shared<Rifle>();
+    pistol = std::make_shared<Pistol>();
+    knife = std::make_shared<Knife>();
+    cur_weapon = rifle;
 }
 
 Player::Player(const Player& player):
@@ -19,7 +22,22 @@ Essence(player.health,player.pos)
     rifle_bullets = player.rifle_bullets;
     pistol_bullets = player.pistol_bullets;
     first_aid_kits = player.first_aid_kits;
-    weapon = player.weapon->CloneWeapon();
+    *rifle = *player.rifle;
+    *pistol = *player.pistol;
+    *knife = *player.knife;
+    switch(player.cur_weapon->GetType()){
+        case types::WeaponType::kRifle:
+            cur_weapon = rifle;
+            break;
+        case types::WeaponType::kPistol:
+            cur_weapon = pistol;
+            break;
+        case types::WeaponType::kKnife:
+            cur_weapon = knife;
+            break;
+        default:
+            cur_weapon = rifle;
+    }
 }
 
 Player& Player::operator=(const Player& player){
@@ -29,7 +47,22 @@ Player& Player::operator=(const Player& player){
     rifle_bullets = player.rifle_bullets;
     pistol_bullets = player.pistol_bullets;
     first_aid_kits = player.first_aid_kits;
-    weapon = player.weapon->CloneWeapon();
+    *rifle = *player.rifle;
+    *pistol = *player.pistol;
+    *knife = *player.knife;
+    switch(player.cur_weapon->GetType()){
+        case types::WeaponType::kRifle:
+            cur_weapon = rifle;
+            break;
+        case types::WeaponType::kPistol:
+            cur_weapon = pistol;
+            break;
+        case types::WeaponType::kKnife:
+            cur_weapon = knife;
+            break;
+        default:
+            cur_weapon = rifle;
+    }
     return *this;
 }
 
@@ -64,18 +97,53 @@ int Player::GetFirstAidKits(){
     return first_aid_kits;
 }
 
-void Player::ChangeWeapon(Weapon& new_weapon){
-    // FIXME: What do with old weapon?
-    weapon = new_weapon.CloneWeapon();
+std::tuple<int, int, int> Player::Attack(){
+    return cur_weapon->Attack();
 }
 
-// TODO: Enemy& enemy, weapon must interact with enemy
-int Player::Attack(){
-    return weapon->Attack();
+void Player::ChangeWeapon(types::WeaponType weapon_type){
+    switch(weapon_type){
+        case types::WeaponType::kRifle:
+            cur_weapon = rifle;
+            break;
+        case types::WeaponType::kPistol:
+            cur_weapon = pistol;
+            break;
+        case types::WeaponType::kKnife:
+            cur_weapon = knife;
+            break;
+    }
+}
+
+void Player::Reload(){
+    switch(cur_weapon->GetType()){
+        case types::WeaponType::kRifle:
+            cur_weapon->Reload(std::min(rifle_bullets, cur_weapon->GetMaxAmmo()));
+            rifle_bullets = std::max(rifle_bullets - cur_weapon->GetMaxAmmo() + cur_weapon->GetCurrentAmmo(), 0);
+            break;
+        case types::WeaponType::kPistol:
+            cur_weapon->Reload(std::min(pistol_bullets, cur_weapon->GetMaxAmmo()));
+            pistol_bullets = std::max(pistol_bullets - cur_weapon->GetMaxAmmo() + cur_weapon->GetCurrentAmmo(), 0);
+            break;
+    }
+}
+
+std::shared_ptr<Weapon> Player::GetWeapon(types::WeaponType weapon_type){
+    switch(weapon_type){
+        case types::WeaponType::kRifle:
+            return rifle;
+        case types::WeaponType::kPistol:
+            return pistol;
+        case types::WeaponType::kKnife:
+            return knife;
+        default:
+            return nullptr;
+    }
 }
 
 logic::saves::PlayerSave Player::SavePlayer(){
-    return logic::saves::PlayerSave(pos, health, direct, rifle_bullets, pistol_bullets, first_aid_kits, *weapon);
+    return logic::saves::PlayerSave(pos, health, direct, rifle_bullets, pistol_bullets, first_aid_kits,
+        rifle->GetCurrentAmmo(), pistol->GetCurrentAmmo(), cur_weapon->GetType());
 }
 
 Player& Player::operator+=(Item& item){
@@ -90,20 +158,10 @@ Player& Player::operator+=(Item&& item){
     return *this;
 }
 
-Player& Player::operator+=(Enemy& enemy){
-    enemy.ChangeHealth(-Attack());
-    return *this;
-}
-
-Player& Player::operator-=(Enemy& enemy){
-    enemy += *this;
-    return *this;
-}
-
 std::ostream& operator<<(std::ostream& os, const Player& player){
     os << "Player:\n";
     os << *((Essence*)&player);
-    os << *(player.weapon);
+    os << *(player.cur_weapon);
     //os << "    Coins: " << player.coins << "\n";
     return os;
 }
