@@ -4,10 +4,8 @@ TMP = ../tmp
 OBJ = $(TMP)/bullets_save.o \
 	  $(TMP)/enemy_save_interface.o \
 	  $(TMP)/field_save.o \
-	  $(TMP)/hands_save.o \
 	  $(TMP)/first_aid_kit_save.o \
 	  $(TMP)/player_save.o \
-	  $(TMP)/sword_save.o \
 	  $(TMP)/time_lost_save.o
 COLOR = \033[0;32m
 NORMAL = \033[0m

@@ -30,7 +30,7 @@ void Object::Notify(){
     pub.Notify<Object>(*this);
 }
 
-types::Position Object::GetPosition(){
+types::Position Object::GetPosition() const{
     return pos;
 }
 
@@ -41,7 +41,7 @@ void Object::SetPosition(types::Position new_pos){
     Notify();
 }
 
-types::LastAction Object::GetLastAction(){
+types::LastAction Object::GetLastAction() const{
     return last_action;
 }
 

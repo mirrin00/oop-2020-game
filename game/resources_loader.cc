@@ -9,10 +9,12 @@ namespace time_lost_gui{
         textures.emplace("block", LoadTexture("resources/block.png"));
         textures.emplace("start", LoadTexture("resources/start.png"));
         textures.emplace("end", LoadTexture("resources/end.png"));
-        textures.emplace("player", LoadTexture("resources/player.png"));
+        textures.emplace("player_up", LoadTexture("resources/player_up.png"));
+        textures.emplace("player_down", LoadTexture("resources/player_down.png"));
+        textures.emplace("player_left", LoadTexture("resources/player_left.png"));
+        textures.emplace("player_right", LoadTexture("resources/player_right.png"));
         textures.emplace("bullets", LoadTexture("resources/bullets.png"));
         textures.emplace("hp", LoadTexture("resources/hp.png"));
-        textures.emplace("sword", LoadTexture("resources/sword.png"));
         textures.emplace("enemy_walk", LoadTexture("resources/enemy_walk.png"));
         textures.emplace("enemy_wait", LoadTexture("resources/enemy_wait.png"));
         textures.emplace("enemy_fly", LoadTexture("resources/enemy_fly.png"));

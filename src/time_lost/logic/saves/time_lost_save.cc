@@ -11,17 +11,15 @@ namespace logic{
 namespace saves{
 
 TimeLostSave::TimeLostSave(objects::Player& player, objects::Field& field,
-std::vector<std::shared_ptr<objects::Item>>& items, 
-std::vector<std::shared_ptr<objects::Enemy>>& enemys, int step_change):
+std::list<std::shared_ptr<objects::Item>>& items, 
+std::list<std::shared_ptr<objects::Enemy>>& enemys, int step_change):
 _step_change(step_change),
 _player(player.SavePlayer())
 {
     _field = field.SaveField();
-    _items.reserve(items.size());
     for(auto item:items){
         _items.emplace_back(item->SaveItem());
     }
-    _enemys.reserve(enemys.size());
     for(auto enemy:enemys){
         _enemys.emplace_back(enemy->SaveEnemy());
     }
@@ -51,13 +49,12 @@ TimeLost TimeLostSave::LoadTimeLost(){
     time_lost.field = _field.LoadField();
     time_lost.player = _player.LoadPlayer();
     time_lost.items.clear();
-    time_lost.items.reserve(_items.size());
     for(auto item:_items){
-        auto i = item->LoadItem();
-        time_lost.items.emplace_back(i);
+        //auto i = item->LoadItem();
+        //FIXME: Check this
+        time_lost.items.emplace_back(item->LoadItem());
     }
     time_lost.enemys.clear();
-    time_lost.enemys.reserve(_enemys.size());
     for(auto enemy:_enemys){
         switch(enemy->GetSaveType()){
             case types::SaveType::kEnemyFind:
@@ -83,13 +80,13 @@ std::ostream& operator<<(std::ostream& os, TimeLostSave& save){
     os << save._field;
     type = save._items.size();
     os.write((char*)&type,sizeof(int));
-    for(int i = 0; i<save._items.size(); i++){
-        save._items[i]->WriteItem(os);
+    for(auto item: save._items){
+        item->WriteItem(os);
     }
     type = save._enemys.size();
     os.write((char*)&type,sizeof(int));
-    for(int i = 0; i<type; i++){
-        os << *(save._enemys[i]);
+    for(auto enemy: save._enemys){
+        os << *enemy;
     }
     return os;
 }
@@ -110,7 +107,6 @@ std::istream& operator>>(std::istream& is, TimeLostSave& save){
     int size;
     is.read((char*)&size, sizeof(int));
     if(size < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
-    save._items.reserve(size);
     for(int i=0;i<size;i++){
         is.read((char*)&type, sizeof(int));
         switch(type){
@@ -128,20 +124,12 @@ std::istream& operator>>(std::istream& is, TimeLostSave& save){
                 save._items.emplace_back(item);
                 break;
             }
-            case types::SaveType::kSword:
-            {
-                auto item = std::make_shared<SwordSave>();
-                is >> *item;
-                save._items.emplace_back(item);
-                break;
-            }
             default:
                 throw types::TimeLostException((std::string(__FILE__) + ":" + std::to_string(__LINE__)) + "Reading save: Bad Save");
         }
     }
     if(size < 0) throw types::TimeLostException(__FILE__, __LINE__, "Wrong value in save");
     is.read((char*)&size, sizeof(int));
-    save._enemys.reserve(size);
     for(int i=0;i<size;i++){
         is.read((char*)&type, sizeof(int));
         switch(type){

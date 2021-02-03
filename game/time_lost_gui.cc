@@ -46,7 +46,7 @@ namespace time_lost_gui{
                 sprite.setPosition(pos.x*SIZE_TEXTURE, pos.y*SIZE_TEXTURE);
                 window->draw(sprite);
         }
-        auto player = game->GetPlayer();
+        auto& player = game->GetPlayer();
         std::string param = "Health: " + std::to_string(player.GetHealth());
         int offset = 0;
         sf::Text text;
@@ -58,45 +58,50 @@ namespace time_lost_gui{
         window->draw(text);
         offset += param.size() * 24;
         text.setPosition(offset, HEIGHT_GAME_SIZE*SIZE_TEXTURE*LOCATION_SIZE);
-        param = "Coins: " + std::to_string(player.GetRifleBullets());
+        param = "RifleBullets: " + std::to_string(player.GetRifleBullets());
         text.setString(param);
         text.setFillColor(sf::Color::Yellow);
         window->draw(text);
         offset += param.size() * 24;
         text.setPosition(offset, HEIGHT_GAME_SIZE*SIZE_TEXTURE*LOCATION_SIZE);
-        param = "Damage: " + std::to_string(player.Attack());
+        param = "Damage: " + std::to_string(std::get<1>(player.Attack()));
         text.setString(param);
         text.setFillColor(sf::Color::White);
         window->draw(text);
-        int i = 0;
-        std::shared_ptr<time_lost::objects::Item> item = game->GetItem(i);
-        while(item){
-            if(!item->IsOnField()){
-                i++;
-                item = game->GetItem(i);
-                continue;
-            }
-            if(dynamic_cast<time_lost::objects::Sword*>(item.get())){
-                sprite.setTexture(resources.GetTexture("sword"));
-            }
+        for(auto item_iter = game->GetItemIteratorBegin(); item_iter != game->GetItemIteratorEnd(); item_iter++){
+            auto item = *item_iter;
+            if(!item->IsOnField()) continue;
             if(dynamic_cast<time_lost::objects::Bullets*>(item.get())){
                 sprite.setTexture(resources.GetTexture("bullets"));
             }
-            if(dynamic_cast<time_lost::objects::HealthPotion*>(item.get())){
+            if(dynamic_cast<time_lost::objects::FirstAidKit*>(item.get())){
                 sprite.setTexture(resources.GetTexture("hp"));
             }
             sprite.setPosition(item->GetPosition().x*SIZE_TEXTURE, item->GetPosition().y*SIZE_TEXTURE);
             window->draw(sprite);
-            i++;
-            item = game->GetItem(i);
         }
-        sprite.setTexture(resources.GetTexture("player"));
+        switch(player.GetDirection()){
+            case time_lost::types::Direction::kUp:
+                sprite.setTexture(resources.GetTexture("player_up"));
+                break;
+            case time_lost::types::Direction::kDown:
+                sprite.setTexture(resources.GetTexture("player_down"));
+                break;
+            case time_lost::types::Direction::kLeft:
+                sprite.setTexture(resources.GetTexture("player_left"));
+                break;
+            case time_lost::types::Direction::kRight:
+                sprite.setTexture(resources.GetTexture("player_right"));
+                break;
+            default:
+                sprite.setTexture(resources.GetTexture("player_up"));
+        }
         sprite.setPosition(game->GetPlayer().GetPosition().x*SIZE_TEXTURE, game->GetPlayer().GetPosition().y*SIZE_TEXTURE);
         window->draw(sprite);
 
-        i = 0;
-        std::shared_ptr<time_lost::objects::Enemy> enemy = game->GetEnemy(i);
-        while(enemy){
+        
+        for(auto enemy_iter = game->GetEnemyIteratorBegin(); enemy_iter != game->GetEnemyIteratorEnd(); enemy_iter++){
+            auto enemy = *enemy_iter;
             if(dynamic_cast<time_lost::objects::EnemyType<time_lost::types::BehaviorFind>*>(enemy.get()))
                 sprite.setTexture(resources.GetTexture("enemy_walk"),true);
             if(dynamic_cast<time_lost::objects::EnemyType<time_lost::types::BehaviorWait>*>(enemy.get()))
@@ -105,8 +110,6 @@ namespace time_lost_gui{
                 sprite.setTexture(resources.GetTexture("enemy_fly"),true);
             sprite.setPosition(enemy->GetPosition().x*SIZE_TEXTURE, enemy->GetPosition().y*SIZE_TEXTURE);
             window->draw(sprite);
-            i++;
-            enemy = game->GetEnemy(i);
         }
 
         /* Draw part of field
@@ -251,6 +254,38 @@ namespace time_lost_gui{
 
                 if(event.key.code == sf::Keyboard::Q){
                     cmd = std::make_unique<time_lost::logic::commands::SaveCommand>();
+                }
+
+                if(event.key.code == sf::Keyboard::R){
+                    cmd = std::make_unique<time_lost::logic::commands::PlayerReloadCommand>();
+                }
+
+                if(event.key.code == sf::Keyboard::Num1){
+                    cmd = std::make_unique<time_lost::logic::commands::PlayerRifleWeaponCommand>();
+                }
+
+                if(event.key.code == sf::Keyboard::Num2){
+                    cmd = std::make_unique<time_lost::logic::commands::PlayerPistolWeaponCommand>();
+                }
+
+                if(event.key.code == sf::Keyboard::Num3){
+                    cmd = std::make_unique<time_lost::logic::commands::PlayerKnifeWeaponCommand>();
+                }
+
+                if(event.key.code == sf::Keyboard::Up){
+                    cmd = std::make_unique<time_lost::logic::commands::DirectionUpCommand>();
+                }
+
+                if(event.key.code == sf::Keyboard::Down){
+                    cmd = std::make_unique<time_lost::logic::commands::DirectionDownCommand>();
+                }
+
+                if(event.key.code == sf::Keyboard::Left){
+                    cmd = std::make_unique<time_lost::logic::commands::DirectionLeftCommand>();
+                }
+
+                if(event.key.code == sf::Keyboard::Right){
+                    cmd = std::make_unique<time_lost::logic::commands::DirectionRightCommand>();
                 }
             }
         }

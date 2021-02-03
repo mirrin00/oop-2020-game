@@ -6,7 +6,6 @@ OBJ = $(TMP)/cell.o \
       $(TMP)/field_iterator.o \
       $(TMP)/essence.o \
       $(TMP)/item.o \
-      $(TMP)/sword.o \
       $(TMP)/first_aid_kit.o \
       $(TMP)/bullets.o \
       $(TMP)/player.o \

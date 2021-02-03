@@ -29,9 +29,9 @@ private:
 
     FieldSave _field;
 
-    std::vector<std::shared_ptr<ItemSaveInterface>> _items;
+    std::list<std::shared_ptr<ItemSaveInterface>> _items;
 
-    std::vector<std::shared_ptr<EnemySave>> _enemys;
+    std::list<std::shared_ptr<EnemySave>> _enemys;
 
     int _step_change;
     
@@ -43,8 +43,8 @@ public:
     TimeLostSave& operator=(const TimeLostSave& save);
 
     TimeLostSave(objects::Player& player, objects::Field& field,
-                std::vector<std::shared_ptr<objects::Item>>& items, 
-                std::vector<std::shared_ptr<objects::Enemy>>& enemys, int step_change);
+                std::list<std::shared_ptr<objects::Item>>& items, 
+                std::list<std::shared_ptr<objects::Enemy>>& enemys, int step_change);
 
     ~TimeLostSave() = default;
 

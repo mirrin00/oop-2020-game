@@ -37,7 +37,7 @@ void Logger::SetWriteInStream(bool new_write_in_stream){
 std::string Logger::GetCurrentTime(){
     auto cur_time = time(nullptr);
     auto local_cur_time = localtime(&cur_time);
-    char str[11] = {0};
+    char str[20] = {0};
     sprintf(str, "[%02d:%02d:%02d]",local_cur_time->tm_hour, local_cur_time->tm_min, local_cur_time->tm_sec);
     return std::string(str);
 }

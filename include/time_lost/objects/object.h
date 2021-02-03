@@ -27,13 +27,13 @@ public:
 
     Object& operator=(const Object& obj);
 
-    types::Position GetPosition();
+    types::Position GetPosition() const;
 
     void SetPosition(types::Position new_pos);
 
     void SetLastAction(types::LastAction new_last_action);
 
-    types::LastAction GetLastAction();
+    types::LastAction GetLastAction() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Object& obj);
 };

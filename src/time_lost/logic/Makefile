@@ -17,7 +17,15 @@ COMMANDS = $(TMP)/player_move_down_command.o \
 		   $(TMP)/player_attack_command.o \
 		   $(TMP)/pause_command.o \
 		   $(TMP)/empty_command.o \
-		   $(TMP)/save_command.o
+		   $(TMP)/save_command.o \
+	  	   $(TMP)/direction_up_command.o \
+	  	   $(TMP)/direction_down_command.o \
+	  	   $(TMP)/direction_left_command.o \
+	  	   $(TMP)/direction_right_command.o \
+	  	   $(TMP)/player_rifle_weapon_command.o \
+	  	   $(TMP)/player_pistol_weapon_command.o \
+	  	   $(TMP)/player_knife_weapon_command.o \
+		   $(TMP)/player_reload_command.o
 TURNS = $(TMP)/player_turn.o \
         $(TMP)/pause_turn.o \
 	    $(TMP)/enemy_turn.o \
@@ -32,10 +40,8 @@ MENUS = $(TMP)/menu_item_exit.o \
 SAVES = $(TMP)/bullets_save.o \
 		$(TMP)/enemy_save_interface.o \
 		$(TMP)/field_save.o \
-		$(TMP)/hands_save.o \
 		$(TMP)/first_aid_kit_save.o \
 		$(TMP)/player_save.o \
-		$(TMP)/sword_save.o \
 		$(TMP)/time_lost_save.o
 LIB = $(TMP)/liblogic.so
 COLOR = \033[0;32m

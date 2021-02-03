@@ -24,7 +24,7 @@ class TimeLostSave;
 #include "../types/behavior_wait.h"
 #include "../types/behavior_fly.h"
 #include "../objects/enemy_type.h"
-#include <vector>
+#include <list>
 
 #include "../logic/saves/time_lost_save.h"
 
@@ -39,10 +39,10 @@ protected:
     objects::Player player;
 
     objects::Field field;
-    // FIXME: Replace vector by list
-    std::vector<std::shared_ptr<objects::Item>> items;
+    
+    std::list<std::shared_ptr<objects::Item>> items;
 
-    std::vector<std::shared_ptr<objects::Enemy>> enemys;
+    std::list<std::shared_ptr<objects::Enemy>> enemys;
 
     int step_change;
 
@@ -66,17 +66,27 @@ public:
 
     void PlayerMove(types::Position move);
 
+    void PlayerChangeDirection(types::Direction direct);
+
     void PlayerInteract();
 
     void PlayerAttack();
+
+    void PlayerChangeWeapon(types::WeaponType weapon);
+
+    void PlayerReload();
 
     void AddItem(objects::Item& item);
 
     void AddItem(objects::Item&& item);
 
-    std::shared_ptr<objects::Item> GetItem(int index);
+    std::list<std::shared_ptr<objects::Item>>::const_iterator GetItemIteratorBegin();
 
-    std::shared_ptr<objects::Enemy> GetEnemy(int index);
+    std::list<std::shared_ptr<objects::Item>>::const_iterator GetItemIteratorEnd();
+
+    std::list<std::shared_ptr<objects::Enemy>>::const_iterator GetEnemyIteratorBegin();
+
+    std::list<std::shared_ptr<objects::Enemy>>::const_iterator GetEnemyIteratorEnd();
 
     void Start();
 

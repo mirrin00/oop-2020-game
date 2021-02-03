@@ -161,7 +161,7 @@ Player& Player::operator+=(Item&& item){
 std::ostream& operator<<(std::ostream& os, const Player& player){
     os << "Player:\n";
     os << *((Essence*)&player);
-    os << *(player.cur_weapon);
+    os << "    Weapon: " << *(player.cur_weapon) << "\n";
     //os << "    Coins: " << player.coins << "\n";
     return os;
 }

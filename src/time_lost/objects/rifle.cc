@@ -16,6 +16,7 @@ Rifle& Rifle::operator=(const Rifle& rifle){
 }
 
 std::tuple<int, int, int> Rifle::Attack(){
+    if(cur_ammo == 0) return {0, 0, 0};
     return {10, 12, 3};
 }
 

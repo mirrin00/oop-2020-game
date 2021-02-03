@@ -8,12 +8,6 @@
 #include "time_lost/logic/save_writer.h"
 #include "time_lost/logic/saves/time_lost_save.h"
 
-//FIXME: Delete includes
-/*#include "time_lost/types/behavior_find.h"
-#include "time_lost/types/behavior_wait.h"
-#include "time_lost/types/behavior_fly.h"
-#include "time_lost/objects/enemy_type.h"*/
-
 
 namespace time_lost{
 
@@ -70,36 +64,85 @@ void TimeLost::PlayerMove(types::Position move){
         step_change = STEP_CHANGE;
         field.ChangeLayout();
         player.SetPosition(field.GetNewPosition(player.GetPosition()));
-        for(int i = 0; i < items.size(); i++){
-            items[i]->SetPosition(field.GetNewPosition(items[i]->GetPosition()));
+        for(auto item: items){
+            item->SetPosition(field.GetNewPosition(item->GetPosition()));
         }
         for(auto enemy: enemys)
             enemy->SetPosition(field.GetNewPosition(enemy->GetPosition()));
     }
 }
 
+void TimeLost::PlayerChangeDirection(types::Direction direct){
+    player.SetDirection(direct);
+}
+
 void TimeLost::PlayerInteract(){
     types::Position pos = player.GetPosition();
-    for(int i = 0; i < items.size(); i++){
-        if(items[i]->GetPosition() == pos){
-            player+=*(items[i]);
-            items[i]->SetOnField(false);
+    for(auto item: items){
+        if(item->GetPosition() == pos){
+            player+=*item;
+            item->SetOnField(false);
         }
     }
+    items.remove_if([](std::shared_ptr<objects::Item> item){return !item->IsOnField();});
 }
 
 void TimeLost::PlayerAttack(){
     auto player_pos = player.GetPosition();
-    for(auto enemy = enemys.begin(); enemy != enemys.end();){
-        auto enemy_pos = (*enemy)->GetPosition();
-        if(abs(enemy_pos.x - player_pos.x) + abs(enemy_pos.y - player_pos.y) <= 1)
-            player += **enemy;
-        if((*enemy)->GetHealth() <= 0){
-            enemys.erase(enemy);
-        }else{
-            enemy++;
+    auto player_direct = player.GetDirection();
+    std::list<std::shared_ptr<objects::Enemy>> close_enemy;
+    for(auto enemy: enemys){
+        auto enemy_pos = enemy->GetPosition();
+        if((player_direct == types::Direction::kDown || player_direct == types::Direction::kUp) &&
+            enemy_pos.x == player_pos.x && abs(enemy_pos.y - player_pos.y) < 10) //FIXME: Replace 10 by LOCATION_SIZE
+            close_enemy.push_back(enemy);
+        else if((player_direct == types::Direction::kRight || player_direct == types::Direction::kLeft) &&
+            enemy_pos.y == player_pos.y && abs(enemy_pos.x - player_pos.x) < 10)
+            close_enemy.push_back(enemy);
+    }
+    int range, damage, dec_damage;
+
+    std::tie (range, damage, dec_damage) = player.Attack();
+    for(int i = 0; i < range; i++){
+        if(damage <= 0) break;
+        types::Position cur_pos;
+        switch(player_direct){
+            case types::Direction::kDown:
+                cur_pos = player_pos + types::Position(0, i);
+                break;
+            case types::Direction::kUp:
+                cur_pos = player_pos + types::Position(0, -i);
+                break;
+            case types::Direction::kRight:
+                cur_pos = player_pos + types::Position(i, 0);
+                break;
+            case types::Direction::kLeft:
+                cur_pos = player_pos + types::Position(-i, 0);
+                break;
+            default:
+                throw types::TimeLostException(__FILE__, __LINE__, "Unknown Direction");
+        }
+        if(cur_pos.x < 0 || cur_pos.x >= field.GetWidth() || cur_pos.y < 0 || cur_pos.y >= field.GetHeight()) break;
+        if(field.GetCell(cur_pos).GetType() == types::CellType::kBlock) break;
+        for(auto enemy: close_enemy){
+            if(enemy->GetPosition() == cur_pos){
+                enemy->ChangeHealth(-damage);
+                damage -= dec_damage;
+                // FIXME: Without break??
+                break;
+            }
         }
     }
+    // FIXME: Move to enemy actions and rework for the die animation
+    enemys.remove_if([](std::shared_ptr<objects::Enemy> enemy){return enemy->GetHealth() <= 0;});
+}
+
+void TimeLost::PlayerChangeWeapon(types::WeaponType weapon){
+    player.ChangeWeapon(weapon);
+}
+
+void TimeLost::PlayerReload(){
+    player.Reload();
 }
 
 void TimeLost::AddItem(objects::Item& item){
@@ -136,14 +179,20 @@ void TimeLost::AddItem(objects::Item&& item){
     items.push_back(_item);
 }
 
-std::shared_ptr<objects::Item> TimeLost::GetItem(int index){
-    if(index < 0 || index >= items.size()) return nullptr;
-    return items[index];
+std::list<std::shared_ptr<objects::Item>>::const_iterator TimeLost::GetItemIteratorBegin(){
+    return items.cbegin();
 }
 
-std::shared_ptr<objects::Enemy> TimeLost::GetEnemy(int index){
-    if(index < 0 || index >= enemys.size()) return nullptr;
-    return enemys[index];
+std::list<std::shared_ptr<objects::Item>>::const_iterator TimeLost::GetItemIteratorEnd(){
+    return items.cend();
+}
+
+std::list<std::shared_ptr<objects::Enemy>>::const_iterator TimeLost::GetEnemyIteratorBegin(){
+    return enemys.cbegin();
+}
+
+std::list<std::shared_ptr<objects::Enemy>>::const_iterator TimeLost::GetEnemyIteratorEnd(){
+    return enemys.cend();
 }
 
 void TimeLost::Start(){
@@ -202,7 +251,6 @@ void TimeLost::Start(){
         if(!isEmpty) pos = {rand() % field.GetWidth(), rand()% field.GetHeight()};
     }while(!isEmpty);
     enemys.emplace_back(std::make_shared<objects::EnemyType<types::BehaviorFly>>(13, pos));
-    //
 }
 
 void TimeLost::Win(){
@@ -256,7 +304,7 @@ types::Turns::Turn TimeLost::GetTurn(){
 
 void TimeLost::Save(){
     SaveWriter sw("time_lost.save");
-    sw.WriteSave(saves::TimeLostSave(player,field,items,enemys,step_change));
+    sw.WriteSave(saves::TimeLostSave(player, field, items, enemys, step_change));
 }
 
 void TimeLost::Load(){

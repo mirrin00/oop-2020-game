@@ -9,7 +9,15 @@ OBJ = $(TMP)/player_move_down_command.o \
 	  $(TMP)/player_attack_command.o \
 	  $(TMP)/pause_command.o \
 	  $(TMP)/empty_command.o \
-	  $(TMP)/save_command.o
+	  $(TMP)/save_command.o \
+	  $(TMP)/direction_up_command.o \
+	  $(TMP)/direction_down_command.o \
+	  $(TMP)/direction_left_command.o \
+	  $(TMP)/direction_right_command.o \
+	  $(TMP)/player_rifle_weapon_command.o \
+	  $(TMP)/player_pistol_weapon_command.o \
+	  $(TMP)/player_knife_weapon_command.o \
+	  $(TMP)/player_reload_command.o
 COLOR = \033[0;32m
 NORMAL = \033[0m
 

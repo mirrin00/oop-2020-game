@@ -9,7 +9,9 @@ OBJ = $(TMP)/time_lost_exception.o \
 	  $(TMP)/behavior_fly.o \
 	  $(TMP)/time_lost_file_exception.o \
 	  $(TMP)/bullet_type.o \
-	  $(TMP)/direction.o
+	  $(TMP)/direction.o \
+	  $(TMP)/weapon_type.o \
+	  $(TMP)/last_action.o
 LIB = $(TMP)/libtypes.so
 COLOR = \033[0;32m
 NORMAL = \033[0m
